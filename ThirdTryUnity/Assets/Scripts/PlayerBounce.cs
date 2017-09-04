@@ -22,6 +22,8 @@ public class PlayerBounce : MonoBehaviour
     public float _gravityCap;
     public float _forceOffset;
     public float _addForceValue;
+    private bool _teleportLeft;
+    private bool _teleportRight;
     // Use this for initialization
     void Start()
     {
@@ -36,11 +38,37 @@ public class PlayerBounce : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+
+
         if (!_hitHeight)
         {
             float distCovered = (Time.time - _startTime) * _speed;
             float fracJourney = distCovered / _journeyLength;
-            _thePlayer.position = Vector3.Lerp(new Vector3(_startMarker.position.x, _startMarker.position.y, transform.position.z), new Vector3(_endMarker.position.x, _endMarker.position.y, transform.position.z), fracJourney);
+            if (_teleportRight)
+            {
+                _thePlayer.MovePosition(new Vector3(2.8f, _thePlayer.position.y));
+                _teleportRight = false;
+            }
+            else if (_teleportLeft)
+            {
+                _thePlayer.MovePosition(new Vector3(-2.8f, _thePlayer.position.y));
+                _teleportLeft = false;
+            }
+            else
+                _thePlayer.position = Vector3.Lerp(new Vector3(_startMarker.position.x, _startMarker.position.y, transform.position.z), new Vector3(_endMarker.position.x, _endMarker.position.y, transform.position.z), fracJourney);
+        }
+        else
+        {
+            if (_teleportRight)
+            {
+                _thePlayer.MovePosition(new Vector3(2.8f, _thePlayer.position.y));
+                _teleportRight = false;
+            }
+            else if (_teleportLeft)
+            {
+                _thePlayer.MovePosition(new Vector3(-2.8f, _thePlayer.position.y));
+                _teleportLeft = false;
+            }
         }
     }
     private void Update()
@@ -82,6 +110,16 @@ public class PlayerBounce : MonoBehaviour
             _hitHeight = true;
             if (_bounceCount <= _numberOfBouncesToIncreaseBy)
                 _endMarker.position = new Vector3(_endMarker.position.x, _endMarker.position.y + _increaseHeightOfEndPoint);
+        }
+        if (collision.gameObject.tag == "LeftCamera")
+        {
+            _teleportRight = true;
+            _teleportLeft = false;
+        }
+        if (collision.gameObject.tag == "RightCamera")
+        {
+            _teleportLeft= true;
+            _teleportRight = false;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
