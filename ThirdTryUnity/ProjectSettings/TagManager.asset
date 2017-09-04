@@ -6,6 +6,8 @@ TagManager:
   tags:
   - EndPoint
   - MakeEmBounce
+  - LeftCamera
+  - RightCamera
   layers:
   - Default
   - TransparentFX
