@@ -24,6 +24,8 @@ public class PlayerBounce : MonoBehaviour
     public float _addForceValue;
     private bool _teleportLeft;
     private bool _teleportRight;
+    public Transform _leftCameraTransform;
+    public Transform _rightCameraTransform;
     // Use this for initialization
     void Start()
     {
@@ -46,12 +48,12 @@ public class PlayerBounce : MonoBehaviour
             float fracJourney = distCovered / _journeyLength;
             if (_teleportRight)
             {
-                _thePlayer.MovePosition(new Vector3(2.8f, _thePlayer.position.y));
+                _thePlayer.MovePosition(new Vector3(_rightCameraTransform.position.x - .9f, _thePlayer.position.y));
                 _teleportRight = false;
             }
             else if (_teleportLeft)
             {
-                _thePlayer.MovePosition(new Vector3(-2.8f, _thePlayer.position.y));
+                _thePlayer.MovePosition(new Vector3(_leftCameraTransform.position.x + .9f, _thePlayer.position.y));
                 _teleportLeft = false;
             }
             else
@@ -61,12 +63,12 @@ public class PlayerBounce : MonoBehaviour
         {
             if (_teleportRight)
             {
-                _thePlayer.MovePosition(new Vector3(2.8f, _thePlayer.position.y));
+                _thePlayer.MovePosition(new Vector3(_rightCameraTransform.position.x - .9f, _thePlayer.position.y));
                 _teleportRight = false;
             }
             else if (_teleportLeft)
             {
-                _thePlayer.MovePosition(new Vector3(-2.8f, _thePlayer.position.y));
+                _thePlayer.MovePosition(new Vector3(_leftCameraTransform.position.x + .9f, _thePlayer.position.y));
                 _teleportLeft = false;
             }
         }
@@ -84,10 +86,14 @@ public class PlayerBounce : MonoBehaviour
             if (_bounceCount == 1)
             {
                 _thePlayer.gravityScale = _afterBounceGravityScale;
-                _thePlayer.AddForce(transform.up * (_addForceValue + _forceOffset++), ForceMode2D.Impulse);
+                _thePlayer.AddForce(transform.up * (_addForceValue + _forceOffset), ForceMode2D.Impulse);
+                _forceOffset += 1.5f;
             }
             else if (_bounceCount < _numberOfBouncesToIncreaseBy)
-                _thePlayer.AddForce(transform.up * (_addForceValue + (_increaseUpwardPlayerSpeed + _forceOffset++)), ForceMode2D.Impulse);
+            {
+                _thePlayer.AddForce(transform.up * (_addForceValue + (_increaseUpwardPlayerSpeed + _forceOffset)), ForceMode2D.Impulse);
+                _forceOffset += 1.5f;
+            }
             else
                 _thePlayer.AddForce(transform.up * (_addForceValue + (_increaseUpwardPlayerSpeed + _forceOffset)), ForceMode2D.Impulse);
 
