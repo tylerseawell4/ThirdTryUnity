@@ -244,11 +244,14 @@ MonoBehaviour:
   _thePlayer: {fileID: 12984913}
   _startMarker: {fileID: 1454032404}
   _endMarker: {fileID: 1892386479}
+  _currentEndPointPosition: 0
+  _nextEndPointPosition: 0
   _speed: 3
   _increaseGravityScale: 0.05
   _increaseUpwardPlayerSpeed: 3
   _afterBounceGravityScale: 0.25
-  _numberOfBouncesToIncreaseBy: 5
+  _maxBounceCount: 4
+  _bounceCount: 0
   _increaseHeightOfEndPoint: 8
   _gravityCap: 0.4
   _forceOffset: -2
@@ -480,6 +483,7 @@ GameObject:
   - component: {fileID: 1157677755}
   - component: {fileID: 1157677754}
   - component: {fileID: 1157677759}
+  - component: {fileID: 1157677760}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -566,12 +570,33 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1157677753}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 44c56883d969bd94f8ce3420df734271, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _target: {fileID: 12984910}
+  _target: {fileID: 12984915}
+--- !u!114 &1157677760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1157677753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77b796b582eb2474bb97552fdf681d98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 12984915}
+  _speed: 1
+  _endPoint: {fileID: 1892386479}
+  _yMin: 0
+  _yMax: 500
+  _distanceCameraStopsFromTop: 2
+  _endPointYs:
+  - 13
+  - 21
+  - 29
 --- !u!1001 &1351227751
 Prefab:
   m_ObjectHideFlags: 0
