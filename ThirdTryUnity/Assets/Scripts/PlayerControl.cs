@@ -6,6 +6,8 @@ public class PlayerControl : MonoBehaviour
 {
     public Rigidbody2D _myRidgidBody;
     public float _activeMoveSpeed;
+    public Transform _topPlayerPoint;
+    public Transform _bottomPlayerPoint;
     private bool _facingRight;
     // Use this for initialization
     void Start()
@@ -61,5 +63,20 @@ public class PlayerControl : MonoBehaviour
         }
         else
             _myRidgidBody.velocity = new Vector3(0f, _myRidgidBody.velocity.y, 0f);
+    }
+   
+private void OnDrawGizmosSelected()
+    {
+        // Draws a line from the player transform to the targets position in the scene view only
+        if (_topPlayerPoint != null)
+        {            
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(transform.position, _topPlayerPoint.position);
+        }
+        if (_bottomPlayerPoint != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, _bottomPlayerPoint.position);
+        }
     }
 }
