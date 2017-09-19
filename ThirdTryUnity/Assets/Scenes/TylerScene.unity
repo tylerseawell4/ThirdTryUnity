@@ -550,12 +550,31 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1209170165}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 44c56883d969bd94f8ce3420df734271, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 1800026171}
+--- !u!114 &1209170174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1209170165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff54330bd448aa942b88c47836825ecf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: 12984913}
+  _cameraMovingUpTarget: {fileID: 1716907672}
+  _cameraMovingDownTarget: {fileID: 978939739}
+  _endPoint: {fileID: 0}
+  _speed: 1
+  _yMin: 0
+  _yMax: 500
+  _distanceCameraStopsFromTop: 2
 --- !u!1001 &1320242573
 Prefab:
   m_ObjectHideFlags: 0
@@ -818,11 +837,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 12984913}
-  _startingHeight: 10
+  _startingHeight: 20
   _startingGravity: -0.5
   _increaseHeightBy: 10
   _bounceCount: 0
   _maxGravityValue: 0
+  _hitHeight: 0
+  _playerSpeed: 0
 --- !u!1001 &1851202716
 Prefab:
   m_ObjectHideFlags: 0
@@ -943,6 +964,16 @@ Prefab:
       propertyPath: orthographic size
       value: 11.188507
       objectReference: {fileID: 0}
+    - target: {fileID: 114712858907403320, guid: 7c0516827d15d9c43b4b664b9ba70919,
+        type: 2}
+      propertyPath: _yMin
+      value: -6.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114712858907403320, guid: 7c0516827d15d9c43b4b664b9ba70919,
+        type: 2}
+      propertyPath: _distanceCameraStopsFromTop
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7c0516827d15d9c43b4b664b9ba70919, type: 2}
   m_IsPrefabParent: 0
@@ -1015,7 +1046,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4920545991084714, guid: 22072f11625c5f54fbef19e533cf63dc, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -9.67
+      value: -9.62
       objectReference: {fileID: 0}
     - target: {fileID: 4920545991084714, guid: 22072f11625c5f54fbef19e533cf63dc, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1085,6 +1116,14 @@ Prefab:
         type: 2}
       propertyPath: m_CollisionDetection
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4711935088614160, guid: 22072f11625c5f54fbef19e533cf63dc, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -19.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 4526668600157978, guid: 22072f11625c5f54fbef19e533cf63dc, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 16.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 22072f11625c5f54fbef19e533cf63dc, type: 2}

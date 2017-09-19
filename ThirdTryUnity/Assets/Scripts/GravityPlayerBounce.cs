@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,6 +16,9 @@ public class GravityPlayerBounce : MonoBehaviour
     public float _bounceCount;
     private bool _shouldLog;
     public float _maxGravityValue;
+    public bool _hitHeight;
+    private float _highestY;
+    public float _playerSpeed;
     // Use this for initialization
     void Start()
     {
@@ -24,11 +28,22 @@ public class GravityPlayerBounce : MonoBehaviour
         _shouldLog = true;
         _bounceCount = 1;
         _maxGravityValue = _bounceCount / 10;
+        _highestY = _player.transform.position.y;
+        _playerSpeed = _player.velocity.magnitude;
     }
 
     // Update is called once per frame
     void Update()
     {
+        _playerSpeed = _player.velocity.magnitude;
+
+        var tempY = _player.transform.position.y;
+        if (tempY < _highestY)
+        {
+            _hitHeight = true;
+        }
+        else
+            _highestY = tempY;
 
         if (_player.velocity.magnitude >= _maxSpeed)
         {
@@ -51,7 +66,7 @@ public class GravityPlayerBounce : MonoBehaviour
                 Debug.Log(_player.transform.position.y);
                 _shouldLog = false;
             }
-               
+
         }
         //Debug.Log(_player.velocity.magnitude);
     }
@@ -68,7 +83,8 @@ public class GravityPlayerBounce : MonoBehaviour
         _maxSpeed = _startingHeight / 4;
         _player.gravityScale = _startingGravity;
         _shouldLog = true;
-        _maxGravityValue = _bounceCount/10;
-        //_a = (_maxHeight / 10f) * .001f ;
+        _maxGravityValue = _bounceCount / 10;
+        _hitHeight = false;
+        _highestY = _player.transform.position.y;
     }
 }
