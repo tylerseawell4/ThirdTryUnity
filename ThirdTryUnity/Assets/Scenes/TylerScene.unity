@@ -854,6 +854,7 @@ MonoBehaviour:
   _speed: 1
   _yMin: 0
   _yMax: 500
+  _transitionSpeed: 0
 --- !u!1 &1304232229 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1174132010176524, guid: 22072f11625c5f54fbef19e533cf63dc,
@@ -1207,8 +1208,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 12984913}
-  _startingHeight: 30
+  _startingHeight: 20
   _hitHeight: 0
+  _increaseHeightBy: 20
 --- !u!114 &1800026176
 MonoBehaviour:
   m_ObjectHideFlags: 0

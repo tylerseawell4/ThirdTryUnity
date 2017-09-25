@@ -34,7 +34,6 @@ public class VelocityBounce2 : MonoBehaviour
     {
         if (_player.transform.position.y >= (_maxHeightValue - _heightOffset) && !_hitrequestedHeight)
         {
-            //_player.gravityScale = -1;
             _decrementGravity = true;
             _hitrequestedHeight = true;
             Debug.Log(_player.transform.position.y);
@@ -43,7 +42,7 @@ public class VelocityBounce2 : MonoBehaviour
         if (_decrementGravity)
         {
             _vMultiplier -= .1f;
-            _player.velocity = Vector3.up * _vMultiplier;
+            _player.velocity = new Vector3(_player.velocity.x, _vMultiplier, 0f);
 
             if (_vMultiplier <= 0)
             {
@@ -57,23 +56,14 @@ public class VelocityBounce2 : MonoBehaviour
 
         if (_moveCharacterDown)
         {
-            _player.velocity = Vector3.down * _vMultiplier;
+            _player.velocity = new Vector3(_player.velocity.x, -_vMultiplier, 0f) ;
         }
 
 
         if (!_hitHeight)
         {
-            _player.velocity = Vector3.up * _vMultiplier;
+            _player.velocity = new Vector3(_player.velocity.x, _vMultiplier, 0f);
         }
-    }
-
-    private IEnumerable Test()
-    {
-        _player.gravityScale = -1f;
-
-        yield return new WaitForSeconds(1f);
-
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
