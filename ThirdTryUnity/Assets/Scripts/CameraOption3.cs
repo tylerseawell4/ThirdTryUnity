@@ -11,14 +11,13 @@ public class CameraOption3 : MonoBehaviour
     public float _speed = 1.0f;
     public float _yMin;
     public float _yMax;
-    private Vector3 _v3;
-    private GravityPlayerBounce _playerBounce;
-
+    private VelocityBounce2 _playerBounce;
+    public float _transitionSpeed;
     private void Start()
     {
         _camerasFocusPoint = _cameraMovingUpTarget;
-        _playerBounce = FindObjectOfType<GravityPlayerBounce>();
-        _v3 = transform.position;
+        _playerBounce = FindObjectOfType<VelocityBounce2>();
+        _transitionSpeed = 2.5f;
     }
 
     private void FixedUpdate()
@@ -26,7 +25,8 @@ public class CameraOption3 : MonoBehaviour
         if (_playerBounce._hitHeight)
         {
             _camerasFocusPoint = _cameraMovingDownTarget;
-            _speed = _playerBounce._playerSpeed - .5f;
+            //Debug.Log(_playerBounce._player.velocity.magnitude);
+            _speed = _transitionSpeed;
             CameraLerp();
         }
         else
