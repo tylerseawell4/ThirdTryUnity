@@ -17,6 +17,7 @@ public class VelocityBounce2 : MonoBehaviour
     private int _bounceCount;
     private float _heightOffset;
     public float _increaseHeightBy;
+    public float _maxSpeed;
     // Use this for initialization
     void Start()
     {
@@ -56,7 +57,7 @@ public class VelocityBounce2 : MonoBehaviour
 
         if (_moveCharacterDown)
         {
-            _player.velocity = new Vector3(_player.velocity.x, -_vMultiplier, 0f) ;
+            _player.velocity = new Vector3(_player.velocity.x, -_vMultiplier, 0f);
         }
 
 
@@ -71,13 +72,19 @@ public class VelocityBounce2 : MonoBehaviour
         _bounceCount++;
         _hitHeight = false;
         _hitrequestedHeight = false;
-        _vMultiplier += 2f;
+
+        if (_maxSpeed >= _vMultiplier)
+        {
+            _vMultiplier += 2f;
+            _camera._transitionSpeed += .25f;
+            _heightOffset += _bounceCount;
+        }
+
         _originalVMultiplier = _vMultiplier;
         _player.velocity = Vector3.up * _vMultiplier;
         _moveCharacterDown = false;
         _startingHeight += _increaseHeightBy;
-        _heightOffset += _bounceCount;
-        _maxHeightValue =  _startingHeight;
-        _camera._transitionSpeed += .5f;
+        _maxHeightValue = _startingHeight;
+
     }
 }
