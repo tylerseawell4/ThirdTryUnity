@@ -17,7 +17,7 @@ public class CameraOption3 : MonoBehaviour
     {
         _camerasFocusPoint = _cameraMovingUpTarget;
         _playerBounce = FindObjectOfType<VelocityBounce2>();
-        _transitionSpeed = 2f;
+        _transitionSpeed = 1.25f;
     }
 
     private void FixedUpdate()

@@ -17,15 +17,8 @@ public class PlayerControl : MonoBehaviour
     private bool _dashActivated;
     public Transform _leftCameraTransform;
     public Transform _rightCameraTransform;
-    private float _timeBetweenTaps = 0.25f; // Half a second before reset
-    private int _tapCount = 0;
     public SpriteRenderer _spriteColor;
-    private bool _doubleTap;
-    private bool _singleTap;
-    private float holdTime = .75f; //or whatever
-    private float acumTime = 0;
-    private bool _isHolding;
-    private bool _holdActivated;
+    private TapManager _tapManager;
 
     // Use this for initialization
     void Start()
@@ -35,7 +28,7 @@ public class PlayerControl : MonoBehaviour
         _facingRight = true;
         _startingPlayerTopPtDiff = _topPlayerPoint.position.y - transform.position.y;
         _startingPlayerTopPtDiff2 = _topPlayerPoint.position.y - transform.position.y;
-        _holdActivated = false;
+        _tapManager = FindObjectOfType<TapManager>();
     }
 
     private void FixedUpdate()
@@ -43,9 +36,11 @@ public class PlayerControl : MonoBehaviour
 
         if (!_dashActivated)
         {
-            if (_doubleTap)
+            if (_tapManager._doubleTap)
             {
-                _doubleTap = false;
+                _spriteColor.color = Color.green;
+                //flip back
+                _tapManager._doubleTap = false;
                 _dashActivated = true;
                 _shouldSlowCameraWhenGoingUp = true;
                 _hasW = true;
@@ -83,6 +78,19 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
+        if (_tapManager._singleTap)
+        {
+            _spriteColor.color = Color.red;
+            //flip back
+            _tapManager._singleTap = false;
+        }
+
+        if (_tapManager._holdActivated)
+        {
+            //dont have to flip holdactivated back because the Input.GetMouseButtonUp(0) event catches it in the tapmanager
+            _spriteColor.color = Color.blue;
+        }
+
 #if UNITY_ANDROID
         //creating neutral zone for character movements
         if (Input.acceleration.x > .025f)
@@ -97,69 +105,7 @@ public class PlayerControl : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            //double tap
-            if (_timeBetweenTaps > 0 && _tapCount == 1/*Number of Taps you want Minus One*/)
-            {
-                //double tap
-                Debug.Log("Double Tap");
-                _spriteColor.color = Color.green;
-                _tapCount = 0;
-                //gets set to true, so dash can be started in fixedupdate()
-                _doubleTap = true;
-            }
-            else
-            {
-                _timeBetweenTaps = 0.25f;
-                _tapCount += 1;
-            }
 
-
-
-        }
-
-        if (Input.GetMouseButton(0))
-        {
-            _isHolding = true;
-
-            acumTime += 1 * Time.deltaTime;
-            //Debug.Log("Holding");
-
-            if (acumTime >= holdTime && !_holdActivated)
-            {
-                _holdActivated = true;
-                _spriteColor.color = Color.blue;
-                Debug.Log("Held Activated");
-            }
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            acumTime = 0;
-            _isHolding = false;
-            _holdActivated = false;
-            //Debug.Log("Not Holding");
-        }
-
-        if (_timeBetweenTaps > 0)
-        {
-            _timeBetweenTaps -= 1 * Time.deltaTime;
-
-        }
-        //single touch, should not fire until time between first tap and second tap is longer than .25 seconds (_timebetweentaps is less than 0)
-        else if (_timeBetweenTaps < 0 && _tapCount > 0 && !_isHolding)
-        {
-            Debug.Log("Single Tap");
-            _spriteColor.color = Color.red;
-            _tapCount = 0;
-            _timeBetweenTaps = 0.25f;
-            _singleTap = true;
-        }
-        else
-        {
-            _tapCount = 0;
-        }
 
 
 #if UNITY_EDITOR

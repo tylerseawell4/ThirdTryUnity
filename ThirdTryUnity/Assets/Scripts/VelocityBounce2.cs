@@ -76,7 +76,7 @@ public class VelocityBounce2 : MonoBehaviour
         if (_maxSpeed >= _vMultiplier)
         {
             _vMultiplier += 2f;
-            _camera._transitionSpeed += .25f;
+            _camera._transitionSpeed += .175f;
             _heightOffset += _bounceCount;
         }
 
