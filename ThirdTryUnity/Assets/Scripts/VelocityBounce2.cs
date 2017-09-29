@@ -37,7 +37,7 @@ public class VelocityBounce2 : MonoBehaviour
         {
             _decrementGravity = true;
             _hitrequestedHeight = true;
-            Debug.Log(_player.transform.position.y);
+            //Debug.Log(_player.transform.position.y);
         }
 
         if (_decrementGravity)
@@ -51,7 +51,7 @@ public class VelocityBounce2 : MonoBehaviour
                 _moveCharacterDown = true;
                 _decrementGravity = false;
                 _hitHeight = true;
-                Debug.Log(_player.transform.position.y);
+                //Debug.Log(_player.transform.position.y);
             }
         }
 

@@ -71,19 +71,19 @@ public class VelocityBounce : MonoBehaviour
         //if (_shouldIncreaseGravity && _player.gravityScale <= _maxGravityValue)
         //{
         //    _player.gravityScale += (.01f);
-        //     Debug.Log(_player.gravityScale);
+        //     //Debug.Log(_player.gravityScale);
         // }
         //else if (_player.gravityScale >= _maxGravityValue)
         //{
 
         //    if (_shouldLog)
         //    {
-        //        Debug.Log(_player.transform.position.y);
+        //        //Debug.Log(_player.transform.position.y);
         //        _shouldLog = false;
         //    }
 
         //}
-        //Debug.Log(_player.velocity.magnitude);
+        ////Debug.Log(_player.velocity.magnitude);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

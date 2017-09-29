@@ -21,7 +21,7 @@ public class PlayerShoot : MonoBehaviour {
         _firePoint = transform.Find("FirePoint");
         if (_firePoint == null)
         {
-            Debug.LogError("No Firepoint!");
+            //Debug.LogError("No Firepoint!");
         }
 	}
 	

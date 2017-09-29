@@ -25,7 +25,7 @@ public class CameraOption3 : MonoBehaviour
         if (_playerBounce._hitHeight)
         {
             _camerasFocusPoint = _cameraMovingDownTarget;
-            //Debug.Log(_playerBounce._player.velocity.magnitude);
+            ////Debug.Log(_playerBounce._player.velocity.magnitude);
             _speed = _transitionSpeed;
             CameraLerp();
         }

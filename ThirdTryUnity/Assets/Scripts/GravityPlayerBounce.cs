@@ -63,12 +63,12 @@ public class GravityPlayerBounce : MonoBehaviour
 
             if (_shouldLog)
             {
-                Debug.Log(_player.transform.position.y);
+                //Debug.Log(_player.transform.position.y);
                 _shouldLog = false;
             }
 
         }
-        //Debug.Log(_player.velocity.magnitude);
+        ////Debug.Log(_player.velocity.magnitude);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
