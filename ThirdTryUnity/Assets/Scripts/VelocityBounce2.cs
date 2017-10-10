@@ -51,7 +51,7 @@ public class VelocityBounce2 : MonoBehaviour
                 _moveCharacterDown = true;
                 _decrementGravity = false;
                 _hitHeight = true;
-                //Debug.Log(_player.transform.position.y);
+                Debug.Log(_player.transform.position.y);
             }
         }
 
@@ -69,22 +69,24 @@ public class VelocityBounce2 : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        _bounceCount++;
-        _hitHeight = false;
-        _hitrequestedHeight = false;
-
-        if (_maxSpeed >= _vMultiplier)
+        if (!collision.gameObject.tag.Equals("Enemy"))
         {
-            _vMultiplier += 2f;
-            _camera._transitionSpeed += .175f;
-            _heightOffset += _bounceCount;
+            _bounceCount++;
+            _hitHeight = false;
+            _hitrequestedHeight = false;
+
+            if (_maxSpeed >= _vMultiplier && _bounceCount % 3 == 0)
+            {
+                _vMultiplier += 2f;
+                _camera._transitionSpeed += .175f;
+                _heightOffset += _bounceCount;
+            }
+
+            _originalVMultiplier = _vMultiplier;
+            _player.velocity = Vector3.up * _vMultiplier;
+            _moveCharacterDown = false;
+            _startingHeight += _increaseHeightBy;
+            _maxHeightValue = _startingHeight;
         }
-
-        _originalVMultiplier = _vMultiplier;
-        _player.velocity = Vector3.up * _vMultiplier;
-        _moveCharacterDown = false;
-        _startingHeight += _increaseHeightBy;
-        _maxHeightValue = _startingHeight;
-
     }
 }

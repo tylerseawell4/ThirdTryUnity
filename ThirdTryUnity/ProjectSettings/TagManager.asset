@@ -8,6 +8,7 @@ TagManager:
   - MakeEmBounce
   - LeftCamera
   - RightCamera
+  - Enemy
   layers:
   - Default
   - TransparentFX

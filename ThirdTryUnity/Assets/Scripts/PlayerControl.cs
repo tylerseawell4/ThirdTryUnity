@@ -14,14 +14,12 @@ public class PlayerControl : MonoBehaviour
     private float _currentPlayerTopPtDiff;
     private bool _shouldSlowCameraWhenGoingUp;
     private bool _forwardDashActivated;
-    public Transform _leftCameraTransform;
-    public Transform _rightCameraTransform;
     public SpriteRenderer _spriteColor;
     private TapManager _tapManager;
     private bool _rightDashActivated;
     private bool _leftDashActivated;
     private float posX;
-
+    private bool _addforce;
     // Use this for initialization
     void Start()
     {
@@ -31,6 +29,7 @@ public class PlayerControl : MonoBehaviour
         _startingPlayerTopPtDiff = _topPlayerPoint.position.y - transform.position.y;
         _startingPlayerTopPtDiff2 = _topPlayerPoint.position.y - transform.position.y;
         _tapManager = FindObjectOfType<TapManager>();
+        _addforce = true;
     }
 
     private IEnumerator LeftDashRoutine()
@@ -65,8 +64,19 @@ public class PlayerControl : MonoBehaviour
             posX = _player.transform.position.x;
         }
 
-
-        if (_rightDashActivated)
+        if (transform.position.x > Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x)
+        {
+            _rightDashActivated = false;
+            _leftDashActivated = false;
+            _player.position = new Vector3(Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x, _player.position.y, 0f);
+        }
+        else if (transform.position.x < Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x)
+        {
+            _rightDashActivated = false;
+            _leftDashActivated = false;
+            _player.position = new Vector3(Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x, _player.position.y, 0f);
+        }
+        else if (_rightDashActivated)
         {
             _player.transform.position = Vector3.Lerp(_player.position, new Vector3(posX + 5f, _player.transform.position.y, _player.transform.position.z), .125f);
             if (_player.transform.position.x >= posX + 4.5f)
@@ -83,7 +93,7 @@ public class PlayerControl : MonoBehaviour
                 _leftDashActivated = false;
             }
         }
-       else if (Input.GetKey(KeyCode.RightArrow) || Input.acceleration.x > .025f)
+        else if (Input.GetKey(KeyCode.RightArrow) || Input.acceleration.x > .025f)
         {
             _leftDashActivated = false;
             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
@@ -102,8 +112,8 @@ public class PlayerControl : MonoBehaviour
 
         if (!_forwardDashActivated)
         {
-           // if (_tapManager._doubleTap)
-            if(Input.GetKey(KeyCode.Space))
+            // if (_tapManager._doubleTap)
+            if (Input.GetKey(KeyCode.Space))
             {
                 _spriteColor.color = Color.green;
                 //flip back
@@ -111,6 +121,7 @@ public class PlayerControl : MonoBehaviour
                 _forwardDashActivated = true;
                 _shouldSlowCameraWhenGoingUp = true;
                 _currentPlayerTopPtDiff = 0f;
+                _addforce = true;
             }
         }
 
@@ -120,8 +131,13 @@ public class PlayerControl : MonoBehaviour
             {
                 if (_topPlayerPoint.position.y >= _startingPlayerTopPtDiff2)
                 {
-                    _startingPlayerTopPtDiff2 -= Time.deltaTime * 7f;
+                    _startingPlayerTopPtDiff2 -= Time.deltaTime * 8f;
                     _topPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerTopPtDiff2, transform.position.z);
+                    if (_addforce)
+                    {
+                        _player.AddForce(Vector2.up * 15f, ForceMode2D.Impulse);
+                        _addforce = false;
+                    }
                 }
                 if (_topPlayerPoint.position.y <= transform.position.y)
                 {
@@ -212,17 +228,6 @@ public class PlayerControl : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag.Equals("RightCamera"))
-        {
-            _rightDashActivated = false;
-            _leftDashActivated = false;
-            _player.position = new Vector3(_leftCameraTransform.position.x + .75f, _player.position.y, 0f);
-        }
-        else if (collision.gameObject.tag.Equals("LeftCamera"))
-        {
-            _rightDashActivated = false;
-            _leftDashActivated = false;
-            _player.position = new Vector3(_rightCameraTransform.position.x - .75f, _player.position.y, 0f);
-        }
+
     }
 }
