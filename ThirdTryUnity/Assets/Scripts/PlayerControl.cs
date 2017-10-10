@@ -14,7 +14,6 @@ public class PlayerControl : MonoBehaviour
     private float _currentPlayerTopPtDiff;
     private bool _shouldSlowCameraWhenGoingUp;
     private bool _forwardDashActivated;
-    public SpriteRenderer _spriteColor;
     private TapManager _tapManager;
     private bool _rightDashActivated;
     private bool _leftDashActivated;
@@ -115,7 +114,6 @@ public class PlayerControl : MonoBehaviour
             // if (_tapManager._doubleTap)
             if (Input.GetKey(KeyCode.Space))
             {
-                _spriteColor.color = Color.green;
                 //flip back
                 _tapManager._doubleTap = false;
                 _forwardDashActivated = true;
@@ -161,15 +159,8 @@ public class PlayerControl : MonoBehaviour
 
         if (_tapManager._singleTap)
         {
-            _spriteColor.color = Color.red;
             //flip back
             _tapManager._singleTap = false;
-        }
-
-        if (_tapManager._holdActivated)
-        {
-            //dont have to flip holdactivated back because the Input.GetMouseButtonUp(0) event catches it in the tapmanager
-            _spriteColor.color = Color.blue;
         }
 
 #if UNITY_ANDROID

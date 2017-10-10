@@ -8,8 +8,8 @@ public class TapManager : MonoBehaviour
     private int _tapCount = 0;
     public bool _doubleTap;
     public bool _singleTap;
-    private float holdTime = .75f; //or whatever
-    private float acumTime = 0;
+    private float _holdTime = .75f; //or whatever
+    private float _acumTime = 0;
     private bool _isHolding;
     public bool _holdActivated;
 
@@ -44,10 +44,10 @@ public class TapManager : MonoBehaviour
         {
             _isHolding = true;
 
-            acumTime += 1 * Time.deltaTime;
+            _acumTime += 1 * Time.deltaTime;
             //Debug.Log("Holding");
 
-            if (acumTime >= holdTime && !_holdActivated)
+            if (_acumTime >= _holdTime && !_holdActivated)
             {
                 _holdActivated = true;
                 Debug.Log("Held Activated");
@@ -56,7 +56,7 @@ public class TapManager : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            acumTime = 0;
+            _acumTime = 0;
             _isHolding = false;
             _holdActivated = false;
             //Debug.Log("Not Holding");
