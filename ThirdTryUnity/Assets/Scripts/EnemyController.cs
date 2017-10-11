@@ -36,8 +36,17 @@ public class EnemyController : MonoBehaviour
         _currYPos = transform.position.y;
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    void Update()
+    {
+       var screenHeightTop = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
+        var screenHeightBottom = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y;
+        var check1 = gameObject.transform.position.y + 30;
+        var check2 = gameObject.transform.position.y - 30;
+        if (check1 < screenHeightTop || check2 > screenHeightBottom)
+            Destroy(gameObject);
+    }
+
+        void FixedUpdate()
     {
         _acumTime += 1 * Time.deltaTime;
         if (_acumTime >= _changeYDirectionTime && _goUp)

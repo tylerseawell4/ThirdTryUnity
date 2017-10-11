@@ -112,7 +112,7 @@ public class PlayerControl : MonoBehaviour
         if (!_forwardDashActivated)
         {
             // if (_tapManager._doubleTap)
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Space) || _tapManager._doubleTap)
             {
                 //flip back
                 _tapManager._doubleTap = false;
@@ -166,9 +166,9 @@ public class PlayerControl : MonoBehaviour
 #if UNITY_ANDROID
         //creating neutral zone for character movements
         if (Input.acceleration.x > .025f)
-            _player.velocity = new Vector3(20f * Input.acceleration.x, _player.velocity.y, 0f);
+            _player.velocity = new Vector3(25f * Input.acceleration.x, _player.velocity.y, 0f);
         else if (Input.acceleration.x < -.025f)
-            _player.velocity = new Vector3(20f * Input.acceleration.x, _player.velocity.y, 0f);
+            _player.velocity = new Vector3(25f * Input.acceleration.x, _player.velocity.y, 0f);
 #endif
 
         //transform.position = Vector3.Lerp(transform.position, new Vector3(0f, 10f, 0f), Time.deltaTime * _activeMoveSpeed);

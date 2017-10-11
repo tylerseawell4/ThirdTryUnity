@@ -9,6 +9,7 @@ public class VelocityBounce2 : MonoBehaviour
     private float _maxHeightValue;
     private float _vMultiplier;
     public bool _hitHeight;
+    public bool _hitBottom;
     private bool _decrementGravity;
     private bool _moveCharacterDown;
     private bool _hitrequestedHeight;
@@ -18,6 +19,8 @@ public class VelocityBounce2 : MonoBehaviour
     private float _heightOffset;
     public float _increaseHeightBy;
     public float _maxSpeed;
+    public float _playersExactHeight;
+    public float _startingHeightCopy;
     // Use this for initialization
     void Start()
     {
@@ -25,6 +28,7 @@ public class VelocityBounce2 : MonoBehaviour
         _player.gravityScale = 0f;
         _vMultiplier = 7.5f;
         _originalVMultiplier = _vMultiplier;
+        _startingHeightCopy = _startingHeight;
         _maxHeightValue = _startingHeight;
         _camera = FindObjectOfType<CameraOption3>();
         _heightOffset = 5f;
@@ -51,6 +55,8 @@ public class VelocityBounce2 : MonoBehaviour
                 _moveCharacterDown = true;
                 _decrementGravity = false;
                 _hitHeight = true;
+                _hitBottom = false;
+                _playersExactHeight = _player.transform.position.y;
                 Debug.Log(_player.transform.position.y);
             }
         }
@@ -71,9 +77,12 @@ public class VelocityBounce2 : MonoBehaviour
     {
         if (!collision.gameObject.tag.Equals("Enemy"))
         {
+            _hitBottom = true;
             _bounceCount++;
             _hitHeight = false;
             _hitrequestedHeight = false;
+            _hitHeight = false;
+            _playersExactHeight = 0;
 
             if (_maxSpeed >= _vMultiplier && _bounceCount % 3 == 0)
             {
