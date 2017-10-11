@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class Shoot : MonoBehaviour {
     [Tooltip("The 'bullet' that will shoot out of firepoint. The bullet Asset MUST have the MoveAndDestroyWeapon script attached to it.")]
-    public Transform _bullet;
+    public GameObject _bullet;
     [Tooltip("How long before the player can shoot another bullet from this firepoint")]
     public float _effectSpawnTime;
     public bool _playerMovingUp;
+
     private float _timeToSpawnEffect;
     private Transform _firePointTransform;
     private PlayerControl _playerControl;
+
+    
     // Use this for initialization
-    void Start () {
+    void Start () {       
+
         _firePointTransform = transform;
         _playerControl = FindObjectOfType<PlayerControl>();
         _playerMovingUp = false;
@@ -38,13 +42,19 @@ public class Shoot : MonoBehaviour {
     {
         if (Time.time >= _timeToSpawnEffect)
         {
-            Effect();
+            Fire();
             _timeToSpawnEffect = Time.time + 1 / _effectSpawnTime;
         }
     }
 
-    private void Effect()
+    private void Fire()
     {
-        Instantiate(_bullet, _firePointTransform.position, _firePointTransform.rotation);        
+        //calling the generic get pooled object class to obtain game objects instead of instantiating them here
+        GameObject obj = ObjectPooling._current.GetPooledObject();
+        if (obj == null) return;
+
+        obj.transform.position = _firePointTransform.position;
+        obj.transform.rotation = _firePointTransform.rotation;
+        obj.SetActive(true);   
     }
 }

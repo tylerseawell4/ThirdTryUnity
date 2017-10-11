@@ -32,6 +32,18 @@ public class MoveAndDestroyWeapon : MonoBehaviour {
             _bulletMoveSpeed = _initialBulletMoveSpeed;
         }
         transform.Translate(Vector3.up * Time.deltaTime * _bulletMoveSpeed);
-        Destroy(gameObject, _destroyWeaponTime);
+       // Destroy(gameObject, _destroyWeaponTime);
+    }
+    private void OnEnable()
+    {
+        Invoke("Destroy", _destroyWeaponTime);
+    }
+    private void Destroy()
+    {
+        gameObject.SetActive(false);
+    }
+    private void OnDisable()
+    {
+        CancelInvoke();
     }
 }

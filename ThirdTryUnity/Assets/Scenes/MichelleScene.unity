@@ -219,8 +219,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 854208be790e2684f938bdadb5024a15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bullet: {fileID: 4531181079995854, guid: edbb737e1f73de14c9ae3e99e76903f1, type: 2}
+  _bullet: {fileID: 1869922670926756, guid: fe60e381ab2964241a09c5c3b0b3f3f9, type: 2}
   _effectSpawnTime: 5
+  _playerMovingUp: 0
+  _pooledAmount: 10
 --- !u!50 &139193535 stripped
 Rigidbody2D:
   m_PrefabParentObject: {fileID: 50204247054984048, guid: 22072f11625c5f54fbef19e533cf63dc,
@@ -337,8 +339,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 854208be790e2684f938bdadb5024a15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bullet: {fileID: 4531181079995854, guid: edbb737e1f73de14c9ae3e99e76903f1, type: 2}
+  _bullet: {fileID: 1869922670926756, guid: fe60e381ab2964241a09c5c3b0b3f3f9, type: 2}
   _effectSpawnTime: 5
+  _playerMovingUp: 0
+  _pooledAmount: 10
 --- !u!4 &307966255 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4526668600157978, guid: 22072f11625c5f54fbef19e533cf63dc,
@@ -505,13 +509,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1011968974b19848bed40706c5a0064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _whatLayerObjectsToHit: {}
-  _weapon: {fileID: 4055019122154404, guid: fe60e381ab2964241a09c5c3b0b3f3f9, type: 2}
-  _effectSpawnTime: 10
-  _firePointList:
-  - {fileID: 167948316}
-  - {fileID: 1420817134}
-  - {fileID: 52896648}
 --- !u!1 &424037699
 GameObject:
   m_ObjectHideFlags: 0
@@ -8043,6 +8040,50 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+--- !u!1 &1198011213
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1198011215}
+  - component: {fileID: 1198011214}
+  m_Layer: 0
+  m_Name: ObjectPooler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1198011214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1198011213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e57d27e47aacbda4d972c97f9d275e91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pooledObject: {fileID: 1823108840571042, guid: edbb737e1f73de14c9ae3e99e76903f1,
+    type: 2}
+  _pooledAmount: 10
+  _willGrow: 1
+--- !u!4 &1198011215
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1198011213}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1261294524
 Prefab:
   m_ObjectHideFlags: 0
@@ -11809,8 +11850,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 854208be790e2684f938bdadb5024a15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bullet: {fileID: 4055019122154404, guid: fe60e381ab2964241a09c5c3b0b3f3f9, type: 2}
+  _bullet: {fileID: 1869922670926756, guid: fe60e381ab2964241a09c5c3b0b3f3f9, type: 2}
   _effectSpawnTime: 5
+  _playerMovingUp: 0
+  _pooledAmount: 10
 --- !u!1 &1509442821
 GameObject:
   m_ObjectHideFlags: 0
