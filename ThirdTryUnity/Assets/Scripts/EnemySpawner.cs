@@ -55,6 +55,12 @@ public class EnemySpawner : MonoBehaviour
                 var yPos = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
                 Instantiate(_prefabToSpawn, new Vector3(_player.transform.position.x, yPos + 5f, _player.transform.position.z), Quaternion.identity);
             }
+            else if ((pos < (_heightYGoingUp/2 + .25)) && (pos > (_heightYGoingUp/2 - .25)) || pos == _heightYGoingUp/2)
+            {
+                _heightYGoingUp += _playerHeightCheck._playersExactHeight + _playerHeightCheck._increaseHeightBy;
+                var yPos = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
+                Instantiate(_prefabToSpawn, new Vector3(_player.transform.position.x, yPos + 5f, _player.transform.position.z), Quaternion.identity);
+            }
         }
         else if (!_spawnAbove)
         {
@@ -62,13 +68,23 @@ public class EnemySpawner : MonoBehaviour
             if ((pos < (_playerHeightCheck._startingHeightCopy - 10f + .25)) && (pos > (_playerHeightCheck._startingHeightCopy - 10f - .25)) || pos == _playerHeightCheck._startingHeightCopy - 10f)
               _isStartingHeight = true;
             //.25 is to get a threshold up and down from the height since when the player POS is rounded
-            if ((pos < (_heightYGoingDown + .25)) && (pos > (_heightYGoingDown - .25)) || pos == _heightYGoingDown)
+            //if ((pos < (_heightYGoingDown + .25)) && (pos > (_heightYGoingDown - .25)) || pos == _heightYGoingDown)
+            //{
+            //    if (!_isStartingHeight)
+            //    {
+            //        _heightYGoingDown -= _playerHeightCheck._increaseHeightBy;
+            //        var yPos = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y;
+            //        Instantiate(_prefabToSpawn, new Vector3(_player.transform.position.x, yPos - 5f, _player.transform.position.z), Quaternion.identity);
+            //    }
+            //}
+             if ((pos < (_heightYGoingDown + .25)) && (pos > (_heightYGoingDown- .25)) || pos == _heightYGoingDown)
             {
                 if (!_isStartingHeight)
                 {
                     _heightYGoingDown -= _playerHeightCheck._increaseHeightBy;
                     var yPos = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y;
-                    Instantiate(_prefabToSpawn, new Vector3(_player.transform.position.x, yPos - 5f, _player.transform.position.z), Quaternion.identity);
+                    Instantiate(_prefabToSpawn, new Vector3(_player.transform.position.x, yPos - 1f, _player.transform.position.z), Quaternion.identity);
+                    Instantiate(_prefabToSpawn, new Vector3(_player.transform.position.x, yPos - 12f, _player.transform.position.z), Quaternion.identity);
                 }
             }
         }

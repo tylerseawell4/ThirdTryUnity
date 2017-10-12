@@ -1601,7 +1601,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1625105539
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1739,11 +1739,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 12984913}
-  _startingHeight: 25
+  _startingHeight: 35
   _hitHeight: 0
   _hitBottom: 0
   _increaseHeightBy: 25
-  _maxSpeed: 12
+  _maxSpeed: 15
   _playersExactHeight: 0
   _startingHeightCopy: 0
 --- !u!114 &1800026176
