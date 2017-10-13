@@ -49,8 +49,8 @@ Rigidbody2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1869922670926756}
-  m_BodyType: 1
-  m_Simulated: 0
+  m_BodyType: 0
+  m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
@@ -74,7 +74,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bulletMoveSpeed: 10
-  _destroyWeaponTime: 1
+  _destroyWeaponTime: 0.5
   _keepConstantSpeed: 0
 --- !u!212 &212600722034520862
 SpriteRenderer:

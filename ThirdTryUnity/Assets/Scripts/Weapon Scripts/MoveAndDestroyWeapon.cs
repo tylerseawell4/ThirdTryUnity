@@ -11,35 +11,51 @@ public class MoveAndDestroyWeapon : MonoBehaviour {
 
     [Tooltip("Will this 'bullet' keep a constant speed throughout the game play")]
     public bool _keepConstantSpeed = false;
-
+    private Rigidbody2D _myRigidBody;
     private PlayerControl _playerControl;
+    private VelocityBounce2 _playerVelocityScript;
     private Shoot _shoot;
     private float _initialBulletMoveSpeed;
     private void Start()
     {
         _playerControl = FindObjectOfType<PlayerControl>();
+        _playerVelocityScript = FindObjectOfType<VelocityBounce2>();
         _shoot = FindObjectOfType<Shoot>();
         _initialBulletMoveSpeed = _bulletMoveSpeed;
+        _myRigidBody = GetComponent<Rigidbody2D>();
     }
     void Update()
     {
-        if (_shoot._playerMovingUp)
+        if (_playerControl._player != null)
         {
-            _bulletMoveSpeed += 2; //TODO: need to modify the bullet speed when the player is moving upwards..
+            if (!_playerVelocityScript._hitHeight)
+            {
+                if(name != "BulletDown")
+                {
+                    _myRigidBody.velocity = _playerControl._player.velocity;
+                    _myRigidBody.AddForce(transform.up * 500);
+                    name = "BulletUp";
+                }
+            }
+            else
+            {
+                if(name != "BulletUp")
+                {
+                    _myRigidBody.velocity = _playerControl._player.velocity;
+                    _myRigidBody.AddForce(transform.up * -500);
+                    name = "BulletDown";
+                }
+            }
         }
-        else
-        {
-            _bulletMoveSpeed = _initialBulletMoveSpeed;
-        }
-        transform.Translate(Vector3.up * Time.deltaTime * _bulletMoveSpeed);
-       // Destroy(gameObject, _destroyWeaponTime);
     }
     private void OnEnable()
     {
+        name = "Bullet";
         Invoke("Destroy", _destroyWeaponTime);
     }
     private void Destroy()
     {
+        name = "Bullet";
         gameObject.SetActive(false);
     }
     private void OnDisable()
