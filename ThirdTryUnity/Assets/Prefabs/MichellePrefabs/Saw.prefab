@@ -22,9 +22,10 @@ GameObject:
   - component: {fileID: 212600722034520862}
   - component: {fileID: 114792913132304818}
   - component: {fileID: 50510430542635506}
+  - component: {fileID: 58066333926883142}
   m_Layer: 0
   m_Name: Saw
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -62,6 +63,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &58066333926883142
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1869922670926756}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.64
 --- !u!114 &114792913132304818
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -74,7 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bulletMoveSpeed: 10
-  _destroyWeaponTime: 0.5
+  _destroyWeaponTime: 1.55
   _keepConstantSpeed: 0
 --- !u!212 &212600722034520862
 SpriteRenderer:
@@ -117,3 +133,4 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0

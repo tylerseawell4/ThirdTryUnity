@@ -9,6 +9,7 @@ TagManager:
   - LeftCamera
   - RightCamera
   - Enemy
+  - Bullet
   layers:
   - Default
   - TransparentFX

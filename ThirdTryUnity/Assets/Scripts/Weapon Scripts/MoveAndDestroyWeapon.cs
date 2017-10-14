@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveAndDestroyWeapon : MonoBehaviour {
+public class MoveAndDestroyWeapon : MonoBehaviour
+{
     [Tooltip("How fast the weapon will shoot from player")]
     public float _bulletMoveSpeed = 10f;
 
@@ -31,7 +32,7 @@ public class MoveAndDestroyWeapon : MonoBehaviour {
         {
             if (!_playerVelocityScript._hitHeight)
             {
-                if(name != "BulletDown")
+                if (name != "BulletDown")
                 {
                     _myRigidBody.velocity = _playerControl._player.velocity;
                     _myRigidBody.AddForce(transform.up * 500);
@@ -40,7 +41,7 @@ public class MoveAndDestroyWeapon : MonoBehaviour {
             }
             else
             {
-                if(name != "BulletUp")
+                if (name != "BulletUp")
                 {
                     _myRigidBody.velocity = _playerControl._player.velocity;
                     _myRigidBody.AddForce(transform.up * -500);
@@ -62,5 +63,10 @@ public class MoveAndDestroyWeapon : MonoBehaviour {
     private void OnDisable()
     {
         CancelInvoke();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Destroy();
     }
 }

@@ -112,7 +112,7 @@ public class PlayerControl : MonoBehaviour
         if (!_forwardDashActivated)
         {
             // if (_tapManager._doubleTap)
-            if (Input.GetKey(KeyCode.Space) || _tapManager._doubleTap)
+            if (_tapManager._doubleTap)
             {
                 //flip back
                 _tapManager._doubleTap = false;
