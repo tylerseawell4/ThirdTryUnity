@@ -121,7 +121,11 @@ public class PlayerControl : MonoBehaviour
                 _currentPlayerTopPtDiff = 0f;
                 _addforce = true;
             }
+            else
+                _tapManager._doubleTap = false;
         }
+        else
+            _tapManager._doubleTap = false;
 
         if (_forwardDashActivated)
         {
@@ -133,7 +137,7 @@ public class PlayerControl : MonoBehaviour
                     _topPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerTopPtDiff2, transform.position.z);
                     if (_addforce)
                     {
-                        _player.AddForce(Vector2.up * 15f, ForceMode2D.Impulse);
+                        _player.AddForce(Vector2.up * 14f, ForceMode2D.Impulse);
                         _addforce = false;
                     }
                 }
@@ -156,6 +160,8 @@ public class PlayerControl : MonoBehaviour
                 }
             }
         }
+        else
+            _tapManager._doubleTap = false;
 
 #if UNITY_ANDROID
         //creating neutral zone for character movements

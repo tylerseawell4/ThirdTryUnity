@@ -17,6 +17,7 @@ public class MoveAndDestroyWeapon : MonoBehaviour
     private PlayerControl _playerControl;
     private VelocityBounce2 _playerVelocityScript;
     private Shoot _shoot;
+    public SpriteRenderer _bullet;
     private float _initialBulletMoveSpeed;
     private void Start()
     {
@@ -34,6 +35,7 @@ public class MoveAndDestroyWeapon : MonoBehaviour
             {
                 if (name != "BulletDown")
                 {
+                    _bullet.flipY = true;
                     _myRigidBody.velocity = _playerControl._player.velocity;
                     _myRigidBody.AddForce(transform.up * 500);
                     name = "BulletUp";
@@ -43,6 +45,7 @@ public class MoveAndDestroyWeapon : MonoBehaviour
             {
                 if (name != "BulletUp")
                 {
+                    _bullet.flipY = false;
                     _myRigidBody.velocity = _playerControl._player.velocity;
                     _myRigidBody.AddForce(transform.up * -500);
                     name = "BulletDown";
@@ -52,6 +55,9 @@ public class MoveAndDestroyWeapon : MonoBehaviour
     }
     private void OnEnable()
     {
+        //if (_playerVelocityScript._hitHeight)
+        //    _bullet.flipY = true;
+
         name = "Bullet";
         Invoke("Destroy", _destroyWeaponTime);
     }

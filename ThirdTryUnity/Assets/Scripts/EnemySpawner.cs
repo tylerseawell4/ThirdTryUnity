@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     public Rigidbody2D _player;
-    public GameObject _prefabToSpawn;
+    public GameObject[] _prefabsToSpawns;
     private bool _stopSpawning;
     private double _heightYGoingUp;
     private VelocityBounce2 _playerHeightCheck;
@@ -53,13 +53,19 @@ public class EnemySpawner : MonoBehaviour
             {
                 _heightYGoingUp += _playerHeightCheck._playersExactHeight + _playerHeightCheck._increaseHeightBy;
                 var yPos = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
-                Instantiate(_prefabToSpawn, new Vector3(_player.transform.position.x, yPos + 5f, _player.transform.position.z), Quaternion.identity);
+                float scale = UnityEngine.Random.Range(0.5f, 1.5f);
+                int index = UnityEngine.Random.Range(0, _prefabsToSpawns.Length);
+                _prefabsToSpawns[index].transform.localScale = new Vector2(scale, scale);        
+                Instantiate(_prefabsToSpawns[index], new Vector3(_player.transform.position.x, yPos + 5f, _player.transform.position.z), Quaternion.identity);
             }
             else if ((pos < (_heightYGoingUp/2 + .25)) && (pos > (_heightYGoingUp/2 - .25)) || pos == _heightYGoingUp/2)
             {
                 _heightYGoingUp += _playerHeightCheck._playersExactHeight + _playerHeightCheck._increaseHeightBy;
                 var yPos = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
-                Instantiate(_prefabToSpawn, new Vector3(_player.transform.position.x, yPos + 5f, _player.transform.position.z), Quaternion.identity);
+                float scale = UnityEngine.Random.Range(0.5f, 1.5f);
+                int index = UnityEngine.Random.Range(0, _prefabsToSpawns.Length);
+                _prefabsToSpawns[index].transform.localScale = new Vector2(scale, scale);
+                Instantiate(_prefabsToSpawns[index], new Vector3(_player.transform.position.x, yPos + 5f, _player.transform.position.z), Quaternion.identity);
             }
         }
         else if (!_spawnAbove)
@@ -83,8 +89,16 @@ public class EnemySpawner : MonoBehaviour
                 {
                     _heightYGoingDown -= _playerHeightCheck._increaseHeightBy;
                     var yPos = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y;
-                    Instantiate(_prefabToSpawn, new Vector3(_player.transform.position.x, yPos - 1f, _player.transform.position.z), Quaternion.identity);
-                    Instantiate(_prefabToSpawn, new Vector3(_player.transform.position.x, yPos - 12f, _player.transform.position.z), Quaternion.identity);
+
+                    float scale = UnityEngine.Random.Range(0.5f, 1.5f);
+                    int index = UnityEngine.Random.Range(0, _prefabsToSpawns.Length);
+                    _prefabsToSpawns[index].transform.localScale = new Vector2(scale, scale);
+                    Instantiate(_prefabsToSpawns[index], new Vector3(_player.transform.position.x, yPos - 1f, _player.transform.position.z), Quaternion.identity);
+
+                    scale = UnityEngine.Random.Range(0.5f, 1.5f);
+                    index = UnityEngine.Random.Range(0, _prefabsToSpawns.Length);
+                    _prefabsToSpawns[index].transform.localScale = new Vector2(scale, scale);
+                    Instantiate(_prefabsToSpawns[index], new Vector3(_player.transform.position.x, yPos - 12f, _player.transform.position.z), Quaternion.identity);
                 }
             }
         }

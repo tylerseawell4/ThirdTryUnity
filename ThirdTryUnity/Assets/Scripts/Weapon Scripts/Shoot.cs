@@ -34,7 +34,7 @@ public class Shoot : MonoBehaviour
             if (!_playerVelocityScript._hitHeight)
                 _firePointTransform = _firePtUpPos;
             else
-                _firePointTransform = _firePtDownPos;   
+                _firePointTransform = _firePtDownPos;
 
             Fire();
 
@@ -45,6 +45,8 @@ public class Shoot : MonoBehaviour
             //flip back to false
             _tapManager._singleTap = false;
         }
+        else
+            _tapManager._singleTap = false;
     }
     private void Fire()
     {
