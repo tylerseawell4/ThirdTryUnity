@@ -6,9 +6,9 @@ public class Shoot : MonoBehaviour {
     [Tooltip("The 'bullet' that will shoot out of firepoint. The bullet Asset MUST have the MoveAndDestroyWeapon script attached to it.")]
     public GameObject _bullet;
     [Tooltip("How many 'bullets' can fire per second")]
-    public float _fireRate;
+    public float _fireRate = 3;
 
-    private float _nextTimeToFire;
+    private float _nextTimeToFire = 0f;
     private Transform _firePointTransform;
     private PlayerControl _playerControl;
 

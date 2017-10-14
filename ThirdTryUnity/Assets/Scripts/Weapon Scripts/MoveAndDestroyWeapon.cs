@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class MoveAndDestroyWeapon : MonoBehaviour {
     [Tooltip("How fast the weapon will shoot from player")]
-    public float _bulletMoveSpeed;
+    public float _bulletMoveSpeed = 10f;
 
     [Tooltip("How long until the weapon shot will be destroyed from the game view")]
-    public float _destroyWeaponTime;
+    public float _destroyWeaponTime = 0.5f;
 
     [Tooltip("Will this 'bullet' keep a constant speed throughout the game play")]
     public bool _keepConstantSpeed = false;
+
     private Rigidbody2D _myRigidBody;
     private PlayerControl _playerControl;
     private VelocityBounce2 _playerVelocityScript;
