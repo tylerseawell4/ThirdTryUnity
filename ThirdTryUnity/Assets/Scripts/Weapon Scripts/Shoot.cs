@@ -8,40 +8,42 @@ public class Shoot : MonoBehaviour
     public GameObject _bullet;
     [Tooltip("How many 'bullets' can fire per second")]
     public float _fireRate;
-
     private float _fireRateCountdown;
-
-    private float _nextTimeToFire = 0f;
     private Transform _firePointTransform;
     private PlayerControl _playerControl;
     public Transform _firePtUpPos;
     public Transform _firePtDownPos;
     private VelocityBounce2 _playerVelocityScript;
     private bool _isInitialFire;
-
+    private TapManager _tapManager;
     void Start()
     {
         _playerControl = FindObjectOfType<PlayerControl>();
         _playerVelocityScript = FindObjectOfType<VelocityBounce2>();
         _isInitialFire = true;
         _fireRateCountdown = 0;
+        _tapManager = FindObjectOfType<TapManager>();
     }
 
     void FixedUpdate()
     {
         _fireRateCountdown += 1 * Time.deltaTime;
 
-        if ((Input.GetKeyDown(KeyCode.Space) && _fireRateCountdown >= _fireRate) || (Input.GetKeyDown(KeyCode.Space) && _isInitialFire))
+        if ((_tapManager._singleTap && _fireRateCountdown >= _fireRate) || (_tapManager._singleTap && _isInitialFire))
         {
-            _isInitialFire = false;
             if (!_playerVelocityScript._hitHeight)
                 _firePointTransform = _firePtUpPos;
             else
-                _firePointTransform = _firePtDownPos;
+                _firePointTransform = _firePtDownPos;   
+
+            Fire();
 
             _fireRateCountdown = 0;
 
-            Fire();
+            _isInitialFire = false;
+
+            //flip back to false
+            _tapManager._singleTap = false;
         }
     }
     private void Fire()

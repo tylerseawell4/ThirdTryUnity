@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TapManager : MonoBehaviour
 {
-    private float _timeBetweenTaps = 0.25f; // Half a second before reset
+    private float _timeBetweenTaps = 0.15f;
     private int _tapCount = 0;
     public bool _doubleTap;
     public bool _singleTap;
@@ -16,7 +16,7 @@ public class TapManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-    
+
     }
 
     // Update is called once per frame
@@ -27,11 +27,11 @@ public class TapManager : MonoBehaviour
             //double tap
             if (_timeBetweenTaps > 0 && _tapCount == 1/*Number of Taps you want Minus One*/)
             {
+                //gets set to true, so dash can be started in fixedupdate()
+                _doubleTap = true;
                 //double tap
                 Debug.Log("Double Activated");
                 _tapCount = 0;
-                //gets set to true, so dash can be started in fixedupdate()
-                _doubleTap = true;
             }
             else
             {
@@ -67,9 +67,9 @@ public class TapManager : MonoBehaviour
         //single touch, should not fire until time between first tap and second tap is longer than .25 seconds (_timebetweentaps is less than 0)
         else if (_timeBetweenTaps < 0 && _tapCount > 0 && !_isHolding)
         {
+            _singleTap = true;
             _tapCount = 0;
             _timeBetweenTaps = 0.25f;
-            _singleTap = true;
             Debug.Log("Single Activated");
         }
         else

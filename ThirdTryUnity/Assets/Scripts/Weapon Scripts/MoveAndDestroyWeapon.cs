@@ -67,6 +67,7 @@ public class MoveAndDestroyWeapon : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Destroy();
+        if (collision.tag != "Player")
+            Destroy();
     }
 }

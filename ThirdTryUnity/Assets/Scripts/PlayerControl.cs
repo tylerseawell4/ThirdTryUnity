@@ -157,12 +157,6 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
-        if (_tapManager._singleTap)
-        {
-            //flip back
-            _tapManager._singleTap = false;
-        }
-
 #if UNITY_ANDROID
         //creating neutral zone for character movements
         if (Input.acceleration.x > .025f)
