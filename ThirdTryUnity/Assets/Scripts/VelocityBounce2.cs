@@ -37,6 +37,7 @@ public class VelocityBounce2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(_player.velocity.y);
         if (_player.transform.position.y >= (_maxHeightValue - _heightOffset) && !_hitrequestedHeight)
         {
             _decrementGravity = true;

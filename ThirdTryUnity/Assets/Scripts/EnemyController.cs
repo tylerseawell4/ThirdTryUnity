@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    private float _moveSpeed;
+    public float _moveSpeed;
     private float _moveXPos;
     private float _currYPos;
     private bool _movingRight;
@@ -63,14 +63,14 @@ public class EnemyController : MonoBehaviour
         }
     
 
-        if (!_movingRight && transform.position.x <= _moveXPos)
+        if (!_movingRight && transform.position.x <= _moveXPos + 1)
         {
             _moveXPos = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x;
             _movingRight = true;
             _sprite.flipX = true;
 
         }
-        if (_movingRight && transform.position.x >= _moveXPos)
+        if (_movingRight && transform.position.x >= _moveXPos - 1)
         {
             _moveXPos = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x;
             _movingRight = false;

@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bulletMoveSpeed: 10
-  _destroyWeaponTime: 1.3
+  _destroyWeaponTime: 1.5
   _keepConstantSpeed: 0
   _bullet: {fileID: 212987591805491064}
 --- !u!212 &212987591805491064
