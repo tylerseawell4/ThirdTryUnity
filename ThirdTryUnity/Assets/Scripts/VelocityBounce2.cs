@@ -20,6 +20,7 @@ public class VelocityBounce2 : MonoBehaviour
     public float _increaseHeightBy;
     public float _maxSpeed;
     public float _playersExactHeight;
+    private PlayerControl _playerControl;
     // Use this for initialization
     void Start()
     {
@@ -29,6 +30,7 @@ public class VelocityBounce2 : MonoBehaviour
         _originalVMultiplier = _vMultiplier;
         _maxHeightValue = _startingHeight;
         _camera = FindObjectOfType<CameraOption3>();
+        _playerControl = FindObjectOfType<PlayerControl>();
         _heightOffset = 5f;
     }
 
@@ -50,10 +52,17 @@ public class VelocityBounce2 : MonoBehaviour
 
             if (_vMultiplier <= 0)
             {
+                _hitHeight = true;
+                _playerControl._forwardDashActivated = false;
+
+                _playerControl._topPlayerPoint.position = new Vector3(_playerControl.transform.position.x, _playerControl._startingPlayerTopPtDiff + _playerControl.transform.position.y, _playerControl.transform.position.z);
+                _playerControl._startingPlayerTopPtDiff = _playerControl._topPlayerPoint.position.y - transform.position.y;
+                _playerControl._startingPlayerTopPtDiff2 = _playerControl._topPlayerPoint.position.y - transform.position.y;
+
+
                 _vMultiplier = _originalVMultiplier;
                 _moveCharacterDown = true;
                 _decrementGravity = false;
-                _hitHeight = true;
                 _hitBottom = false;
                 _playersExactHeight = _player.transform.position.y;
                 Debug.Log(_player.transform.position.y);
@@ -74,8 +83,9 @@ public class VelocityBounce2 : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collision.gameObject.tag.Equals("Enemy"))
+        if (collision.gameObject.tag.Equals("Ground"))
         {
+            _playerControl._forwardDashActivated = false;
             _hitBottom = true;
             _bounceCount++;
             _hitHeight = false;

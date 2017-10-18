@@ -14,6 +14,7 @@ TagManager:
   - EnemyShot
   - PlayerLaser
   - Nonlethal
+  - Ground
   layers:
   - Default
   - TransparentFX

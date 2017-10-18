@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 public class PlayerControl : MonoBehaviour
 {
@@ -9,26 +7,36 @@ public class PlayerControl : MonoBehaviour
     public Transform _topPlayerPoint;
     public Transform _bottomPlayerPoint;
     private bool _facingRight;
-    private float _startingPlayerTopPtDiff;
-    private float _startingPlayerTopPtDiff2;
-    private float _currentPlayerTopPtDiff;
+    public float _startingPlayerTopPtDiff;
+    public float _startingPlayerTopPtDiff2;
+    private float _startingPlayerBottomPtDiff;
+    private float _startingPlayerBottomPtDiff2;
+    private float _currentPlayerPosDiff;
     private bool _shouldSlowCameraWhenGoingUp;
-    private bool _forwardDashActivated;
+    public bool _forwardDashActivated;
     private TapManager _tapManager;
     private bool _rightDashActivated;
     private bool _leftDashActivated;
     private float posX;
     private bool _addforce;
+    private VelocityBounce2 _playerBounce;
     // Use this for initialization
     void Start()
     {
         Screen.orientation = ScreenOrientation.Portrait;
         _activeMoveSpeed = 6f;
         _facingRight = true;
+
         _startingPlayerTopPtDiff = _topPlayerPoint.position.y - transform.position.y;
         _startingPlayerTopPtDiff2 = _topPlayerPoint.position.y - transform.position.y;
+
+        _startingPlayerBottomPtDiff = _bottomPlayerPoint.position.y - transform.position.y;
+        _startingPlayerBottomPtDiff2 = _bottomPlayerPoint.position.y - transform.position.y;
+
         _tapManager = FindObjectOfType<TapManager>();
         _addforce = true;
+
+        _playerBounce = FindObjectOfType<VelocityBounce2>();
     }
 
     private IEnumerator LeftDashRoutine()
@@ -118,8 +126,11 @@ public class PlayerControl : MonoBehaviour
                 _tapManager._doubleTap = false;
                 _forwardDashActivated = true;
                 _shouldSlowCameraWhenGoingUp = true;
-                _currentPlayerTopPtDiff = 0f;
+                _currentPlayerPosDiff = 0f;
                 _addforce = true;
+
+                if (_forwardDashActivated && _playerBounce._hitHeight)
+                    _shouldSlowCameraWhenGoingUp = false;
             }
             else
                 _tapManager._doubleTap = false;
@@ -127,7 +138,7 @@ public class PlayerControl : MonoBehaviour
         else
             _tapManager._doubleTap = false;
 
-        if (_forwardDashActivated)
+        if (_forwardDashActivated && !_playerBounce._hitHeight)
         {
             if (_shouldSlowCameraWhenGoingUp)
             {
@@ -141,22 +152,59 @@ public class PlayerControl : MonoBehaviour
                         _addforce = false;
                     }
                 }
-                if (_topPlayerPoint.position.y <= transform.position.y)
+                if (_topPlayerPoint.position.y < transform.position.y)
                 {
                     _shouldSlowCameraWhenGoingUp = false;
                 }
             }
             else
             {
-                if (_currentPlayerTopPtDiff <= _startingPlayerTopPtDiff)
+                if (_currentPlayerPosDiff <= _startingPlayerTopPtDiff)
                 {
-                    _currentPlayerTopPtDiff += Time.deltaTime * 6f;
-                    _topPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _currentPlayerTopPtDiff, transform.position.z);
+                    _currentPlayerPosDiff += Time.deltaTime * 6f;
+                    _topPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _currentPlayerPosDiff, transform.position.z);
                 }
-                if (_currentPlayerTopPtDiff >= _startingPlayerTopPtDiff)
+                if (_currentPlayerPosDiff >= _startingPlayerTopPtDiff)
                 {
                     _forwardDashActivated = false;
+
+                    _topPlayerPoint.position = new Vector3(transform.position.x, _startingPlayerTopPtDiff + transform.position.y, transform.position.z);
+                    _startingPlayerTopPtDiff = _topPlayerPoint.position.y - transform.position.y;
                     _startingPlayerTopPtDiff2 = _topPlayerPoint.position.y - transform.position.y;
+
+                }
+            }
+        }
+        else if (_forwardDashActivated && _playerBounce._hitHeight)
+        {
+            if (!_shouldSlowCameraWhenGoingUp)
+            {
+                if (_bottomPlayerPoint.position.y >= _startingPlayerBottomPtDiff2)
+                {
+                    _startingPlayerBottomPtDiff2 += Time.deltaTime * 12f;
+                    _bottomPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerBottomPtDiff2, transform.position.z);
+                    if (_addforce)
+                    {
+                        _player.AddForce(Vector2.down * 20f, ForceMode2D.Impulse);
+                        _addforce = false;
+                    }
+                }
+                if (_bottomPlayerPoint.position.y > transform.position.y)
+                {
+                    _shouldSlowCameraWhenGoingUp = true;
+                }
+            }
+            else
+            {
+                if (_currentPlayerPosDiff >= _startingPlayerBottomPtDiff)
+                {
+                    _currentPlayerPosDiff -= Time.deltaTime * 18f;
+                    _bottomPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _currentPlayerPosDiff, transform.position.z);
+                }
+                if (_currentPlayerPosDiff <= _startingPlayerBottomPtDiff)
+                {
+                    _forwardDashActivated = false;
+                    _startingPlayerBottomPtDiff2 = _bottomPlayerPoint.position.y - transform.position.y;
                 }
             }
         }
@@ -219,6 +267,11 @@ public class PlayerControl : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
+        if (collision.gameObject.tag.Equals("Ground"))
+        {
+            _bottomPlayerPoint.position = new Vector3(transform.position.x, _startingPlayerBottomPtDiff + transform.position.y, transform.position.z);
+            _startingPlayerBottomPtDiff = _bottomPlayerPoint.position.y - transform.position.y;
+            _startingPlayerBottomPtDiff2 = _bottomPlayerPoint.position.y - transform.position.y;
+        }
     }
 }
