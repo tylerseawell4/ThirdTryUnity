@@ -8,20 +8,24 @@ public class EnemyDeath : MonoBehaviour
     private Collider2D[] _colliders;
     private int _hp;
     public float flashTime;
-    public Color _origionalColor;
+    private Color _origionalColor;
     public SpriteRenderer _renderer;
     private Animator _anim;
     private EnemyController _enemyMovement;
     private bool _isColliding;
-
+    private void Awake()
+    {
+        _origionalColor = _renderer.color;
+        _hp = 1;
+        DetermineHp();
+    }
     // Use this for initialization
     void Start()
     {
         _anim = GetComponent<Animator>();
         _origionalColor = _renderer.color;
         _colliders = GetComponents<Collider2D>();
-        _enemyMovement = GetComponent<EnemyController>();
-        DetermineHp();
+        _enemyMovement = GetComponent<EnemyController>();   
     }
 
     // Update is called once per frame
@@ -71,7 +75,5 @@ public class EnemyDeath : MonoBehaviour
     {
         if (transform.localScale.x > 1.2f)
             _hp = 2;
-        else
-            _hp = 1;
     }
 }

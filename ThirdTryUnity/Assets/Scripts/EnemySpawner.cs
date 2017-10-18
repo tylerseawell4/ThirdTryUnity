@@ -33,7 +33,7 @@ public class EnemySpawner : MonoBehaviour
             }
         }
         else if (_playerHeightCheck._hitBottom)
-        {
+        {        
             if (!_spawnAbove)
             {
                 _spawnAbove = true;
@@ -67,7 +67,7 @@ public class EnemySpawner : MonoBehaviour
         {
              if ((pos < (_heightYGoingDown + .25)) && (pos > (_heightYGoingDown- .25)) || pos == _heightYGoingDown)
             {
-                if (_player.position.y >= 5)
+                if (_player.position.y >= 8f)
                 {
                     _heightYGoingDown -= _playerHeightCheck._increaseHeightBy;
                     var yPos = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y;
