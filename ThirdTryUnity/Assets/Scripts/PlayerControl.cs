@@ -148,7 +148,7 @@ public class PlayerControl : MonoBehaviour
                     _topPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerTopPtDiff2, transform.position.z);
                     if (_addforce)
                     {
-                        _player.AddForce(Vector2.up * 14f, ForceMode2D.Impulse);
+                        _player.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);
                         _addforce = false;
                     }
                 }
@@ -181,15 +181,15 @@ public class PlayerControl : MonoBehaviour
             {
                 if (_bottomPlayerPoint.position.y >= _startingPlayerBottomPtDiff2)
                 {
-                    _startingPlayerBottomPtDiff2 += Time.deltaTime * 12f;
+                    _startingPlayerBottomPtDiff2 += Time.deltaTime * 14f;
                     _bottomPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerBottomPtDiff2, transform.position.z);
                     if (_addforce)
                     {
-                        _player.AddForce(Vector2.down * 20f, ForceMode2D.Impulse);
+                        _player.AddForce(Vector2.down * 4f, ForceMode2D.Impulse);
                         _addforce = false;
                     }
                 }
-                if (_bottomPlayerPoint.position.y > transform.position.y)
+                if (_bottomPlayerPoint.position.y > transform.position.y + 2f)
                 {
                     _shouldSlowCameraWhenGoingUp = true;
                 }
@@ -204,6 +204,9 @@ public class PlayerControl : MonoBehaviour
                 if (_currentPlayerPosDiff <= _startingPlayerBottomPtDiff)
                 {
                     _forwardDashActivated = false;
+
+                    _bottomPlayerPoint.position = new Vector3(transform.position.x, _startingPlayerBottomPtDiff + transform.position.y, transform.position.z);
+                    _startingPlayerBottomPtDiff = _bottomPlayerPoint.position.y - transform.position.y;
                     _startingPlayerBottomPtDiff2 = _bottomPlayerPoint.position.y - transform.position.y;
                 }
             }
