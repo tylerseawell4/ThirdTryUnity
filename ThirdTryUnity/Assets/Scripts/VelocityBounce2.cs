@@ -20,7 +20,6 @@ public class VelocityBounce2 : MonoBehaviour
     public float _increaseHeightBy;
     public float _maxSpeed;
     public float _playersExactHeight;
-    public float _startingHeightCopy;
     // Use this for initialization
     void Start()
     {
@@ -28,7 +27,6 @@ public class VelocityBounce2 : MonoBehaviour
         _player.gravityScale = 0f;
         _vMultiplier = 7.5f;
         _originalVMultiplier = _vMultiplier;
-        _startingHeightCopy = _startingHeight;
         _maxHeightValue = _startingHeight;
         _camera = FindObjectOfType<CameraOption3>();
         _heightOffset = 5f;

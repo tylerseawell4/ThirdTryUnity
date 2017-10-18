@@ -8,7 +8,7 @@ public class EnemyDeath : MonoBehaviour
     private Collider2D[] _colliders;
     private int _hp;
     public float flashTime;
-    Color origionalColor;
+    public Color _origionalColor;
     public SpriteRenderer _renderer;
     private Animator _anim;
     private EnemyController _enemyMovement;
@@ -18,7 +18,7 @@ public class EnemyDeath : MonoBehaviour
     void Start()
     {
         _anim = GetComponent<Animator>();
-        origionalColor = _renderer.color;
+        _origionalColor = _renderer.color;
         _colliders = GetComponents<Collider2D>();
         _enemyMovement = GetComponent<EnemyController>();
         DetermineHp();
@@ -39,8 +39,8 @@ public class EnemyDeath : MonoBehaviour
 
         if (collision.gameObject.tag == "Bullet")
         {
+            StartCoroutine("TurnRed");
             _hp--;
-            FlashRed();
             if (_hp == 0)
             {
                 foreach (var collider in _colliders)
@@ -53,6 +53,13 @@ public class EnemyDeath : MonoBehaviour
         }
     }
 
+    IEnumerator TurnRed()
+    {
+        _renderer.color = Color.red;
+        yield return new WaitForSeconds(.25f);
+        _renderer.color = _origionalColor;
+    }
+
     IEnumerator DeathSequence()
     {
         _anim.SetInteger("State", 1);
@@ -62,20 +69,9 @@ public class EnemyDeath : MonoBehaviour
 
     private void DetermineHp()
     {
-        if (transform.localScale.x > 1f)
+        if (transform.localScale.x > 1.2f)
             _hp = 2;
-        else if (transform.localScale.x <= 1f)
+        else
             _hp = 1;
-    }
-
-    void FlashRed()
-    {
-        _renderer.color = Color.red;
-        Invoke("ResetColor", flashTime);
-    }
-
-    void ResetColor()
-    {
-        _renderer.color = origionalColor;
     }
 }
