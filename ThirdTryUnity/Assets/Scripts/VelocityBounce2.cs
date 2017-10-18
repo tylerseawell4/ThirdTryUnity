@@ -55,6 +55,7 @@ public class VelocityBounce2 : MonoBehaviour
                 _hitHeight = true;
                 _playerControl._forwardDashActivated = false;
 
+                _playerControl._time = 0f;
                 _playerControl._topPlayerPoint.position = new Vector3(_playerControl.transform.position.x, _playerControl._startingPlayerTopPtDiff + _playerControl.transform.position.y, _playerControl.transform.position.z);
                 _playerControl._startingPlayerTopPtDiff = _playerControl._topPlayerPoint.position.y - transform.position.y;
                 _playerControl._startingPlayerTopPtDiff2 = _playerControl._topPlayerPoint.position.y - transform.position.y;
@@ -86,6 +87,7 @@ public class VelocityBounce2 : MonoBehaviour
         if (collision.gameObject.tag.Equals("Ground"))
         {
             _playerControl._forwardDashActivated = false;
+            _playerControl._time = 0f;
             _hitBottom = true;
             _bounceCount++;
             _hitHeight = false;

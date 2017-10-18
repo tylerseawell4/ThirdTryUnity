@@ -20,12 +20,17 @@ public class PlayerControl : MonoBehaviour
     private float posX;
     private bool _addforce;
     private VelocityBounce2 _playerBounce;
+    public float _time;
+    private Vector2 _ogVel;
+
     // Use this for initialization
     void Start()
     {
         Screen.orientation = ScreenOrientation.Portrait;
         _activeMoveSpeed = 6f;
         _facingRight = true;
+
+        _time = 0f;
 
         _startingPlayerTopPtDiff = _topPlayerPoint.position.y - transform.position.y;
         _startingPlayerTopPtDiff2 = _topPlayerPoint.position.y - transform.position.y;
@@ -142,73 +147,130 @@ public class PlayerControl : MonoBehaviour
         {
             if (_shouldSlowCameraWhenGoingUp)
             {
-                if (_topPlayerPoint.position.y >= _startingPlayerTopPtDiff2)
+                if (_addforce)
                 {
-                    _startingPlayerTopPtDiff2 -= Time.deltaTime * 8f;
-                    _topPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerTopPtDiff2, transform.position.z);
-                    if (_addforce)
-                    {
-                        _player.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);
-                        _addforce = false;
-                    }
+                    _addforce = false;
+                    _ogVel = _player.velocity;
+                   // _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y * 1.5f);
                 }
-                if (_topPlayerPoint.position.y < transform.position.y)
+                _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y * 1.65f);
+
+                _time += 1f * Time.deltaTime;
+
+                _startingPlayerTopPtDiff2 -= Time.deltaTime * 8f;
+                _topPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerTopPtDiff2, transform.position.z);
+                _currentPlayerPosDiff = _topPlayerPoint.position.y - transform.position.y;
+                //if (_topPlayerPoint.position.y >= _startingPlayerTopPtDiff2)
+                //{
+                //    _startingPlayerTopPtDiff2 -= Time.deltaTime * 8f;
+                //    _topPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerTopPtDiff2, transform.position.z);
+                //    if (_addforce)
+                //    {
+                //        _player.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);
+                //        _addforce = false;
+                //    }
+                //}
+                //if (_topPlayerPoint.position.y < transform.position.y)
+                //{
+                //    _shouldSlowCameraWhenGoingUp = false;
+                //}
+
+                if (_time > .75f)
                 {
-                    _shouldSlowCameraWhenGoingUp = false;
+                    _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y / 1.25f);
+                    _startingPlayerTopPtDiff2 += .23f;
+                    _topPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerTopPtDiff2, transform.position.z);
+                    _currentPlayerPosDiff = _topPlayerPoint.position.y - transform.position.y;
+                    //_player.velocity = new Vector2(_player.velocity.x, _player.velocity.y / 2f);
+
+                    if (_currentPlayerPosDiff >= _startingPlayerTopPtDiff)
+                        _shouldSlowCameraWhenGoingUp = false;
                 }
             }
             else
             {
-                if (_currentPlayerPosDiff <= _startingPlayerTopPtDiff)
-                {
-                    _currentPlayerPosDiff += Time.deltaTime * 6f;
-                    _topPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _currentPlayerPosDiff, transform.position.z);
-                }
-                if (_currentPlayerPosDiff >= _startingPlayerTopPtDiff)
-                {
-                    _forwardDashActivated = false;
+                _time = 0f;
+                _forwardDashActivated = false;
+                 _player.velocity = new Vector2(_player.velocity.x, _ogVel.y);
+                //if (_currentPlayerPosDiff <= _startingPlayerTopPtDiff)
+                //{
+                //    _currentPlayerPosDiff += Time.deltaTime * 6f;
+                //    _topPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _currentPlayerPosDiff, transform.position.z);
+                //}
+                //if (_currentPlayerPosDiff >= _startingPlayerTopPtDiff)
+                //{
+                //    _forwardDashActivated = false;
 
-                    _topPlayerPoint.position = new Vector3(transform.position.x, _startingPlayerTopPtDiff + transform.position.y, transform.position.z);
-                    _startingPlayerTopPtDiff = _topPlayerPoint.position.y - transform.position.y;
-                    _startingPlayerTopPtDiff2 = _topPlayerPoint.position.y - transform.position.y;
+                //    _topPlayerPoint.position = new Vector3(transform.position.x, _startingPlayerTopPtDiff + transform.position.y, transform.position.z);
+                //    _startingPlayerTopPtDiff = _topPlayerPoint.position.y - transform.position.y;
+                //    _startingPlayerTopPtDiff2 = _topPlayerPoint.position.y - transform.position.y;
 
-                }
+                //}
             }
         }
         else if (_forwardDashActivated && _playerBounce._hitHeight)
         {
             if (!_shouldSlowCameraWhenGoingUp)
             {
-                if (_bottomPlayerPoint.position.y >= _startingPlayerBottomPtDiff2)
+                if (_addforce)
                 {
-                    _startingPlayerBottomPtDiff2 += Time.deltaTime * 14f;
+                    _addforce = false;
+                    _ogVel = _player.velocity;
+                }
+                _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y * 1.65f);
+
+                _time += 1f * Time.deltaTime;
+
+                _startingPlayerBottomPtDiff2 += Time.deltaTime * 15f;
+                _bottomPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerBottomPtDiff2, transform.position.z);
+                _currentPlayerPosDiff = _bottomPlayerPoint.position.y - transform.position.y;
+
+                if (_time > .75f)
+                {
+                    _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y / 1.35f);
+                    _startingPlayerBottomPtDiff2 -= .475f;
                     _bottomPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerBottomPtDiff2, transform.position.z);
-                    if (_addforce)
-                    {
-                        _player.AddForce(Vector2.down * 4f, ForceMode2D.Impulse);
-                        _addforce = false;
-                    }
+                    _currentPlayerPosDiff = _bottomPlayerPoint.position.y - transform.position.y;
+                    //_player.velocity = new Vector2(_player.velocity.x, _player.velocity.y / 2f);
+
+                    if (_currentPlayerPosDiff <= _startingPlayerBottomPtDiff)
+                        _shouldSlowCameraWhenGoingUp = true;
+
                 }
-                if (_bottomPlayerPoint.position.y > transform.position.y + 2f)
-                {
-                    _shouldSlowCameraWhenGoingUp = true;
-                }
+
+                //if (_bottomPlayerPoint.position.y >= _startingPlayerBottomPtDiff2)
+                //{
+                //    _startingPlayerBottomPtDiff2 += Time.deltaTime * 14f;
+                //    _bottomPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerBottomPtDiff2, transform.position.z);
+                //    if (_addforce)
+                //    {
+                //        _player.AddForce(Vector2.down * 4f, ForceMode2D.Impulse);
+                //        _addforce = false;
+                //    }
+                //}
+                //if (_bottomPlayerPoint.position.y > transform.position.y + 2f)
+                //{
+                //    _shouldSlowCameraWhenGoingUp = true;
+                //}
             }
             else
             {
-                if (_currentPlayerPosDiff >= _startingPlayerBottomPtDiff)
-                {
-                    _currentPlayerPosDiff -= Time.deltaTime * 18f;
-                    _bottomPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _currentPlayerPosDiff, transform.position.z);
-                }
-                if (_currentPlayerPosDiff <= _startingPlayerBottomPtDiff)
-                {
-                    _forwardDashActivated = false;
+                _time = 0f;
+                _forwardDashActivated = false;
+                _player.velocity = new Vector2(_player.velocity.x, _ogVel.y);
+                //if (_currentPlayerPosDiff >= _startingPlayerBottomPtDiff)
+                //{
+                //    _currentPlayerPosDiff -= Time.deltaTime * 18f;
+                //    _bottomPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _currentPlayerPosDiff, transform.position.z);
+                //}
+                //if (_currentPlayerPosDiff <= _startingPlayerBottomPtDiff)
+                //{
+                //    _forwardDashActivated = false;
 
-                    _bottomPlayerPoint.position = new Vector3(transform.position.x, _startingPlayerBottomPtDiff + transform.position.y, transform.position.z);
-                    _startingPlayerBottomPtDiff = _bottomPlayerPoint.position.y - transform.position.y;
-                    _startingPlayerBottomPtDiff2 = _bottomPlayerPoint.position.y - transform.position.y;
-                }
+                //    _bottomPlayerPoint.position = new Vector3(transform.position.x, _startingPlayerBottomPtDiff + transform.position.y, transform.position.z);
+                //    _startingPlayerBottomPtDiff = _bottomPlayerPoint.position.y - transform.position.y;
+                //    _startingPlayerBottomPtDiff2 = _bottomPlayerPoint.position.y - transform.position.y;
+                //}
             }
         }
         else
@@ -272,6 +334,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (collision.gameObject.tag.Equals("Ground"))
         {
+            
             _bottomPlayerPoint.position = new Vector3(transform.position.x, _startingPlayerBottomPtDiff + transform.position.y, transform.position.z);
             _startingPlayerBottomPtDiff = _bottomPlayerPoint.position.y - transform.position.y;
             _startingPlayerBottomPtDiff2 = _bottomPlayerPoint.position.y - transform.position.y;
