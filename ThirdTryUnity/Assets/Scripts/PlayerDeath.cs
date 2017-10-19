@@ -20,7 +20,7 @@ public class PlayerDeath : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag.Equals("a"))
+        if (collision.gameObject.tag.Equals("Enemy"))
         {
             //var player = GetComponent<Rigidbody2D>();
             //player.velocity = Vector3.zero;

@@ -95,7 +95,7 @@ public class VelocityBounce2 : MonoBehaviour
             _hitHeight = false;
             _playersExactHeight = 0;
 
-            if (_maxSpeed >= _vMultiplier && _bounceCount % 2 == 0)
+            if (_maxSpeed >= _vMultiplier && _bounceCount % 3 == 0)
             {
                 _vMultiplier += 2f;
                 _camera._transitionSpeed += .175f;
