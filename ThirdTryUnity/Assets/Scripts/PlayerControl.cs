@@ -225,7 +225,7 @@ public class PlayerControl : MonoBehaviour
                 _bottomPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerBottomPtDiff2, transform.position.z);
                 _currentPlayerPosDiff = _bottomPlayerPoint.position.y - transform.position.y;
 
-                if (_time > 1.25f)
+                if (_time > 1.125f)
                 {
                     _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y / 1.25f);
                     _startingPlayerBottomPtDiff2 -= .365f;
