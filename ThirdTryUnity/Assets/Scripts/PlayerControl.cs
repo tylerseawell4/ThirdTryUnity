@@ -217,18 +217,18 @@ public class PlayerControl : MonoBehaviour
                     _addforce = false;
                     _ogVel = _player.velocity;
                 }
-                _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y * 1.4f);
+                _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y * 1.5f);
 
                 _time += 1f * Time.deltaTime;
 
-                _startingPlayerBottomPtDiff2 += Time.deltaTime * 15f;
+                _startingPlayerBottomPtDiff2 += Time.deltaTime * 9f;
                 _bottomPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerBottomPtDiff2, transform.position.z);
                 _currentPlayerPosDiff = _bottomPlayerPoint.position.y - transform.position.y;
 
-                if (_time > 1f)
+                if (_time > 1.25f)
                 {
                     _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y / 1.25f);
-                    _startingPlayerBottomPtDiff2 -= .625f;
+                    _startingPlayerBottomPtDiff2 -= .365f;
                     _bottomPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerBottomPtDiff2, transform.position.z);
                     _currentPlayerPosDiff = _bottomPlayerPoint.position.y - transform.position.y;
                     //_player.velocity = new Vector2(_player.velocity.x, _player.velocity.y / 2f);
