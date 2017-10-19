@@ -45,7 +45,7 @@ public class EnemyDeath : MonoBehaviour
         {
             StartCoroutine("TurnRed");
             _hp--;
-            if (_hp == 0)
+            if (_hp <= 0)
             {
                 foreach (var collider in _colliders)
                     collider.enabled = false;

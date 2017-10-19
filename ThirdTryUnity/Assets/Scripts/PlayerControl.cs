@@ -153,7 +153,7 @@ public class PlayerControl : MonoBehaviour
                     _ogVel = _player.velocity;
                    // _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y * 1.5f);
                 }
-                _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y * 1.65f);
+                _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y * 1.4f);
 
                 _time += 1f * Time.deltaTime;
 
@@ -175,10 +175,10 @@ public class PlayerControl : MonoBehaviour
                 //    _shouldSlowCameraWhenGoingUp = false;
                 //}
 
-                if (_time > .75f)
+                if (_time > 1f)
                 {
                     _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y / 1.25f);
-                    _startingPlayerTopPtDiff2 += .23f;
+                    _startingPlayerTopPtDiff2 += .275f;
                     _topPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerTopPtDiff2, transform.position.z);
                     _currentPlayerPosDiff = _topPlayerPoint.position.y - transform.position.y;
                     //_player.velocity = new Vector2(_player.velocity.x, _player.velocity.y / 2f);
@@ -217,7 +217,7 @@ public class PlayerControl : MonoBehaviour
                     _addforce = false;
                     _ogVel = _player.velocity;
                 }
-                _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y * 1.65f);
+                _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y * 1.4f);
 
                 _time += 1f * Time.deltaTime;
 
@@ -225,10 +225,10 @@ public class PlayerControl : MonoBehaviour
                 _bottomPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerBottomPtDiff2, transform.position.z);
                 _currentPlayerPosDiff = _bottomPlayerPoint.position.y - transform.position.y;
 
-                if (_time > .75f)
+                if (_time > 1f)
                 {
-                    _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y / 1.35f);
-                    _startingPlayerBottomPtDiff2 -= .475f;
+                    _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y / 1.25f);
+                    _startingPlayerBottomPtDiff2 -= .625f;
                     _bottomPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerBottomPtDiff2, transform.position.z);
                     _currentPlayerPosDiff = _bottomPlayerPoint.position.y - transform.position.y;
                     //_player.velocity = new Vector2(_player.velocity.x, _player.velocity.y / 2f);
