@@ -5,11 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class PlayerDeath : MonoBehaviour
 {
-
+    public GameObject _gameOverPanel;
     // Use this for initialization
     void Start()
     {
-
+        _gameOverPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -25,8 +25,10 @@ public class PlayerDeath : MonoBehaviour
             //var player = GetComponent<Rigidbody2D>();
             //player.velocity = Vector3.zero;
             //StartCoroutine("DeathSequence");
-            Destroy(gameObject);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            //Destroy(gameObject);
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            gameObject.SetActive(false);
+            _gameOverPanel.SetActive(true);
         }
     }
 
