@@ -106,18 +106,22 @@ public class PlayerControl : MonoBehaviour
                 _leftDashActivated = false;
             }
         }
-        else if (Input.GetKey(KeyCode.RightArrow) || Input.acceleration.x > .025f)
-        {
-            _leftDashActivated = false;
-            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
-            _player.velocity = new Vector3(_activeMoveSpeed, _player.velocity.y, 0f);
-        }
-        else if (Input.GetKey(KeyCode.LeftArrow) || Input.acceleration.x < -.025f)
-        {
-            _rightDashActivated = false;
-            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-            _player.velocity = new Vector3(-_activeMoveSpeed, _player.velocity.y, 0f);
-        }
+        else if (Input.acceleration.x > .025f)
+            _player.velocity = new Vector3(25f * Input.acceleration.x, _player.velocity.y, 0f);
+        else if (Input.acceleration.x < -.025f)
+            _player.velocity = new Vector3(25f * Input.acceleration.x, _player.velocity.y, 0f);
+        //else if (Input.GetKey(KeyCode.RightArrow) || Input.acceleration.x > .025f)
+        //{
+        //    _leftDashActivated = false;
+        //    transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        //    _player.velocity = new Vector3(_activeMoveSpeed, _player.velocity.y, 0f);
+        //}
+        //else if (Input.GetKey(KeyCode.LeftArrow) || Input.acceleration.x < -.025f)
+        //{
+        //    _rightDashActivated = false;
+        //    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        //    _player.velocity = new Vector3(-_activeMoveSpeed, _player.velocity.y, 0f);
+        //}
         else
         {
             _player.velocity = new Vector3(0f, _player.velocity.y, 0f);
@@ -227,10 +231,7 @@ public class PlayerControl : MonoBehaviour
 
 #if UNITY_ANDROID
         //creating neutral zone for character movements
-        if (Input.acceleration.x > .025f)
-            _player.velocity = new Vector3(25f * Input.acceleration.x, _player.velocity.y, 0f);
-        else if (Input.acceleration.x < -.025f)
-            _player.velocity = new Vector3(25f * Input.acceleration.x, _player.velocity.y, 0f);
+
 #endif
 
         //transform.position = Vector3.Lerp(transform.position, new Vector3(0f, 10f, 0f), Time.deltaTime * _activeMoveSpeed);

@@ -48,7 +48,7 @@ public class CameraOption3 : MonoBehaviour
             {
                 _shouldTrans = true;
                 _playerBounce.enabled = false;
-                _playerBounce._player.velocity = Vector2.zero;
+                _playerBounce._player.velocity = new Vector2(_playerBounce._player.velocity.x, 0f);
             }
 
             CameraLerp();
