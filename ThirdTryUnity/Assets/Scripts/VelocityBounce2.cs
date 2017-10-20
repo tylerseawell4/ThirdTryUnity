@@ -106,7 +106,7 @@ public class VelocityBounce2 : MonoBehaviour
             _hitHeight = false;
             _playersExactHeight = 0;
 
-            if (_maxSpeed >= _vMultiplier && _bounceCount % 1 == 0)
+            if (_maxSpeed >= _vMultiplier && _bounceCount % 3 == 0)
             {
                 _vMultiplier += 2f;
                 _heightOffset += _bounceCount;
