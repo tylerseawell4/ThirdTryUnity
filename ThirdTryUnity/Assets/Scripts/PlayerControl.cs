@@ -19,9 +19,10 @@ public class PlayerControl : MonoBehaviour
     private bool _leftDashActivated;
     private float posX;
     private bool _addforce;
-    private VelocityBounce2 _playerBounce;
     public float _time;
     private Vector2 _ogVel;
+    private CameraOption3 _camera;
+    private VelocityBounce2 _velBounce;
 
     // Use this for initialization
     void Start()
@@ -39,9 +40,9 @@ public class PlayerControl : MonoBehaviour
         _startingPlayerBottomPtDiff2 = _bottomPlayerPoint.position.y - transform.position.y;
 
         _tapManager = FindObjectOfType<TapManager>();
+        _velBounce = FindObjectOfType<VelocityBounce2>();
+        _camera = FindObjectOfType<CameraOption3>();
         _addforce = true;
-
-        _playerBounce = FindObjectOfType<VelocityBounce2>();
     }
 
     private IEnumerator LeftDashRoutine()
@@ -127,15 +128,23 @@ public class PlayerControl : MonoBehaviour
             // if (_tapManager._doubleTap)
             if (_tapManager._doubleTap)
             {
-                //flip back
-                _tapManager._doubleTap = false;
-                _forwardDashActivated = true;
-                _shouldSlowCameraWhenGoingUp = true;
-                _currentPlayerPosDiff = 0f;
-                _addforce = true;
+                //checking if velocity is higher than 0 to see if we are going up (dont need to worry about transition when doing updash), 
+                //and checking to see if the player position is less than the exact height of the player when he reaches the stop 
+                //minus a value X units down in order to create a deadzone where no dashing can occur so the camera can transition
+                if (_player.velocity.y > 0 || _player.position.y <= _velBounce._playersExactHeight - _camera._diffTransStartPosEndPos)
+                {
+                    //flip back
+                    _tapManager._doubleTap = false;
+                    _forwardDashActivated = true;
+                    _shouldSlowCameraWhenGoingUp = true;
+                    _currentPlayerPosDiff = 0f;
+                    _addforce = true;
 
-                if (_forwardDashActivated && _playerBounce._hitHeight)
-                    _shouldSlowCameraWhenGoingUp = false;
+                    if (_forwardDashActivated && _player.velocity.y < 0)
+                        _shouldSlowCameraWhenGoingUp = false;
+                }
+                else
+                    _tapManager._doubleTap = false;
             }
             else
                 _tapManager._doubleTap = false;
@@ -143,7 +152,7 @@ public class PlayerControl : MonoBehaviour
         else
             _tapManager._doubleTap = false;
 
-        if (_forwardDashActivated && !_playerBounce._hitHeight)
+        if (_forwardDashActivated && _player.velocity.y > 0)
         {
             if (_shouldSlowCameraWhenGoingUp)
             {
@@ -151,7 +160,6 @@ public class PlayerControl : MonoBehaviour
                 {
                     _addforce = false;
                     _ogVel = _player.velocity;
-                   // _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y * 1.5f);
                 }
                 _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y * 1.4f);
 
@@ -160,20 +168,6 @@ public class PlayerControl : MonoBehaviour
                 _startingPlayerTopPtDiff2 -= Time.deltaTime * 8f;
                 _topPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerTopPtDiff2, transform.position.z);
                 _currentPlayerPosDiff = _topPlayerPoint.position.y - transform.position.y;
-                //if (_topPlayerPoint.position.y >= _startingPlayerTopPtDiff2)
-                //{
-                //    _startingPlayerTopPtDiff2 -= Time.deltaTime * 8f;
-                //    _topPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerTopPtDiff2, transform.position.z);
-                //    if (_addforce)
-                //    {
-                //        _player.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);
-                //        _addforce = false;
-                //    }
-                //}
-                //if (_topPlayerPoint.position.y < transform.position.y)
-                //{
-                //    _shouldSlowCameraWhenGoingUp = false;
-                //}
 
                 if (_time > 1f)
                 {
@@ -181,7 +175,6 @@ public class PlayerControl : MonoBehaviour
                     _startingPlayerTopPtDiff2 += .275f;
                     _topPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerTopPtDiff2, transform.position.z);
                     _currentPlayerPosDiff = _topPlayerPoint.position.y - transform.position.y;
-                    //_player.velocity = new Vector2(_player.velocity.x, _player.velocity.y / 2f);
 
                     if (_currentPlayerPosDiff >= _startingPlayerTopPtDiff)
                         _shouldSlowCameraWhenGoingUp = false;
@@ -191,24 +184,10 @@ public class PlayerControl : MonoBehaviour
             {
                 _time = 0f;
                 _forwardDashActivated = false;
-                 _player.velocity = new Vector2(_player.velocity.x, _ogVel.y);
-                //if (_currentPlayerPosDiff <= _startingPlayerTopPtDiff)
-                //{
-                //    _currentPlayerPosDiff += Time.deltaTime * 6f;
-                //    _topPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _currentPlayerPosDiff, transform.position.z);
-                //}
-                //if (_currentPlayerPosDiff >= _startingPlayerTopPtDiff)
-                //{
-                //    _forwardDashActivated = false;
-
-                //    _topPlayerPoint.position = new Vector3(transform.position.x, _startingPlayerTopPtDiff + transform.position.y, transform.position.z);
-                //    _startingPlayerTopPtDiff = _topPlayerPoint.position.y - transform.position.y;
-                //    _startingPlayerTopPtDiff2 = _topPlayerPoint.position.y - transform.position.y;
-
-                //}
+                _player.velocity = new Vector2(_player.velocity.x, _ogVel.y);
             }
         }
-        else if (_forwardDashActivated && _playerBounce._hitHeight)
+        else if (_forwardDashActivated && _player.velocity.y <= 0)
         {
             if (!_shouldSlowCameraWhenGoingUp)
             {
@@ -217,60 +196,30 @@ public class PlayerControl : MonoBehaviour
                     _addforce = false;
                     _ogVel = _player.velocity;
                 }
-                _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y * 1.5f);
+                _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y * 1.4f);
 
                 _time += 1f * Time.deltaTime;
 
-                _startingPlayerBottomPtDiff2 += Time.deltaTime * 9f;
+                _startingPlayerBottomPtDiff2 += Time.deltaTime * 8f;
                 _bottomPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerBottomPtDiff2, transform.position.z);
                 _currentPlayerPosDiff = _bottomPlayerPoint.position.y - transform.position.y;
 
-                if (_time > 1.125f)
+                if (_time > 1f)
                 {
                     _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y / 1.25f);
-                    _startingPlayerBottomPtDiff2 -= .365f;
+                    _startingPlayerBottomPtDiff2 -= .275f;
                     _bottomPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerBottomPtDiff2, transform.position.z);
                     _currentPlayerPosDiff = _bottomPlayerPoint.position.y - transform.position.y;
-                    //_player.velocity = new Vector2(_player.velocity.x, _player.velocity.y / 2f);
 
                     if (_currentPlayerPosDiff <= _startingPlayerBottomPtDiff)
                         _shouldSlowCameraWhenGoingUp = true;
-
                 }
-
-                //if (_bottomPlayerPoint.position.y >= _startingPlayerBottomPtDiff2)
-                //{
-                //    _startingPlayerBottomPtDiff2 += Time.deltaTime * 14f;
-                //    _bottomPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerBottomPtDiff2, transform.position.z);
-                //    if (_addforce)
-                //    {
-                //        _player.AddForce(Vector2.down * 4f, ForceMode2D.Impulse);
-                //        _addforce = false;
-                //    }
-                //}
-                //if (_bottomPlayerPoint.position.y > transform.position.y + 2f)
-                //{
-                //    _shouldSlowCameraWhenGoingUp = true;
-                //}
             }
             else
             {
                 _time = 0f;
                 _forwardDashActivated = false;
                 _player.velocity = new Vector2(_player.velocity.x, _ogVel.y);
-                //if (_currentPlayerPosDiff >= _startingPlayerBottomPtDiff)
-                //{
-                //    _currentPlayerPosDiff -= Time.deltaTime * 18f;
-                //    _bottomPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _currentPlayerPosDiff, transform.position.z);
-                //}
-                //if (_currentPlayerPosDiff <= _startingPlayerBottomPtDiff)
-                //{
-                //    _forwardDashActivated = false;
-
-                //    _bottomPlayerPoint.position = new Vector3(transform.position.x, _startingPlayerBottomPtDiff + transform.position.y, transform.position.z);
-                //    _startingPlayerBottomPtDiff = _bottomPlayerPoint.position.y - transform.position.y;
-                //    _startingPlayerBottomPtDiff2 = _bottomPlayerPoint.position.y - transform.position.y;
-                //}
             }
         }
         else
@@ -289,10 +238,6 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
-
-
 #if UNITY_EDITOR
         //MoveLeftRight();
 #endif
@@ -334,8 +279,10 @@ public class PlayerControl : MonoBehaviour
     {
         if (collision.gameObject.tag.Equals("Ground"))
         {
-            
-            _bottomPlayerPoint.position = new Vector3(transform.position.x, _startingPlayerBottomPtDiff + transform.position.y, transform.position.z);
+            _forwardDashActivated = false;
+            _time = 0f;
+
+            _bottomPlayerPoint.localPosition = new Vector3(transform.position.x, -9.85f, transform.position.z);
             _startingPlayerBottomPtDiff = _bottomPlayerPoint.position.y - transform.position.y;
             _startingPlayerBottomPtDiff2 = _bottomPlayerPoint.position.y - transform.position.y;
         }

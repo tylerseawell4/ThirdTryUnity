@@ -835,7 +835,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &822078303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1621,10 +1621,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cameraMovingUpTarget: {fileID: 1716907672}
   _cameraMovingDownTarget: {fileID: 978939739}
-  _speed: 1
   _yMin: 0
   _yMax: 500
+  _playerBounce: {fileID: 0}
+  _camerLerpSpeed: 0
+  _shouldTrans: 0
   _transitionSpeed: 0
+  _diffTransStartPosEndPos: 0
 --- !u!1 &1263499001
 GameObject:
   m_ObjectHideFlags: 0
@@ -2614,11 +2617,11 @@ Prefab:
     - target: {fileID: 114974872992845746, guid: 22072f11625c5f54fbef19e533cf63dc,
         type: 2}
       propertyPath: _startingHeight
-      value: 80
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 4711935088614160, guid: 22072f11625c5f54fbef19e533cf63dc, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -19
+      value: -9.85
       objectReference: {fileID: 0}
     - target: {fileID: 114231191995565186, guid: 22072f11625c5f54fbef19e533cf63dc,
         type: 2}

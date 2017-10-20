@@ -21,6 +21,8 @@ public class VelocityBounce2 : MonoBehaviour
     public float _maxSpeed;
     public float _playersExactHeight;
     private PlayerControl _playerControl;
+    public bool _stopTrans;
+
     // Use this for initialization
     void Start()
     {
@@ -37,7 +39,7 @@ public class VelocityBounce2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(_player.velocity.y);
+        //Debug.Log(_player.velocity.y);
         if (_player.transform.position.y >= (_maxHeightValue - _heightOffset) && !_hitrequestedHeight)
         {
             _decrementGravity = true;
@@ -56,7 +58,7 @@ public class VelocityBounce2 : MonoBehaviour
                 _playerControl._forwardDashActivated = false;
 
                 _playerControl._time = 0f;
-                _playerControl._topPlayerPoint.position = new Vector3(_playerControl.transform.position.x, _playerControl._startingPlayerTopPtDiff + _playerControl.transform.position.y, _playerControl.transform.position.z);
+                _playerControl._topPlayerPoint.localPosition = new Vector3(_playerControl.transform.position.x, 9.85f, _playerControl.transform.position.z);
                 _playerControl._startingPlayerTopPtDiff = _playerControl._topPlayerPoint.position.y - transform.position.y;
                 _playerControl._startingPlayerTopPtDiff2 = _playerControl._topPlayerPoint.position.y - transform.position.y;
 
@@ -66,18 +68,26 @@ public class VelocityBounce2 : MonoBehaviour
                 _decrementGravity = false;
                 _hitBottom = false;
                 _playersExactHeight = _player.transform.position.y;
-                Debug.Log(_player.transform.position.y);
+                Debug.Log(_playersExactHeight);
             }
         }
 
         if (_moveCharacterDown)
         {
+            if (_player.velocity.y > 0)
+                Debug.Log("down" + _player.velocity.y.ToString());
+            // Debug.Log(_player.velocity.magnitude);
+            ;
             _player.velocity = new Vector3(_player.velocity.x, -_vMultiplier, 0f);
         }
 
 
         if (!_hitHeight)
         {
+            if (_player.velocity.y < 0)
+                Debug.Log("up" + _player.velocity.y.ToString());
+            //  Debug.Log(_player.velocity.magnitude);
+
             _player.velocity = new Vector3(_player.velocity.x, _vMultiplier, 0f);
         }
     }
@@ -88,6 +98,7 @@ public class VelocityBounce2 : MonoBehaviour
         {
             _playerControl._forwardDashActivated = false;
             _playerControl._time = 0f;
+
             _hitBottom = true;
             _bounceCount++;
             _hitHeight = false;
@@ -95,11 +106,14 @@ public class VelocityBounce2 : MonoBehaviour
             _hitHeight = false;
             _playersExactHeight = 0;
 
-            if (_maxSpeed >= _vMultiplier && _bounceCount % 3 == 0)
+            if (_maxSpeed >= _vMultiplier && _bounceCount % 1 == 0)
             {
                 _vMultiplier += 2f;
-                _camera._transitionSpeed += .175f;
                 _heightOffset += _bounceCount;
+
+                _camera._camerLerpSpeed += .225f;
+                _camera._transitionSpeed += .05f;
+                _camera._diffTransStartPosEndPos += 5;
             }
 
             _originalVMultiplier = _vMultiplier;

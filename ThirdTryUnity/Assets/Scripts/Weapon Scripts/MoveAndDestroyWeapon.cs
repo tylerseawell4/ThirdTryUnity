@@ -15,7 +15,6 @@ public class MoveAndDestroyWeapon : MonoBehaviour
 
     private Rigidbody2D _myRigidBody;
     private PlayerControl _playerControl;
-    private VelocityBounce2 _playerVelocityScript;
     private Shoot _shoot;
     public SpriteRenderer _bullet;
     private float _initialBulletMoveSpeed;
@@ -25,7 +24,6 @@ public class MoveAndDestroyWeapon : MonoBehaviour
     private void Start()
     {
         _playerControl = FindObjectOfType<PlayerControl>();
-        _playerVelocityScript = FindObjectOfType<VelocityBounce2>();
         _shoot = FindObjectOfType<Shoot>();
         _initialBulletMoveSpeed = _bulletMoveSpeed;
         _myRigidBody = GetComponent<Rigidbody2D>();
@@ -34,7 +32,7 @@ public class MoveAndDestroyWeapon : MonoBehaviour
     {
         if (_playerControl._player != null)
         {
-            if (!_playerVelocityScript._hitHeight)
+            if (_playerControl._player.velocity.y >0)
             {
                 if (name != "BulletDown")
                 {
@@ -55,7 +53,7 @@ public class MoveAndDestroyWeapon : MonoBehaviour
                     name = "BulletUp";
                 }
             }
-            else
+            else if (_playerControl._player.velocity.y <= 0)
             {
                 if (name != "BulletUp")
                 {

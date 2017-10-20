@@ -13,14 +13,12 @@ public class Shoot : MonoBehaviour
     private PlayerControl _playerControl;
     public Transform _firePtUpPos;
     public Transform _firePtDownPos;
-    private VelocityBounce2 _playerVelocityScript;
     private bool _isInitialFire;
     private TapManager _tapManager;
     private Rigidbody2D _myRigidBody;
     void Start()
     {
         _playerControl = FindObjectOfType<PlayerControl>();
-        _playerVelocityScript = FindObjectOfType<VelocityBounce2>();
         _isInitialFire = true;
         _fireRateCountdown = 0;
         _tapManager = FindObjectOfType<TapManager>();
@@ -33,10 +31,10 @@ public class Shoot : MonoBehaviour
 
         if ((_tapManager._singleTap && _fireRateCountdown >= _fireRate) || (_tapManager._singleTap && _isInitialFire))
         {
-            if (!_playerVelocityScript._hitHeight)
-                _firePointTransform = _firePtUpPos;
-            else
+            if (_myRigidBody.velocity.y <= 0)
                 _firePointTransform = _firePtDownPos;
+            else if (_myRigidBody.velocity.y > 0)
+                _firePointTransform = _firePtUpPos;
 
             Fire();
 
