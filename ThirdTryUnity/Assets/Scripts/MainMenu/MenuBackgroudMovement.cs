@@ -21,10 +21,14 @@ public class MenuBackgroudMovement : MonoBehaviour {
     private void OnTriggerExit2D(Collider2D collision)
     {
         
-        if (collision.gameObject.tag == "RightCamera")
+        if (collision.gameObject.tag == "MenuCamera")
         {
             transform.position = new Vector3(_leftOutterBounds.transform.position.x, _cloudYPosition, transform.position.z);
             Debug.Log(_leftOutterBounds.transform.position.x);
         } 
+        else if(collision.gameObject.tag == "Player")
+        {
+
+        }
     }
 }

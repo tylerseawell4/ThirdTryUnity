@@ -11,7 +11,5 @@ public class Replay : MonoBehaviour {
     {
         gameObject.SetActive(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        _player.SetActive(true);
-
     }
 }

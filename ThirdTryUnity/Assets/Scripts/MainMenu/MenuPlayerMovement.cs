@@ -3,31 +3,56 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MenuPlayerMovement : MonoBehaviour {
-    public Transform _leftCamera;
-    public Transform _rightCamera;
-    public Transform _bottomCamera;
-    public Transform _topCamera;
     public float _speed = 5;
-
-    private float _yMin;
-    private float _xMin;
-    private float _yMax;
-    private float _xMax;
-
+    private Quaternion _rotation = new Quaternion(0,5,0,0);
     // Use this for initialization
     void Start () {
-        _yMin = _bottomCamera.transform.position.y;
-        _yMax = _topCamera.transform.position.y;
-        _xMin = _leftCamera.transform.position.x;
-        _xMax = _rightCamera.transform.position.x;
+
     }
-	
-	// Update is called once per frame
-	void Update () {
-       
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            checkTouch(Input.mousePosition);
+        }
+        if(Input.touchCount > 0 )
+        {
+            foreach (var touch in Input.touches)
+            {                
+                checkTouch(touch.position);
+            }
+        }
+
+        transform.Translate(Vector3.up * Time.deltaTime * _speed);
+    }
+
+
+    void checkTouch(Vector3 pos)
+    {
+        Vector3 wp = Camera.main.ScreenToWorldPoint(pos);
+        Vector2 touchPos = new Vector2(wp.x, wp.y);      
+        var hit = Physics2D.OverlapPoint(touchPos);
+
+        if (hit)
+        {
+            if(hit.transform.gameObject.name == "Body")
+            {
+                _speed += 5;
+            }              
+          
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-               
+
+        if (collision.gameObject.tag == "MenuCamera")
+        {
+            Vector3 v3Position = new Vector3(Random.Range(-4.25f, 4.25f), Random.Range(-7.0f, -5.0f),0);
+            _speed = Random.Range(2, 7);
+            transform.position = v3Position;
+        }
     }
+
 }

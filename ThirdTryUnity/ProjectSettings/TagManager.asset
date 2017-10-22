@@ -15,6 +15,7 @@ TagManager:
   - PlayerLaser
   - Nonlethal
   - Ground
+  - MenuCamera
   layers:
   - Default
   - TransparentFX
