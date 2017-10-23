@@ -49,7 +49,7 @@ public class MenuPlayerMovement : MonoBehaviour {
 
         if (collision.gameObject.tag == "MenuCamera")
         {
-            Vector3 v3Position = new Vector3(Random.Range(-4.25f, 4.25f), Random.Range(-7.0f, -5.0f),0);
+            Vector3 v3Position = new Vector3(Random.Range(-4.0f, 4.0f), Random.Range(-7.0f, -5.0f),0);
             _speed = Random.Range(2, 7);
             transform.position = v3Position;
         }

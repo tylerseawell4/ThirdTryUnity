@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MenuBackgroudMovement : MonoBehaviour {
     
-    public float _speed = .25f;
+    public float _speed = 1.5f;
     public Transform _leftOutterBounds;
     public Transform _rightOutterBounds;
 
@@ -21,14 +21,10 @@ public class MenuBackgroudMovement : MonoBehaviour {
     private void OnTriggerExit2D(Collider2D collision)
     {
         
-        if (collision.gameObject.tag == "MenuCamera")
+        if (collision.gameObject.tag == "RightCamera")
         {
             transform.position = new Vector3(_leftOutterBounds.transform.position.x, _cloudYPosition, transform.position.z);
             Debug.Log(_leftOutterBounds.transform.position.x);
         } 
-        else if(collision.gameObject.tag == "Player")
-        {
-
-        }
     }
 }
