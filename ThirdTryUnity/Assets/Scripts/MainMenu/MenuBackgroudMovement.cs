@@ -24,7 +24,6 @@ public class MenuBackgroudMovement : MonoBehaviour {
         if (collision.gameObject.tag == "RightCamera")
         {
             transform.position = new Vector3(_leftOutterBounds.transform.position.x, _cloudYPosition, transform.position.z);
-            Debug.Log(_leftOutterBounds.transform.position.x);
         } 
     }
 }

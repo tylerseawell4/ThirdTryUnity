@@ -18,6 +18,12 @@ public class EnemySpawner : MonoBehaviour
         _heightYGoingUp = 0;
         _playerHeightCheck = _player.GetComponent<VelocityBounce2>();
         _spawnAbove = true;
+        
+        //All enemies need to be in the "Enemy" layer to avoid collisions with the enviornment (clouds)
+        foreach (var item in _prefabsToSpawns)
+        {
+            item.layer = LayerMask.NameToLayer("Enemy");
+        }
     }
 
     // Update is called once per frame
@@ -76,7 +82,7 @@ public class EnemySpawner : MonoBehaviour
                     int index = UnityEngine.Random.Range(0, _prefabsToSpawns.Length);
                     _prefabsToSpawns[index].transform.localScale = new Vector2(scale, scale);
                     Instantiate(_prefabsToSpawns[index], new Vector3(_player.transform.position.x, yPos - 1f, _player.transform.position.z), Quaternion.identity);
-
+                    
                     scale = UnityEngine.Random.Range(0.6f, 1.5f);
                     index = UnityEngine.Random.Range(0, _prefabsToSpawns.Length);
                     _prefabsToSpawns[index].transform.localScale = new Vector2(scale, scale);

@@ -27,9 +27,9 @@ TagManager:
   - 
   - Background
   - Vegetation
-  - Player/Platform
+  - Player
   - Weapon
-  - 
+  - Enemy
   - 
   - 
   - 
@@ -59,7 +59,7 @@ TagManager:
   - name: Vegetation
     uniqueID: 674341899
     locked: 0
-  - name: Player/Platform
+  - name: Player
     uniqueID: 2328973795
     locked: 0
   - name: Weapon
