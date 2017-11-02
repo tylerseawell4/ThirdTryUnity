@@ -38,7 +38,7 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
-       var screenHeightTop = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
+        var screenHeightTop = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
         var screenHeightBottom = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y;
         var check1 = gameObject.transform.position.y + 35;
         var check2 = gameObject.transform.position.y - 35;
@@ -46,38 +46,42 @@ public class EnemyController : MonoBehaviour
             Destroy(gameObject);
     }
 
-        void FixedUpdate()
+    void FixedUpdate()
     {
-        _acumTime += 1 * Time.deltaTime;
-        if (_acumTime >= _changeYDirectionTime && _goUp)
+        if (!gameObject.name.Contains("Wasp"))
         {
-            _acumTime = 0f;
-            _currYPos = transform.position.y + 5f;
-            _goUp = false;
-        }
-        else if (_acumTime >= _changeYDirectionTime && !_goUp)
-        {
-            _acumTime = 0f;
-            _currYPos = transform.position.y - 5f;
-            _goUp = true;
-        }
-    
+            _acumTime += 1 * Time.deltaTime;
+            if (_acumTime >= _changeYDirectionTime && _goUp)
+            {
+                _acumTime = 0f;
+                _currYPos = transform.position.y + 5f;
+                _goUp = false;
+            }
+            else if (_acumTime >= _changeYDirectionTime && !_goUp)
+            {
+                _acumTime = 0f;
+                _currYPos = transform.position.y - 5f;
+                _goUp = true;
+            }
 
-        if (!_movingRight && transform.position.x <= _moveXPos + 1)
-        {
-            _moveXPos = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x;
-            _movingRight = true;
-            _sprite.flipX = true;
 
-        }
-        if (_movingRight && transform.position.x >= _moveXPos - 1)
-        {
-            _moveXPos = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x;
-            _movingRight = false;
-            _sprite.flipX = false;
+            if (!_movingRight && transform.position.x <= _moveXPos + 1)
+            {
+                _moveXPos = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x;
+                _movingRight = true;
+                _sprite.flipX = true;
+
+            }
+            if (_movingRight && transform.position.x >= _moveXPos - 1)
+            {
+                _moveXPos = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x;
+                _movingRight = false;
+                _sprite.flipX = false;
+            }
+            else
+                transform.position = Vector2.MoveTowards(transform.position, new Vector2(_moveXPos, _currYPos), _moveSpeed * Time.deltaTime);
         }
         else
-            transform.position = Vector2.MoveTowards(transform.position, new Vector2(_moveXPos, _currYPos), _moveSpeed * Time.deltaTime);
-
+            transform.Translate( Vector3.left * 3f * Time.deltaTime);
     }
 }

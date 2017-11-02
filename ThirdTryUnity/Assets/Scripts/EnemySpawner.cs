@@ -11,6 +11,7 @@ public class EnemySpawner : MonoBehaviour
     private VelocityBounce2 _playerHeightCheck;
     private bool _spawnAbove;
     private double _heightYGoingDown;
+    private float[] leftrightXPos;
 
     // Use this for initialization
     void Start()
@@ -18,7 +19,10 @@ public class EnemySpawner : MonoBehaviour
         _heightYGoingUp = 0;
         _playerHeightCheck = _player.GetComponent<VelocityBounce2>();
         _spawnAbove = true;
-        
+        leftrightXPos = new float[2];
+        leftrightXPos[0] = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x + 1f;
+        leftrightXPos[1] = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x - 1f;
+
         //All enemies need to be in the "Enemy" layer to avoid collisions with the enviornment (clouds)
         foreach (var item in _prefabsToSpawns)
         {
@@ -39,7 +43,7 @@ public class EnemySpawner : MonoBehaviour
             }
         }
         else if (_playerHeightCheck._hitBottom)
-        {        
+        {
             if (!_spawnAbove)
             {
                 _spawnAbove = true;
@@ -56,22 +60,42 @@ public class EnemySpawner : MonoBehaviour
                 var yPos = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
                 float scale = UnityEngine.Random.Range(0.6f, 1.5f);
                 int index = UnityEngine.Random.Range(0, _prefabsToSpawns.Length);
-                _prefabsToSpawns[index].transform.localScale = new Vector2(scale, scale);        
-                Instantiate(_prefabsToSpawns[index], new Vector3(_player.transform.position.x, yPos + 5f, _player.transform.position.z), Quaternion.identity);
+                var xPos = 0f;
+                if (_prefabsToSpawns[index].name != "Wasp")
+                {
+                    _prefabsToSpawns[index].transform.localScale = new Vector2(scale, scale);
+                    
+                }
+                else
+                {
+                    var randomSide = UnityEngine.Random.Range(0, 2);
+                    xPos = leftrightXPos[randomSide];
+                }
+                Instantiate(_prefabsToSpawns[index], new Vector3(xPos, yPos + 5f, _player.transform.position.z), _prefabsToSpawns[index].transform.rotation);
             }
-            else if ((pos < (_heightYGoingUp/2 + .25)) && (pos > (_heightYGoingUp/2 - .25)) || pos == _heightYGoingUp/2)
+            else if ((pos < (_heightYGoingUp / 2 + .25)) && (pos > (_heightYGoingUp / 2 - .25)) || pos == _heightYGoingUp / 2)
             {
                 _heightYGoingUp += _playerHeightCheck._playersExactHeight + _playerHeightCheck._increaseHeightBy;
                 var yPos = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
                 float scale = UnityEngine.Random.Range(0.6f, 1.5f);
                 int index = UnityEngine.Random.Range(0, _prefabsToSpawns.Length);
-                _prefabsToSpawns[index].transform.localScale = new Vector2(scale, scale);
-                Instantiate(_prefabsToSpawns[index], new Vector3(_player.transform.position.x, yPos + 5f, _player.transform.position.z), Quaternion.identity);
+                var xPos = 0f;
+                if (_prefabsToSpawns[index].name != "Wasp")
+                {
+                    _prefabsToSpawns[index].transform.localScale = new Vector2(scale, scale);
+                    
+                }
+                else
+                {
+                    var randomSide = UnityEngine.Random.Range(0, 2);
+                    xPos = leftrightXPos[randomSide];
+                }
+                Instantiate(_prefabsToSpawns[index], new Vector3(xPos, yPos + 5f, _player.transform.position.z), _prefabsToSpawns[index].transform.rotation);
             }
         }
         else if (!_spawnAbove)
         {
-             if ((pos < (_heightYGoingDown + .25)) && (pos > (_heightYGoingDown- .25)) || pos == _heightYGoingDown)
+            if ((pos < (_heightYGoingDown + .25)) && (pos > (_heightYGoingDown - .25)) || pos == _heightYGoingDown)
             {
                 if (_player.position.y >= 8f)
                 {
@@ -80,13 +104,33 @@ public class EnemySpawner : MonoBehaviour
 
                     float scale = UnityEngine.Random.Range(0.6f, 1.5f);
                     int index = UnityEngine.Random.Range(0, _prefabsToSpawns.Length);
-                    _prefabsToSpawns[index].transform.localScale = new Vector2(scale, scale);
-                    Instantiate(_prefabsToSpawns[index], new Vector3(_player.transform.position.x, yPos - 1f, _player.transform.position.z), Quaternion.identity);
-                    
+                    var xPos = 0f;
+                    if (_prefabsToSpawns[index].name != "Wasp")
+                    {
+                        _prefabsToSpawns[index].transform.localScale = new Vector2(scale, scale);
+                        
+                    }
+                    else
+                    {
+                        var randomSide = UnityEngine.Random.Range(0, 2);
+                        xPos = leftrightXPos[randomSide];
+                    }
+                    Instantiate(_prefabsToSpawns[index], new Vector3(xPos, yPos - 1f, _player.transform.position.z), _prefabsToSpawns[index].transform.rotation);
+
                     scale = UnityEngine.Random.Range(0.6f, 1.5f);
                     index = UnityEngine.Random.Range(0, _prefabsToSpawns.Length);
-                    _prefabsToSpawns[index].transform.localScale = new Vector2(scale, scale);
-                    Instantiate(_prefabsToSpawns[index], new Vector3(_player.transform.position.x, yPos - 12f, _player.transform.position.z), Quaternion.identity);
+                    xPos = 0f;
+                    if (_prefabsToSpawns[index].name != "Wasp")
+                    {
+                        _prefabsToSpawns[index].transform.localScale = new Vector2(scale, scale);
+
+                    }
+                    else
+                    {
+                        var randomSide = UnityEngine.Random.Range(0, 2);
+                        xPos = leftrightXPos[randomSide];
+                    }
+                    Instantiate(_prefabsToSpawns[index], new Vector3(xPos, yPos - 12f, _player.transform.position.z), _prefabsToSpawns[index].transform.rotation);
                 }
             }
         }
