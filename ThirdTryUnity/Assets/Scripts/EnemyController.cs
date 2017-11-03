@@ -12,28 +12,52 @@ public class EnemyController : MonoBehaviour
     private float _changeYDirectionTime;
     private float _acumTime = 0;
     private bool _goUp;
+    private PlayerControl _playerControl;
+
     // Use this for initialization
     void Start()
     {
+        _playerControl = FindObjectOfType<PlayerControl>();
         _sprite = GetComponent<SpriteRenderer>();
-        _changeYDirectionTime = Random.Range(1, 5);
-        if (Random.Range(0, 2) == 1)
+        if (gameObject.name.Contains("Wasp"))
         {
-            _moveXPos = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x;
-            _movingRight = true;
-            _sprite.flipX = true;
-            _goUp = true;
+            if (transform.position.x == Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x - 1.5f)
+                _sprite.flipY = true;
+
+            if (_playerControl._player.velocity.y < 0)
+            {
+                _sprite.flipX = true;
+                _moveSpeed = -2.5f;
+            }
+            else
+                _moveSpeed = 2.5f;
         }
         else
         {
-            _moveXPos = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x;
-            _movingRight = false;
-            _sprite.flipX = false;
-            _goUp = false;
-        }
-        _moveSpeed = Random.Range(4, 9);
+            _changeYDirectionTime = Random.Range(1, 3);
+            if (Random.Range(0, 2) == 1)
+            {
+                _moveXPos = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x;
+                _movingRight = true;
+                _sprite.flipX = true;
+                _goUp = true;
+            }
+            else
+            {
+                _moveXPos = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x;
+                _movingRight = false;
+                _sprite.flipX = false;
+                
+            }
+            if (_playerControl._player.velocity.y > 0)
+                _goUp = true;
+            else
+                _goUp = false;
 
-        _currYPos = transform.position.y;
+            _moveSpeed = Random.Range(4, 9);
+
+            _currYPos = transform.position.y;
+        }
     }
 
     void Update()
@@ -55,13 +79,11 @@ public class EnemyController : MonoBehaviour
             {
                 _acumTime = 0f;
                 _currYPos = transform.position.y + 5f;
-                _goUp = false;
             }
             else if (_acumTime >= _changeYDirectionTime && !_goUp)
             {
                 _acumTime = 0f;
                 _currYPos = transform.position.y - 5f;
-                _goUp = true;
             }
 
 
@@ -82,6 +104,7 @@ public class EnemyController : MonoBehaviour
                 transform.position = Vector2.MoveTowards(transform.position, new Vector2(_moveXPos, _currYPos), _moveSpeed * Time.deltaTime);
         }
         else
-            transform.Translate( Vector3.left * 3f * Time.deltaTime);
+            //need .left since it is rotated to move UP
+            transform.Translate(Vector3.left * _moveSpeed * Time.deltaTime);
     }
 }

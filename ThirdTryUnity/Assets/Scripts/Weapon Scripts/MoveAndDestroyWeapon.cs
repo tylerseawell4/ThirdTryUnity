@@ -98,7 +98,7 @@ public class MoveAndDestroyWeapon : MonoBehaviour
     {
         //if (collision.tag == "Nonlethal") return;
 
-        if (collision.tag == "Player") return;
+        if (collision.tag == "Player" || collision.tag == "Background") return;
 
         Destroy();
     }

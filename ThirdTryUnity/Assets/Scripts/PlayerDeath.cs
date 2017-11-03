@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerDeath : MonoBehaviour
 {
@@ -22,11 +20,6 @@ public class PlayerDeath : MonoBehaviour
     {
         if (collision.gameObject.tag.Equals("Enemy"))
         {
-            //var player = GetComponent<Rigidbody2D>();
-            //player.velocity = Vector3.zero;
-            //StartCoroutine("DeathSequence");
-            //Destroy(gameObject);
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             gameObject.SetActive(false);
             _gameOverPanel.SetActive(true);
         }
