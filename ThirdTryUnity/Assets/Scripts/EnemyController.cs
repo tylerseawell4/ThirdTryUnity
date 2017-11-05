@@ -101,7 +101,7 @@ public class EnemyController : MonoBehaviour
                 _sprite.flipX = false;
             }
             else
-                transform.position = Vector2.MoveTowards(transform.position, new Vector2(_moveXPos, _currYPos), _moveSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, new Vector3(_moveXPos, _currYPos, transform.position.z), _moveSpeed * Time.deltaTime);
         }
         else
             //need .left since it is rotated to move UP

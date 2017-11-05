@@ -11,7 +11,8 @@ public class EnemySpawner : MonoBehaviour
     private VelocityBounce2 _playerHeightCheck;
     private bool _spawnAbove;
     private double _heightYGoingDown;
-    private float[] leftrightXPos;
+    private float[] _leftrightXPos;
+    private float[] _enemySizesRNG;
     public GameObject _wasp;
     private bool _shouldReAddWasp;
 
@@ -21,9 +22,10 @@ public class EnemySpawner : MonoBehaviour
         _heightYGoingUp = 0;
         _playerHeightCheck = _player.GetComponent<VelocityBounce2>();
         _spawnAbove = true;
-        leftrightXPos = new float[2];
-        leftrightXPos[0] = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x + 1.5f;
-        leftrightXPos[1] = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x - 1.5f;
+        _leftrightXPos = new float[2];
+        _enemySizesRNG = new float[] { .6f, .7f, .8f, .9f, 1, 1, 1, 1.3f, 1.4f, 1.5f };
+        _leftrightXPos[0] = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x + 1.5f;
+        _leftrightXPos[1] = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x - 1.5f;
 
         //All enemies need to be in the "Enemy" layer to avoid collisions with the enviornment (clouds)
         foreach (var item in _prefabsToSpawns)
@@ -65,32 +67,32 @@ public class EnemySpawner : MonoBehaviour
                 {
                     int index = 0;
                     var yPos = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
-                    float scale = UnityEngine.Random.Range(0.6f, 1.5f);
+                    var scaleIndex = UnityEngine.Random.Range(0, _enemySizesRNG.Length);
+                    float scale = _enemySizesRNG[scaleIndex];
                     index = UnityEngine.Random.Range(0, _prefabsToSpawns.Length);
                     var randomVal = 0f;
+                    var bugToSpawn = _prefabsToSpawns[index];
+
                     //12 is heightest at the moment that can be spawned
                     if (i == 0)
-                    {
                         randomVal = UnityEngine.Random.Range(1, 4);
-                    }
-                    if (i == 1)
-                    {
+                   else if (i == 1)
                         randomVal = UnityEngine.Random.Range(6, 9);
-                    }
+
                     var xPos = 0f;
-                    if (_prefabsToSpawns[index].name != "Wasp")
+                    if (bugToSpawn.name != "Wasp")
                     {
-                        _prefabsToSpawns[index].transform.localScale = new Vector2(scale, scale);
-                        Instantiate(_prefabsToSpawns[index], new Vector3(xPos, yPos + randomVal, _prefabsToSpawns[index].transform.position.z), _prefabsToSpawns[index].transform.rotation);
+                        bugToSpawn.transform.localScale = new Vector2(scale, scale);
+                        Instantiate(bugToSpawn, new Vector3(xPos, yPos + randomVal, bugToSpawn.transform.position.z), bugToSpawn.transform.rotation);
                     }
                     else
                     {
                         //adding an extra 2 so it doesnt spawn in the view of the camera since the sprite is so big
                         if (randomVal - 2f <= 10)
                             randomVal += 2f;
-                        Instantiate(_prefabsToSpawns[index], new Vector3(leftrightXPos[0], yPos + randomVal, _prefabsToSpawns[index].transform.position.z), _prefabsToSpawns[index].transform.rotation);
-                        Instantiate(_prefabsToSpawns[0], new Vector3(0, yPos + randomVal + 3, _prefabsToSpawns[index].transform.position.z), _prefabsToSpawns[0].transform.rotation);
-                        Instantiate(_prefabsToSpawns[index], new Vector3(leftrightXPos[1], yPos + randomVal, _prefabsToSpawns[index].transform.position.z), _prefabsToSpawns[index].transform.rotation);
+                        Instantiate(bugToSpawn, new Vector3(_leftrightXPos[0], yPos + randomVal, bugToSpawn.transform.position.z), bugToSpawn.transform.rotation);
+                        Instantiate(_prefabsToSpawns[0], new Vector3(0, yPos + randomVal + 3, _prefabsToSpawns[0].transform.position.z), _prefabsToSpawns[0].transform.rotation);
+                        Instantiate(bugToSpawn, new Vector3(_leftrightXPos[1], yPos + randomVal, bugToSpawn.transform.position.z), bugToSpawn.transform.rotation);
 
                         //removing wasp so it doesnt double or triple spawn them
                         indexToReplaceWasp = index;
@@ -114,31 +116,31 @@ public class EnemySpawner : MonoBehaviour
                 {
                     int index = 0;
                     var yPos = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
-                    float scale = UnityEngine.Random.Range(0.6f, 1.5f);
+                    var scaleIndex = UnityEngine.Random.Range(0, _enemySizesRNG.Length);
+                    float scale = _enemySizesRNG[scaleIndex];
                     index = UnityEngine.Random.Range(0, _prefabsToSpawns.Length);
+                    var bugToSpawn = _prefabsToSpawns[index];
                     var randomVal = 0f;
+
                     //12 is heightest at the moment that can be spawned
                     if (i == 0)
-                    {
                         randomVal = UnityEngine.Random.Range(1, 4);
-                    }
-                    if (i == 1)
-                    {
+                    else if (i == 1)
                         randomVal = UnityEngine.Random.Range(6, 9);
-                    }
+
                     var xPos = 0f;
-                    if (_prefabsToSpawns[index].name != "Wasp")
+                    if (bugToSpawn.name != "Wasp")
                     {
-                        _prefabsToSpawns[index].transform.localScale = new Vector2(scale, scale);
-                        Instantiate(_prefabsToSpawns[index], new Vector3(xPos, yPos + randomVal, _prefabsToSpawns[index].transform.position.z), _prefabsToSpawns[index].transform.rotation);
+                        bugToSpawn.transform.localScale = new Vector2(scale, scale);
+                        Instantiate(bugToSpawn, new Vector3(xPos, yPos + randomVal, bugToSpawn.transform.position.z), bugToSpawn.transform.rotation);
                     }
                     else
                     {
                         if (randomVal - 2f <= 10)
                             randomVal += 2f;
-                        Instantiate(_prefabsToSpawns[index], new Vector3(leftrightXPos[0], yPos + randomVal, _prefabsToSpawns[index].transform.position.z), _prefabsToSpawns[index].transform.rotation);
-                        Instantiate(_prefabsToSpawns[0], new Vector3(0, yPos + randomVal + 3, _prefabsToSpawns[index].transform.position.z), _prefabsToSpawns[0].transform.rotation);
-                        Instantiate(_prefabsToSpawns[index], new Vector3(leftrightXPos[1], yPos + randomVal, _prefabsToSpawns[index].transform.position.z), _prefabsToSpawns[index].transform.rotation);
+                        Instantiate(bugToSpawn, new Vector3(_leftrightXPos[0], yPos + randomVal, bugToSpawn.transform.position.z), bugToSpawn.transform.rotation);
+                        Instantiate(_prefabsToSpawns[0], new Vector3(0, yPos + randomVal + 3, _prefabsToSpawns[0].transform.position.z), _prefabsToSpawns[0].transform.rotation);
+                        Instantiate(bugToSpawn, new Vector3(_leftrightXPos[1], yPos + randomVal, bugToSpawn.transform.position.z), bugToSpawn.transform.rotation);
 
                         //removing wasp so it doesnt double or triple spawn them
                         indexToReplaceWasp = index;
@@ -168,34 +170,32 @@ public class EnemySpawner : MonoBehaviour
                         int index = 0;
                         var yPos = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y;
                         var randomVal = 0f;
+                        var bugToSpawn = _prefabsToSpawns[index];
+
                         //12 is the lowest can be at the moment
                         if (i == 0)
-                        {
                             randomVal = UnityEngine.Random.Range(1, 4);
-                        }
-                        if (i == 1)
-                        {
+                       else if (i == 1)
                             randomVal = UnityEngine.Random.Range(6, 9);
-                        }
-                        if (i == 2)
-                        {
+                        else if (i == 2)
                             randomVal = UnityEngine.Random.Range(10, 13);
-                        }
-                        float scale = UnityEngine.Random.Range(0.6f, 1.5f);
+
+                        var scaleIndex = UnityEngine.Random.Range(0, _enemySizesRNG.Length);
+                        float scale = _enemySizesRNG[scaleIndex];
                         index = UnityEngine.Random.Range(0, _prefabsToSpawns.Length);
                         var xPos = 0f;
-                        if (_prefabsToSpawns[index].name != "Wasp")
+                        if (bugToSpawn.name != "Wasp")
                         {
-                            _prefabsToSpawns[index].transform.localScale = new Vector2(scale, scale);
-                            Instantiate(_prefabsToSpawns[index], new Vector3(xPos, yPos - randomVal, _prefabsToSpawns[index].transform.position.z), _prefabsToSpawns[index].transform.rotation);
+                            bugToSpawn.transform.localScale = new Vector2(scale, scale);
+                            Instantiate(bugToSpawn, new Vector3(xPos, yPos - randomVal, bugToSpawn.transform.position.z), bugToSpawn.transform.rotation);
                         }
                         else
                         {
                             if (randomVal - 2f <= 10)
                                 randomVal += 2f;
-                            Instantiate(_prefabsToSpawns[index], new Vector3(leftrightXPos[0], yPos - randomVal, _prefabsToSpawns[index].transform.position.z), _prefabsToSpawns[index].transform.rotation);
-                            Instantiate(_prefabsToSpawns[0], new Vector3(0, yPos - randomVal -3, _prefabsToSpawns[index].transform.position.z), _prefabsToSpawns[0].transform.rotation);
-                            Instantiate(_prefabsToSpawns[index], new Vector3(leftrightXPos[1], yPos - randomVal, _prefabsToSpawns[index].transform.position.z), _prefabsToSpawns[index].transform.rotation);
+                            Instantiate(bugToSpawn, new Vector3(_leftrightXPos[0], yPos + randomVal, bugToSpawn.transform.position.z), bugToSpawn.transform.rotation);
+                            Instantiate(_prefabsToSpawns[0], new Vector3(0, yPos + randomVal + 3, _prefabsToSpawns[0].transform.position.z), _prefabsToSpawns[0].transform.rotation);
+                            Instantiate(bugToSpawn, new Vector3(_leftrightXPos[1], yPos + randomVal, bugToSpawn.transform.position.z), bugToSpawn.transform.rotation);
 
                             //removing wasp so it doesnt double or triple spawn them
                             indexToReplaceWasp = index;

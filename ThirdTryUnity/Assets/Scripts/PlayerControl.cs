@@ -106,10 +106,10 @@ public class PlayerControl : MonoBehaviour
                 _leftDashActivated = false;
             }
         }
-        else if (Input.acceleration.x > .025f)
-            _player.velocity = new Vector3(25f * Input.acceleration.x, _player.velocity.y, 0f);
-        else if (Input.acceleration.x < -.025f)
-            _player.velocity = new Vector3(25f * Input.acceleration.x, _player.velocity.y, 0f);
+        else if (Input.acceleration.x > .035f)
+            _player.velocity = new Vector3(30f * Input.acceleration.x, _player.velocity.y, 0f);
+        else if (Input.acceleration.x < -.035f)
+            _player.velocity = new Vector3(30f * Input.acceleration.x, _player.velocity.y, 0f);
         //else if (Input.GetKey(KeyCode.RightArrow) || Input.acceleration.x > .025f)
         //{
         //    _leftDashActivated = false;
@@ -239,23 +239,23 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-#if UNITY_EDITOR
-        //MoveLeftRight();
-#endif
+//#if UNITY_EDITOR
+//        //MoveLeftRight();
+//#endif
 
-#if UNITY_ANDROID
-        //creating neutral zone for flip
-        if (_player.velocity.x < -.025f && _facingRight)
-        {
-            _facingRight = false;
-            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-        }
-        else if (_player.velocity.x > .025f && !_facingRight)
-        {
-            _facingRight = true;
-            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
-        }
-#endif
+//#if UNITY_ANDROID
+//        //creating neutral zone for flip
+//        if (_player.velocity.x < -.025f && _facingRight)
+//        {
+//            _facingRight = false;
+//            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+//        }
+//        else if (_player.velocity.x > .025f && !_facingRight)
+//        {
+//            _facingRight = true;
+//            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
+//        }
+//#endif
     }
     private void MoveLeftRight()
     {

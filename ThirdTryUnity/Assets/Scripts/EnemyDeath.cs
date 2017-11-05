@@ -73,7 +73,7 @@ public class EnemyDeath : MonoBehaviour
 
     private void DetermineHp()
     {
-        if (transform.localScale.x > 1.2f)
+        if (transform.localScale.x >= 1.3f)
             _hp = 2;
     }
 }
