@@ -22,11 +22,12 @@ public class VelocityBounce2 : MonoBehaviour
     public float _playersExactHeight;
     private PlayerControl _playerControl;
     public bool _stopTrans;
+    private int _runCount;
 
     // Use this for initialization
     void Start()
     {
-        _bounceCount = 1;
+        _bounceCount = 0;
         _player.gravityScale = 0f;
         _vMultiplier = 7.5f;
         _originalVMultiplier = _vMultiplier;
@@ -34,6 +35,7 @@ public class VelocityBounce2 : MonoBehaviour
         _camera = FindObjectOfType<CameraOption3>();
         _playerControl = FindObjectOfType<PlayerControl>();
         _heightOffset = 5f;
+        _runCount = 1;
     }
 
     // Update is called once per frame
@@ -49,6 +51,7 @@ public class VelocityBounce2 : MonoBehaviour
 
         if (_decrementGravity)
         {
+            Debug.Log(_player.velocity);
             _vMultiplier -= .1f;
             _player.velocity = new Vector3(_player.velocity.x, _vMultiplier, 0f);
 
@@ -92,10 +95,16 @@ public class VelocityBounce2 : MonoBehaviour
         }
     }
 
+    public int GetRunCount()
+    {
+        return _runCount;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag.Equals("Ground"))
         {
+            _runCount++;
             _playerControl._forwardDashActivated = false;
             _playerControl._time = 0f;
 
@@ -108,6 +117,7 @@ public class VelocityBounce2 : MonoBehaviour
 
             if (_maxSpeed >= _vMultiplier && _bounceCount % 3 == 0)
             {
+                _runCount = 1;
                 _vMultiplier += 2f;
                 _heightOffset += _bounceCount;
 

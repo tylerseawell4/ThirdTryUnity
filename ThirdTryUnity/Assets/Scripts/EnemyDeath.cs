@@ -13,8 +13,10 @@ public class EnemyDeath : MonoBehaviour
     private Animator _anim;
     private EnemyController _enemyMovement;
     private bool _isColliding;
+    private PlayerHealth _playerHealth;
     private void Awake()
     {
+        _playerHealth = FindObjectOfType<PlayerHealth>();
         _origionalColor = _renderer.color;
         _hp = 1;
         DetermineHp();
@@ -41,8 +43,9 @@ public class EnemyDeath : MonoBehaviour
 
         _isColliding = true;
 
-        if (collision.gameObject.tag == "Bullet")
+        if (collision.gameObject.tag == "Bullet" || collision.gameObject.tag == "Player")
         {
+            _playerHealth.DecreasePlayerHeath();
             StartCoroutine("TurnRed");
             _hp--;
             if (_hp <= 0)

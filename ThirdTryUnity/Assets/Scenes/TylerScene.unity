@@ -1088,6 +1088,48 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1105867683
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1105867685}
+  - component: {fileID: 1105867684}
+  m_Layer: 0
+  m_Name: PickupSpawnManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1105867684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1105867683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8445377e356e044281f0af340d67332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _OvershieldToSpawn: {fileID: 1185372142163560, guid: d81777da4147df04bb5c06c547c9746f,
+    type: 2}
+--- !u!4 &1105867685
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1105867683}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.747848, y: -7.2650065, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1209170165
 GameObject:
   m_ObjectHideFlags: 0
@@ -1903,6 +1945,23 @@ GameObject:
   m_PrefabParentObject: {fileID: 1140633519332784, guid: 22072f11625c5f54fbef19e533cf63dc,
     type: 2}
   m_PrefabInternal: {fileID: 1969914704}
+--- !u!212 &1800026177 stripped
+SpriteRenderer:
+  m_PrefabParentObject: {fileID: 212800970535564450, guid: 22072f11625c5f54fbef19e533cf63dc,
+    type: 2}
+  m_PrefabInternal: {fileID: 1969914704}
+--- !u!114 &1800026178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1800026171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 858597d6f87e9c54eb81ad2b3467ef96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _renderer: {fileID: 1800026177}
 --- !u!1 &1860602221
 GameObject:
   m_ObjectHideFlags: 0

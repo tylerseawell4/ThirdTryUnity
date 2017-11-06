@@ -4,10 +4,12 @@ using UnityEngine;
 public class PlayerDeath : MonoBehaviour
 {
     public GameObject _gameOverPanel;
+    private PlayerHealth _playerHealth;
     // Use this for initialization
     void Start()
     {
         _gameOverPanel.SetActive(false);
+        _playerHealth = GetComponent<PlayerHealth>();
     }
 
     // Update is called once per frame
@@ -16,9 +18,9 @@ public class PlayerDeath : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag.Equals("Enemy"))
+        if (collision.tag == "Enemy" && _playerHealth.GetPlayerHealth() <= 0)
         {
             gameObject.SetActive(false);
             _gameOverPanel.SetActive(true);

@@ -30,8 +30,8 @@ public class VelocityBounce : MonoBehaviour
         _maxSpeed = _startingHeight / 4;
         _a = (_startingHeight / 10f) * .001f;
         _shouldLog = true;
-        _bounceCount = 1;
-        _maxGravityValue = _bounceCount / 10;
+        _bounceCount = 0;
+        _maxGravityValue = 1 / 10;
         _highestY = _player.transform.position.y;
         _playerSpeed = _player.velocity.magnitude;
         _vSpeed = 15f;
