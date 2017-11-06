@@ -20,7 +20,7 @@ public class PlayerDeath : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Enemy" && _playerHealth.GetPlayerHealth() <= 0)
+        if (collision.gameObject.layer == 12 && _playerHealth.GetPlayerHealth() <= 0)
         {
             gameObject.SetActive(false);
             _gameOverPanel.SetActive(true);
