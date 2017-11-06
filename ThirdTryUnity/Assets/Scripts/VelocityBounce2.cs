@@ -23,6 +23,7 @@ public class VelocityBounce2 : MonoBehaviour
     private PlayerControl _playerControl;
     public bool _stopTrans;
     private int _runCount;
+    private PickupSpawner _pickupSpawner;
 
     // Use this for initialization
     void Start()
@@ -34,6 +35,7 @@ public class VelocityBounce2 : MonoBehaviour
         _maxHeightValue = _startingHeight;
         _camera = FindObjectOfType<CameraOption3>();
         _playerControl = FindObjectOfType<PlayerControl>();
+        _pickupSpawner = FindObjectOfType<PickupSpawner>();
         _heightOffset = 5f;
         _runCount = 1;
     }
@@ -117,6 +119,8 @@ public class VelocityBounce2 : MonoBehaviour
 
             if (_maxSpeed >= _vMultiplier && _bounceCount % 3 == 0)
             {
+                _pickupSpawner._shouldResetRunNumber = true;
+                _pickupSpawner._canSpawnOS = true;
                 _runCount = 1;
                 _vMultiplier += 2f;
                 _heightOffset += _bounceCount;

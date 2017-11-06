@@ -1115,8 +1115,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8445377e356e044281f0af340d67332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canSpawnOS: 0
   _OvershieldToSpawn: {fileID: 1185372142163560, guid: d81777da4147df04bb5c06c547c9746f,
     type: 2}
+  _shouldResetRunNumber: 0
 --- !u!4 &1105867685
 Transform:
   m_ObjectHideFlags: 0
