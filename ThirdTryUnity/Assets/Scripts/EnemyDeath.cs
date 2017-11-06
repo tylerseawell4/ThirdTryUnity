@@ -27,7 +27,7 @@ public class EnemyDeath : MonoBehaviour
         _anim = GetComponent<Animator>();
         _origionalColor = _renderer.color;
         _colliders = GetComponents<Collider2D>();
-        _enemyMovement = GetComponent<EnemyController>();   
+        _enemyMovement = GetComponent<EnemyController>();
     }
 
     // Update is called once per frame
@@ -45,7 +45,9 @@ public class EnemyDeath : MonoBehaviour
 
         if (collision.gameObject.tag == "Bullet" || collision.gameObject.tag == "Player")
         {
-            _playerHealth.DecreasePlayerHeath();
+            if (collision.gameObject.tag == "Player")
+                _playerHealth.DecreasePlayerHeath();
+
             StartCoroutine("TurnRed");
             _hp--;
             if (_hp <= 0)
@@ -54,7 +56,7 @@ public class EnemyDeath : MonoBehaviour
                     collider.enabled = false;
 
                 _enemyMovement._moveSpeed = 1f;
-                gameObject.tag = "Nonlethal";             
+                gameObject.tag = "Nonlethal";
                 StartCoroutine("DeathSequence");
             }
         }
