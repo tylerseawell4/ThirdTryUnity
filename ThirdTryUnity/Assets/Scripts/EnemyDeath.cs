@@ -45,9 +45,6 @@ public class EnemyDeath : MonoBehaviour
 
         if (collision.gameObject.tag == "Bullet" || collision.gameObject.tag == "Player")
         {
-            if (collision.gameObject.tag == "Player")
-                _playerHealth.DecreasePlayerHeath();
-
             StartCoroutine("TurnRed");
             _hp--;
             if (_hp <= 0)

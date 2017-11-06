@@ -26,6 +26,9 @@ public class PlayerHealth : MonoBehaviour
         {
             IncreasePlayerHealth();
         }
+        //12 is enemy layer
+        if(collision.gameObject.layer == 12)
+            DecreasePlayerHeath();
     }
     public void IncreasePlayerHealth()
     {
@@ -43,7 +46,7 @@ public class PlayerHealth : MonoBehaviour
             _renderer.color = Color.blue;
         }
     }
-    public void DecreasePlayerHeath()
+    private void DecreasePlayerHeath()
     {
         _healthCount--;
 
