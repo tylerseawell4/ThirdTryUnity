@@ -18,6 +18,7 @@ TagManager:
   - MenuCamera
   - Background
   - Overshield
+  - EnemyDropling
   layers:
   - Default
   - TransparentFX

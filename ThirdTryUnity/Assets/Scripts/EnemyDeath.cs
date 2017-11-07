@@ -14,6 +14,7 @@ public class EnemyDeath : MonoBehaviour
     private EnemyController _enemyMovement;
     private bool _isColliding;
     private PlayerHealth _playerHealth;
+    public GameObject _enemyDroplingToSpawn;
     private void Awake()
     {
         _playerHealth = FindObjectOfType<PlayerHealth>();
@@ -52,8 +53,6 @@ public class EnemyDeath : MonoBehaviour
                 foreach (var collider in _colliders)
                     collider.enabled = false;
 
-                var value = Math.Abs((gameObject.transform.localScale.x / 100) * 2);
-                FindObjectOfType<SuperMoveManager>().IncreaseSuperBar(value);
                 _enemyMovement._moveSpeed = 1f;
                 gameObject.tag = "Nonlethal";
                 StartCoroutine("DeathSequence");
@@ -72,6 +71,13 @@ public class EnemyDeath : MonoBehaviour
     {
         _anim.SetInteger("State", 1);
         yield return new WaitForSeconds(.5f);
+
+        if (gameObject.transform.localScale.x > 2f)
+            _enemyDroplingToSpawn.transform.localScale = new Vector2(2.5f, 2.5f);
+        else
+            _enemyDroplingToSpawn.transform.localScale = new Vector2(gameObject.transform.localScale.x, gameObject.transform.localScale.x);
+        Instantiate(_enemyDroplingToSpawn, gameObject.transform.position, Quaternion.identity);
+
         Destroy(gameObject);
     }
 

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Score : MonoBehaviour {
+public class Score : MonoBehaviour
+{
     public Text _bounceCountText;
     public Text _totalScoreText;
 
@@ -12,21 +13,35 @@ public class Score : MonoBehaviour {
     private int _bounceCount;
     private float _calculatePlayerPosition;
     private float _calculatedDistanceScore;
+    private float _calculatedDistanceScoreDown;
     private float _totalScore;
 
-    void Start () {
+    void Start()
+    {
         _player = FindObjectOfType<PlayerControl>();
         _playerVelocity = FindObjectOfType<VelocityBounce2>();
         _calculatePlayerPosition = Mathf.Round(_player.transform.position.y);
-        _bounceCount = 1;
-        _bounceCountText.text = "Bounce Count: 1";
+        _bounceCount = 0;
+        _bounceCountText.text = "Bounce Count: 0";
         _totalScoreText.text = "Total Score: 0";
     }
 
     void FixedUpdate()
     {
-        _calculatedDistanceScore = Mathf.Round(Mathf.Abs(_calculatePlayerPosition - _player.transform.position.y));
-        _totalScoreText.text = "Total Score: " + _calculatedDistanceScore;
+        if (_player._player.velocity.y >= 0)
+        {
+            _calculatedDistanceScore = Mathf.Round(Mathf.Abs(_calculatePlayerPosition - _player.transform.position.y));
+            var newScore = _calculatedDistanceScoreDown + _calculatedDistanceScore;
+            _calculatedDistanceScore = newScore;
+            _totalScoreText.text = "Total Score: " + newScore;
+        }
+        else
+        {
+            _calculatedDistanceScoreDown = Mathf.Round(Mathf.Abs(_playerVelocity._playersExactHeight - _player.transform.position.y));
+            var newScore = _calculatedDistanceScoreDown + _calculatedDistanceScore;
+            _calculatedDistanceScoreDown = newScore;
+            _totalScoreText.text = "Total Score: " + newScore;
+        }      
     }
 
     public void BounceCount()
@@ -39,5 +54,5 @@ public class Score : MonoBehaviour {
     {
         _calculatePlayerPosition = Mathf.Round(newCalculatingHeight);
     }
-  
+
 }

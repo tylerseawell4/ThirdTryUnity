@@ -154,6 +154,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flashTime: 0
   _renderer: {fileID: 212988388432272554}
+  _enemyDroplingToSpawn: {fileID: 1936080255482316, guid: dc8101ff46a992447809cb8f8a06da96,
+    type: 2}
 --- !u!212 &212988388432272554
 SpriteRenderer:
   m_ObjectHideFlags: 1
