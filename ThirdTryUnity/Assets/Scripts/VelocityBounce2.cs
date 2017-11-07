@@ -11,7 +11,7 @@ public class VelocityBounce2 : MonoBehaviour
     public bool _hitHeight;
     public bool _hitBottom;
     private bool _decrementGravity;
-    private bool _moveCharacterDown;
+    public bool _moveCharacterDown;
     private bool _hitrequestedHeight;
     private float _originalVMultiplier;
     private CameraOption3 _camera;
@@ -24,7 +24,7 @@ public class VelocityBounce2 : MonoBehaviour
     public bool _stopTrans;
     private int _runCount;
     private PickupSpawner _pickupSpawner;
-
+    private Score _score;
     // Use this for initialization
     void Start()
     {
@@ -36,6 +36,7 @@ public class VelocityBounce2 : MonoBehaviour
         _camera = FindObjectOfType<CameraOption3>();
         _playerControl = FindObjectOfType<PlayerControl>();
         _pickupSpawner = FindObjectOfType<PickupSpawner>();
+        _score = FindObjectOfType<Score>();
         _heightOffset = 5f;
         _runCount = 1;
     }
@@ -46,6 +47,7 @@ public class VelocityBounce2 : MonoBehaviour
         //Debug.Log(_player.velocity.y);
         if (_player.transform.position.y >= (_maxHeightValue - _heightOffset) && !_hitrequestedHeight)
         {
+           // _score.ChangeCalculatingPoint(transform.position.y);
             _decrementGravity = true;
             _hitrequestedHeight = true;
             //Debug.Log(_player.transform.position.y);

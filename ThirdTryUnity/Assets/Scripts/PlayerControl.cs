@@ -6,6 +6,7 @@ public class PlayerControl : MonoBehaviour
     public float _activeMoveSpeed;
     public Transform _topPlayerPoint;
     public Transform _bottomPlayerPoint;
+    public Score _score;
     private bool _facingRight;
     public float _startingPlayerTopPtDiff;
     public float _startingPlayerTopPtDiff2;
@@ -42,6 +43,7 @@ public class PlayerControl : MonoBehaviour
         _tapManager = FindObjectOfType<TapManager>();
         _velBounce = FindObjectOfType<VelocityBounce2>();
         _camera = FindObjectOfType<CameraOption3>();
+        _score = FindObjectOfType<Score>();
         _addforce = true;
     }
 
@@ -286,6 +288,8 @@ public class PlayerControl : MonoBehaviour
             _bottomPlayerPoint.localPosition = new Vector3(transform.position.x, -9.85f, transform.position.z);
             _startingPlayerBottomPtDiff = _bottomPlayerPoint.position.y - transform.position.y;
             _startingPlayerBottomPtDiff2 = _bottomPlayerPoint.position.y - transform.position.y;
+            _score.BounceCount(); // Calling this every time the player collides with the ground to increase bounce count score by 1
+           // _score.ChangeCalculatingPoint(transform.position.y);
         }
     }
 }
