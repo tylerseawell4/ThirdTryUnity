@@ -52,6 +52,8 @@ public class EnemyDeath : MonoBehaviour
                 foreach (var collider in _colliders)
                     collider.enabled = false;
 
+                var value = Math.Abs((gameObject.transform.localScale.x / 100) * 2);
+                FindObjectOfType<SuperMoveManager>().IncreaseSuperBar(value);
                 _enemyMovement._moveSpeed = 1f;
                 gameObject.tag = "Nonlethal";
                 StartCoroutine("DeathSequence");

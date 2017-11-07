@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 114519010354396640}
   - component: {fileID: 114743358334860706}
   - component: {fileID: 114027282855333212}
+  - component: {fileID: 114422689222517092}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -249,6 +250,19 @@ MonoBehaviour:
   _maxSpeed: 15
   _playersExactHeight: 0
   _stopTrans: 0
+--- !u!114 &114422689222517092
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1906433794777306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0248c6f5c8ac024783a5514b87208f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _percentageString: 0%
+  _progressBarFull: {fileID: 0}
 --- !u!114 &114519010354396640
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -261,7 +275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bullet: {fileID: 1869922670926756, guid: fe60e381ab2964241a09c5c3b0b3f3f9, type: 2}
-  _fireRate: 0.5
+  _fireRate: 0.25
   _firePtUpPos: {fileID: 4198686272472326}
   _firePtDownPos: {fileID: 4422023619939602}
 --- !u!114 &114610694651942202

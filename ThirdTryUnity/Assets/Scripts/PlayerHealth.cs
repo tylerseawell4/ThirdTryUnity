@@ -50,6 +50,11 @@ public class PlayerHealth : MonoBehaviour
     {
         _healthCount--;
 
+        if(_healthCount == 0)
+        {
+            GetComponent<PlayerDeath>().Die();
+            return;
+        }
         if (_healthCount == 1)
         {
             _renderer.color = _originalColor;

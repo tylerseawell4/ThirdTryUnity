@@ -18,14 +18,19 @@ public class PlayerDeath : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    //12 is enemy layer
+    //    if (collision.gameObject.layer == 12 && _playerHealth.GetPlayerHealth() <= 0)
+    //    {
+            
+    //    }
+    //}
+
+    public void Die()
     {
-        //12 is enemy layer
-        if (collision.gameObject.layer == 12 && _playerHealth.GetPlayerHealth() <= 0)
-        {
-            gameObject.SetActive(false);
-            _gameOverPanel.SetActive(true);
-        }
+        gameObject.SetActive(false);
+        _gameOverPanel.SetActive(true);
     }
 
     IEnumerator DeathSequence()
