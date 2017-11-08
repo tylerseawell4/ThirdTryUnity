@@ -7,6 +7,7 @@ public class Score : MonoBehaviour
 {
     public Text _bounceCountText;
     public Text _totalScoreText;
+    public float _totalScoreNumber;
 
     private PlayerControl _player;
     private VelocityBounce2 _playerVelocity;
@@ -34,6 +35,7 @@ public class Score : MonoBehaviour
             var newScore = _calculatedDistanceScoreDown + _calculatedDistanceScore;
             _calculatedDistanceScore = newScore;
             _totalScoreText.text = "Total Score: " + newScore;
+            _totalScoreNumber = newScore;
         }
         else
         {
@@ -41,7 +43,9 @@ public class Score : MonoBehaviour
             var newScore = _calculatedDistanceScoreDown + _calculatedDistanceScore;
             _calculatedDistanceScoreDown = newScore;
             _totalScoreText.text = "Total Score: " + newScore;
-        }      
+            _totalScoreNumber = newScore;
+        }
+  
     }
 
     public void BounceCount()
