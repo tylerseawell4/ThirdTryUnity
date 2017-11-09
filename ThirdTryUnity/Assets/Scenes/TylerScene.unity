@@ -2507,6 +2507,22 @@ GameObject:
   m_PrefabParentObject: {fileID: 1906433794777306, guid: b9cb31a4faf73ef4ea7a553734a93de2,
     type: 2}
   m_PrefabInternal: {fileID: 1969914704}
+--- !u!114 &1800026181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1800026171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93b82e5321aa47a4c9b56578a74d63b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _superActivated: 0
+  _superPrefab: {fileID: 1199924005252138, guid: 1359d5942d1aeed4fb706d0c670c4f70,
+    type: 2}
+  _superActivationPrefab: {fileID: 1550910696699088, guid: 7210ace228b6f3a468d0052238f8ed25,
+    type: 2}
 --- !u!1 &1860602221
 GameObject:
   m_ObjectHideFlags: 0
@@ -2699,7 +2715,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4496635202893068, guid: b9cb31a4faf73ef4ea7a553734a93de2, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -9.54
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4496635202893068, guid: b9cb31a4faf73ef4ea7a553734a93de2, type: 2}
       propertyPath: m_LocalPosition.z

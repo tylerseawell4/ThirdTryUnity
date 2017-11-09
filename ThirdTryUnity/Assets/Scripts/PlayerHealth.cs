@@ -8,7 +8,7 @@ public class PlayerHealth : MonoBehaviour
     private int _healthCount;
     private Color _originalColor;
     private PlayerDeath _playerDeath;
-    private PlayerControl _playerControl;
+    private SuperMode _superMode;
     public GameObject _super;
 
     // Use this for initialization
@@ -17,7 +17,7 @@ public class PlayerHealth : MonoBehaviour
         _healthCount = 1;
         _originalColor = _renderer.color;
         _playerDeath = GetComponent<PlayerDeath>();
-        _playerControl = GetComponent<PlayerControl>();
+        _superMode = GetComponent<SuperMode>();
     }
     // Update is called once per frame
     void Update()
@@ -55,7 +55,7 @@ public class PlayerHealth : MonoBehaviour
     }
     private void DecreasePlayerHeath()
     {
-        if (_playerControl._superActivated) return;
+        if (_superMode._superActivated) return;
 
         _healthCount--;
 

@@ -24,13 +24,6 @@ public class PlayerControl : MonoBehaviour
     private Vector2 _ogVel;
     private CameraOption3 _camera;
     private VelocityBounce2 _velBounce;
-    public GameObject _superPrefab;
-    public bool _superActivated;
-    private float _superAcumTime;
-    public Animator _superAnim;
-    private bool _superInstantiated;
-    public GameObject _super;
-
     // Use this for initialization
     void Start()
     {
@@ -39,7 +32,7 @@ public class PlayerControl : MonoBehaviour
         _facingRight = true;
 
         _time = 0f;
-        _superAcumTime = 0f;
+        
 
         _startingPlayerTopPtDiff = _topPlayerPoint.position.y - transform.position.y;
         _startingPlayerTopPtDiff2 = _topPlayerPoint.position.y - transform.position.y;
@@ -68,15 +61,6 @@ public class PlayerControl : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         _rightDashActivated = false;
-    }
-
-    IEnumerator SuperFadeOut()
-    {
-        _superAnim.SetInteger("State", 1);
-        _superInstantiated = false;
-        _superActivated = false;
-        yield return new WaitForSeconds(.5f);
-        Destroy(_super);
     }
 
     private void FixedUpdate()
@@ -133,43 +117,6 @@ public class PlayerControl : MonoBehaviour
             _player.velocity = new Vector3(0f, _player.velocity.y, 0f);
         }
 
-        if (_tapManager._holdActivated)
-        {
-            _superActivated = true;
-        }
-
-        if (_superActivated)
-        {
-            if (!_superInstantiated)
-            {
-                _superInstantiated = true;
-                if (_super == null)
-                    _super = new GameObject();
-               _super= Instantiate(_superPrefab, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, _super.transform.position.z), Quaternion.identity);
-                _super.transform.parent = transform;
-            }
-
-            _superAcumTime += 1 * Time.deltaTime;
-            if (_superAcumTime >= 5)
-            {
-                Color color1 = _super.GetComponent<SpriteRenderer>().material.color;
-                Color color2 = _super.transform.GetChild(0).GetComponent<SpriteRenderer>().material.color;
-                color1.a -= .025f;
-                color2.a -= .025f;
-
-                _super.GetComponent<SpriteRenderer>().material.color = color1;
-                _super.transform.GetChild(0).GetComponent<SpriteRenderer>().material.color = color2;
-                if(color1.a <= 0f)
-                {
-                    _tapManager._holdActivated = false;
-                    _superInstantiated = false;
-                    _superActivated = false;
-                    _superAcumTime = 0f;
-                    Destroy(_super);
-                }
-            }
-
-        }
 
         if (!_forwardDashActivated)
         {
