@@ -44,6 +44,16 @@ public class EnemyDeath : MonoBehaviour
 
         _isColliding = true;
 
+        if(collision.gameObject.tag == "Super")
+        {
+            foreach (var collider in _colliders)
+                collider.enabled = false;
+
+            _enemyMovement._moveSpeed = 1f;
+            gameObject.tag = "Nonlethal";
+            StartCoroutine("DeathSequence");
+        }
+
         if (collision.gameObject.tag == "Bullet" || collision.gameObject.tag == "Player")
         {
             StartCoroutine("TurnRed");
@@ -76,7 +86,7 @@ public class EnemyDeath : MonoBehaviour
             _enemyDroplingToSpawn.transform.localScale = new Vector2(2.5f, 2.5f);
         else
             _enemyDroplingToSpawn.transform.localScale = new Vector2(gameObject.transform.localScale.x, gameObject.transform.localScale.x);
-        Instantiate(_enemyDroplingToSpawn, gameObject.transform.position, Quaternion.identity);
+        Instantiate(_enemyDroplingToSpawn, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, _enemyDroplingToSpawn.gameObject.transform.position.z), Quaternion.identity);
 
         Destroy(gameObject);
     }

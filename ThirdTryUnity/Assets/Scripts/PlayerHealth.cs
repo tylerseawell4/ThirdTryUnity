@@ -7,12 +7,17 @@ public class PlayerHealth : MonoBehaviour
     public SpriteRenderer _renderer;
     private int _healthCount;
     private Color _originalColor;
+    private PlayerDeath _playerDeath;
+    private PlayerControl _playerControl;
+    public GameObject _super;
 
     // Use this for initialization
     private void Awake()
     {
         _healthCount = 1;
         _originalColor = _renderer.color;
+        _playerDeath = GetComponent<PlayerDeath>();
+        _playerControl = GetComponent<PlayerControl>();
     }
     // Update is called once per frame
     void Update()
@@ -22,6 +27,8 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (gameObject.tag == "Super") return;
+
         if(collision.gameObject.tag == "Overshield")
         {
             IncreasePlayerHealth();
@@ -48,11 +55,13 @@ public class PlayerHealth : MonoBehaviour
     }
     private void DecreasePlayerHeath()
     {
+        if (_playerControl._superActivated) return;
+
         _healthCount--;
 
         if(_healthCount == 0)
         {
-            GetComponent<PlayerDeath>().Die();
+            _playerDeath.Die();
             return;
         }
         if (_healthCount == 1)

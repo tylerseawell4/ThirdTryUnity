@@ -19,6 +19,7 @@ TagManager:
   - Background
   - Overshield
   - EnemyDropling
+  - Super
   layers:
   - Default
   - TransparentFX

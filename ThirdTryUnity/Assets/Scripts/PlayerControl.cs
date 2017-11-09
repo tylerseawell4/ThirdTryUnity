@@ -24,6 +24,12 @@ public class PlayerControl : MonoBehaviour
     private Vector2 _ogVel;
     private CameraOption3 _camera;
     private VelocityBounce2 _velBounce;
+    public GameObject _superPrefab;
+    public bool _superActivated;
+    private float _superAcumTime;
+    public Animator _superAnim;
+    private bool _superInstantiated;
+    public GameObject _super;
 
     // Use this for initialization
     void Start()
@@ -33,6 +39,7 @@ public class PlayerControl : MonoBehaviour
         _facingRight = true;
 
         _time = 0f;
+        _superAcumTime = 0f;
 
         _startingPlayerTopPtDiff = _topPlayerPoint.position.y - transform.position.y;
         _startingPlayerTopPtDiff2 = _topPlayerPoint.position.y - transform.position.y;
@@ -61,6 +68,15 @@ public class PlayerControl : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         _rightDashActivated = false;
+    }
+
+    IEnumerator SuperFadeOut()
+    {
+        _superAnim.SetInteger("State", 1);
+        _superInstantiated = false;
+        _superActivated = false;
+        yield return new WaitForSeconds(.5f);
+        Destroy(_super);
     }
 
     private void FixedUpdate()
@@ -112,26 +128,51 @@ public class PlayerControl : MonoBehaviour
             _player.velocity = new Vector3(30f * Input.acceleration.x, _player.velocity.y, 0f);
         else if (Input.acceleration.x < -.035f)
             _player.velocity = new Vector3(30f * Input.acceleration.x, _player.velocity.y, 0f);
-        //else if (Input.GetKey(KeyCode.RightArrow) || Input.acceleration.x > .025f)
-        //{
-        //    _leftDashActivated = false;
-        //    transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
-        //    _player.velocity = new Vector3(_activeMoveSpeed, _player.velocity.y, 0f);
-        //}
-        //else if (Input.GetKey(KeyCode.LeftArrow) || Input.acceleration.x < -.025f)
-        //{
-        //    _rightDashActivated = false;
-        //    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-        //    _player.velocity = new Vector3(-_activeMoveSpeed, _player.velocity.y, 0f);
-        //}
         else
         {
             _player.velocity = new Vector3(0f, _player.velocity.y, 0f);
         }
 
+        if (_tapManager._holdActivated)
+        {
+            _superActivated = true;
+        }
+
+        if (_superActivated)
+        {
+            if (!_superInstantiated)
+            {
+                _superInstantiated = true;
+                if (_super == null)
+                    _super = new GameObject();
+               _super= Instantiate(_superPrefab, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, _super.transform.position.z), Quaternion.identity);
+                _super.transform.parent = transform;
+            }
+
+            _superAcumTime += 1 * Time.deltaTime;
+            if (_superAcumTime >= 5)
+            {
+                Color color1 = _super.GetComponent<SpriteRenderer>().material.color;
+                Color color2 = _super.transform.GetChild(0).GetComponent<SpriteRenderer>().material.color;
+                color1.a -= .025f;
+                color2.a -= .025f;
+
+                _super.GetComponent<SpriteRenderer>().material.color = color1;
+                _super.transform.GetChild(0).GetComponent<SpriteRenderer>().material.color = color2;
+                if(color1.a <= 0f)
+                {
+                    _tapManager._holdActivated = false;
+                    _superInstantiated = false;
+                    _superActivated = false;
+                    _superAcumTime = 0f;
+                    Destroy(_super);
+                }
+            }
+
+        }
+
         if (!_forwardDashActivated)
         {
-            // if (_tapManager._doubleTap)
             if (_tapManager._doubleTap)
             {
                 //checking if velocity is higher than 0 to see if we are going up (dont need to worry about transition when doing updash), 
@@ -241,23 +282,23 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-//#if UNITY_EDITOR
-//        //MoveLeftRight();
-//#endif
+        //#if UNITY_EDITOR
+        //        //MoveLeftRight();
+        //#endif
 
-//#if UNITY_ANDROID
-//        //creating neutral zone for flip
-//        if (_player.velocity.x < -.025f && _facingRight)
-//        {
-//            _facingRight = false;
-//            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-//        }
-//        else if (_player.velocity.x > .025f && !_facingRight)
-//        {
-//            _facingRight = true;
-//            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
-//        }
-//#endif
+        //#if UNITY_ANDROID
+        //        //creating neutral zone for flip
+        //        if (_player.velocity.x < -.025f && _facingRight)
+        //        {
+        //            _facingRight = false;
+        //            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        //        }
+        //        else if (_player.velocity.x > .025f && !_facingRight)
+        //        {
+        //            _facingRight = true;
+        //            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        //        }
+        //#endif
     }
     private void MoveLeftRight()
     {
@@ -289,7 +330,7 @@ public class PlayerControl : MonoBehaviour
             _startingPlayerBottomPtDiff = _bottomPlayerPoint.position.y - transform.position.y;
             _startingPlayerBottomPtDiff2 = _bottomPlayerPoint.position.y - transform.position.y;
             _score.BounceCount(); // Calling this every time the player collides with the ground to increase bounce count score by 1
-           // _score.ChangeCalculatingPoint(transform.position.y);
+                                  // _score.ChangeCalculatingPoint(transform.position.y);
         }
     }
 }

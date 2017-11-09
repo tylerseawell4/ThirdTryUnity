@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 034b38c420bd3314db94bb5428403fbd
-timeCreated: 1489846147
-licenseType: Store
+timeCreated: 1510180927
+licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
   serializedVersion: 4
@@ -61,7 +61,14 @@ TextureImporter:
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline: []
+    outline:
+    - - {x: 42.5, y: 64.5}
+      - {x: -64.5, y: 64.5}
+      - {x: -64.5, y: -64.5}
+      - {x: 59.5, y: -64.5}
+      - {x: 64.5, y: -39.5}
+      - {x: 64.5, y: 49.5}
+      - {x: 56.5, y: 62.5}
   spritePackingTag: 
   userData: 
   assetBundleName: 
