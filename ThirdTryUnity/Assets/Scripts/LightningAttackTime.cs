@@ -9,7 +9,7 @@ public class LightningAttackTime : MonoBehaviour
 
     private void Awake()
     {
-        _lightningAcumTime = .5f;
+        _lightningAcumTime = .35f;
     }
     // Use this for initialization
     void Start()

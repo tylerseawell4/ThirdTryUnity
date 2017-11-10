@@ -105,7 +105,7 @@ public class SuperMode : MonoBehaviour
 
 
                 _superAcumTime += 1 * Time.deltaTime;
-                if (_superAcumTime >= 5)
+                if (_superAcumTime >= 10)
                 {
                     Color color1 = _super.GetComponent<SpriteRenderer>().material.color;
                     color1.a -= .025f;
