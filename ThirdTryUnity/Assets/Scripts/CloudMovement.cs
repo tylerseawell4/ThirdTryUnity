@@ -15,53 +15,62 @@ public class CloudMovement : MonoBehaviour
     private Rigidbody2D _playerRigidBody;
     private VelocityBounce2 _playerVelocity;
     private float _cloudYPosition;
-
+    private Renderer _renderer;
     private void Start()
     {
         _playerVelocity = FindObjectOfType<VelocityBounce2>();
+        _renderer = GetComponent<Renderer>();
+        RandomizeCloudProperties();
         _cloudYPosition = transform.position.y;
-        _speed = Random.Range(0.5f, 3f);
-
     }
 
-    void Update()
+    void FixedUpdate()
     {
         transform.Translate(Vector3.right * Time.deltaTime * _speed);
-
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-
-        if (collision.gameObject.tag == "RightCamera")
-        {
-            transform.position = new Vector3(_leftOutterBounds.transform.position.x - 2, transform.position.y, transform.position.z);
-            _speed = Random.Range(0.5f, 2f);
-            float scaleSize = 0.0f;
-            scaleSize = Random.Range(0.3f, 0.9f);
-            transform.localScale = new Vector3(scaleSize, scaleSize, 1);
-        }
     }
 
-    //**Note** In Unity this OnBecameInvisible() will not work if the scene view window is open - close that to view proper cloud movement..
     private void OnBecameInvisible()
     {
         if (_player.activeSelf)
         {
-            if (_playerVelocity._player.velocity.y <= 0)
+            if (_playerVelocity._player.velocity.y > 0)
             {
                 int randomPosition = Random.Range(0, 3);
-                var randomXPosition = Random.Range(-2, Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x);
-                transform.position = new Vector3(randomXPosition, _bottomOutterBounds.position.y + randomPosition, transform.position.z);
-            }
-            else if (_playerVelocity._player.velocity.y > 0)
-            {
-                int randomPosition = Random.Range(0, 3);
-                var randomXPosition = Random.Range(-2, Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x);
+                var randomXPosition = Random.Range(_leftOutterBounds.position.x - 3, Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x);
                 transform.position = new Vector3(randomXPosition, _topOutterBounds.position.y + randomPosition, transform.position.z);
+                RandomizeCloudProperties();
             }
-
+            else if (_playerVelocity._player.velocity.y <= 0)
+            {
+                int randomPosition = Random.Range(0, 3);
+                var randomXPosition = Random.Range(_leftOutterBounds.position.x - 3, Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x);
+                var randomYPosition = (_bottomOutterBounds.position.y + randomPosition);
+                if (randomYPosition <= 0)
+                {
+                    randomYPosition = Random.Range(0, _topOutterBounds.position.y);
+                    transform.position = new Vector3(_leftOutterBounds.position.x - 3, randomYPosition, transform.position.z);
+                }
+                else
+                {
+                    transform.position = new Vector3(randomXPosition, randomYPosition, transform.position.z);
+                }
+                RandomizeCloudProperties();
+            }
         }
+        else
+        {
+            var randomYPosition = Random.Range(_bottomOutterBounds.position.y, _topOutterBounds.position.y);
+            transform.position = new Vector3(_leftOutterBounds.position.x - _renderer.bounds.size.x, randomYPosition, transform.position.z);
+            RandomizeCloudProperties();
+        }
+    }
 
+    private void RandomizeCloudProperties()
+    {
+        _speed = Random.Range(0.9f, 2f);
+        float scaleSize = 0.0f;
+        scaleSize = Random.Range(0.3f, 1.0f);
+        transform.localScale = new Vector3(scaleSize, scaleSize, 1);
     }
 }
 
