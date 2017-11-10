@@ -15,8 +15,9 @@ public class SuperMode : MonoBehaviour
     private GameObject _superActivationBottom;
     private GameObject _superActivationLeft;
     private GameObject _superActivationRight;
-    private bool _superLightningHit;
     private bool _lightningCreated;
+    public GameObject _lightningPrefab;
+    private GameObject _superLightningAttack;
 
     // Use this for initialization
     void Start()
@@ -121,7 +122,6 @@ public class SuperMode : MonoBehaviour
                         _tapManager._holdActivated = false;
                         _superInstantiated = false;
                         _superActivated = false;
-                        _superLightningHit = false;
                         _lightningCreated = false;
                         _superAcumTime = 0f;
                         Destroy(_superActivationTop);
@@ -134,5 +134,12 @@ public class SuperMode : MonoBehaviour
             }
 
         }
+    }
+    public void SpawnLightning(Transform enemy)
+    {
+        _superLightningAttack = Instantiate(_lightningPrefab,transform.position,Quaternion.identity);
+        _superLightningAttack.transform.parent = transform;
+        _superLightningAttack.GetComponent<LightningAttackTime>().SpawnLightning(enemy);
+
     }
 }

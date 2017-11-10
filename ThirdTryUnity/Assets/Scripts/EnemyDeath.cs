@@ -44,8 +44,12 @@ public class EnemyDeath : MonoBehaviour
 
         _isColliding = true;
 
-        if(collision.gameObject.tag == "Super")
+        if (collision.gameObject.tag == "Super" || collision.gameObject.tag == "SuperActivation")
         {
+            if (collision.gameObject.tag == "Super")
+            {
+                FindObjectOfType<SuperMode>().SpawnLightning(transform);
+            }
             foreach (var collider in _colliders)
                 collider.enabled = false;
 

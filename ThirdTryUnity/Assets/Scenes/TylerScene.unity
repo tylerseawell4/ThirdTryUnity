@@ -2523,6 +2523,8 @@ MonoBehaviour:
     type: 2}
   _superActivationPrefab: {fileID: 1550910696699088, guid: 7210ace228b6f3a468d0052238f8ed25,
     type: 2}
+  _lightningPrefab: {fileID: 1475735221186222, guid: 380e5b314ec33d04ea35d69b026dcfd4,
+    type: 2}
 --- !u!1 &1860602221
 GameObject:
   m_ObjectHideFlags: 0
