@@ -7,16 +7,29 @@ using UnityEngine.UI;
 public class SuperMoveManager : MonoBehaviour
 {
     public Image _superBar;
+    private SuperMode _superMode;
+    private Color _originalColor;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void Start()
     {
-        if(collision.gameObject.tag == "EnemyDropling")
-        {
-            var value = Math.Abs((collision.gameObject.transform.localScale.x / 100) * 2);
-            IncreaseSuperBar(value);
-        }
+        _superMode = GameObject.Find("Player").GetComponent<SuperMode>();
+        _originalColor = _superBar.color;
     }
-    private void IncreaseSuperBar(float valueToIncreaseBy)
+
+    private void FixedUpdate()
+    {
+        if (_superMode._superActivated)
+            _superBar.fillAmount -= .002f;
+
+        if (_superBar.fillAmount < 0)
+            _superBar.fillAmount = 0;
+
+        if (_superBar.fillAmount == 0)
+            _superBar.color = _originalColor;
+
+    }
+
+    public void IncreaseSuperBar(float valueToIncreaseBy)
     {
         if (_superBar.fillAmount >= 1) return;
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +13,7 @@ public class PlayerDeath : MonoBehaviour
     private PlayerHealth _playerHealth;
     private int _playerDeathCountToDate;
     private int _playerHighScore;
-    private float _currentTotalScore;
+    private string _currentTotalScore;
     // Use this for initialization
     void Start()
     {
@@ -41,7 +42,7 @@ public class PlayerDeath : MonoBehaviour
 
     public void Die()
     {
-        _currentTotalScore = Mathf.Round(_score._totalScoreNumber);
+        _currentTotalScore = _score._totalScoreText.text.Split(' ')[2];
         PlayerPreferences();
 
         _gameOverBounceCount.text = _score._bounceCountText.text;      
@@ -57,9 +58,9 @@ public class PlayerDeath : MonoBehaviour
         PlayerPrefs.SetInt("Deaths", _playerDeathCountToDate);
         PlayerPrefs.Save();
        
-        if (_currentTotalScore > _playerHighScore || _playerHighScore == 0)
+        if (Convert.ToInt32(_currentTotalScore) > _playerHighScore || _playerHighScore == 0)
         {
-            PlayerPrefs.SetInt("HighScore", (int) _currentTotalScore);
+            PlayerPrefs.SetInt("HighScore", Convert.ToInt32(_currentTotalScore));
             PlayerPrefs.Save();
             _gameOverTotalScore.text = "NEW HIGH SCORE!!!! " + _currentTotalScore;
         }

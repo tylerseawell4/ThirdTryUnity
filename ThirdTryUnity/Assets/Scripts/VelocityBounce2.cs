@@ -108,6 +108,14 @@ public class VelocityBounce2 : MonoBehaviour
     {
         if (collision.gameObject.tag.Equals("Ground"))
         {
+            _playerControl._forwardDashActivated = false;
+            _playerControl._time = 0f;
+
+            _playerControl._bottomPlayerPoint.localPosition = new Vector3(transform.position.x, -9.85f, transform.position.z);
+            _playerControl._startingPlayerBottomPtDiff = _playerControl._bottomPlayerPoint.position.y - transform.position.y;
+            _playerControl._startingPlayerBottomPtDiff2 = _playerControl._bottomPlayerPoint.position.y - transform.position.y;
+            _playerControl._score.BounceCount(); // Calling this every time the player collides with the ground to increase bounce count score by 1
+                                                 // _score.ChangeCalculatingPoint(transform.position.y);
             _runCount++;
             _playerControl._forwardDashActivated = false;
             _playerControl._time = 0f;

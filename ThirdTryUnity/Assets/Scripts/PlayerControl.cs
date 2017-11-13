@@ -10,8 +10,8 @@ public class PlayerControl : MonoBehaviour
     private bool _facingRight;
     public float _startingPlayerTopPtDiff;
     public float _startingPlayerTopPtDiff2;
-    private float _startingPlayerBottomPtDiff;
-    private float _startingPlayerBottomPtDiff2;
+    public float _startingPlayerBottomPtDiff;
+    public float _startingPlayerBottomPtDiff2;
     private float _currentPlayerPosDiff;
     private bool _shouldSlowCameraWhenGoingUp;
     public bool _forwardDashActivated;
@@ -268,16 +268,10 @@ public class PlayerControl : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(_tapManager._holdActivated)
         if (collision.gameObject.tag.Equals("Ground"))
         {
-            _forwardDashActivated = false;
-            _time = 0f;
-
-            _bottomPlayerPoint.localPosition = new Vector3(transform.position.x, -9.85f, transform.position.z);
-            _startingPlayerBottomPtDiff = _bottomPlayerPoint.position.y - transform.position.y;
-            _startingPlayerBottomPtDiff2 = _bottomPlayerPoint.position.y - transform.position.y;
-            _score.BounceCount(); // Calling this every time the player collides with the ground to increase bounce count score by 1
-                                  // _score.ChangeCalculatingPoint(transform.position.y);
+        
         }
     }
 }

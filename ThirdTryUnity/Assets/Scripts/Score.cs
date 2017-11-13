@@ -29,7 +29,7 @@ public class Score : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (_player._player.velocity.y >= 0)
+        if (_player._player.velocity.y > 0)
         {
             _calculatedDistanceScore = Mathf.Round(Mathf.Abs(_calculatePlayerPosition - _player.transform.position.y));
             var newScore = _calculatedDistanceScoreDown + _calculatedDistanceScore;
@@ -37,7 +37,7 @@ public class Score : MonoBehaviour
             _totalScoreText.text = "Total Score: " + newScore;
             _totalScoreNumber = newScore;
         }
-        else
+        else  if(_player._player.velocity.y < 0)
         {
             _calculatedDistanceScoreDown = Mathf.Round(Mathf.Abs(_playerVelocity._playersExactHeight - _player.transform.position.y));
             var newScore = _calculatedDistanceScoreDown + _calculatedDistanceScore;

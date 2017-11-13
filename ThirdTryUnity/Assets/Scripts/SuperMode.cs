@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SuperMode : MonoBehaviour
 {
@@ -18,20 +19,20 @@ public class SuperMode : MonoBehaviour
     private bool _lightningCreated;
     public GameObject _lightningPrefab;
     private GameObject _superLightningAttack;
+    private Image _superBar;
 
     // Use this for initialization
     void Start()
     {
         _superAcumTime = 0f;
         _tapManager = FindObjectOfType<TapManager>();
+        _superBar = GameObject.Find("SuperBar").GetComponent<Image>();
     }
 
     void FixedUpdate()
     {
-        if (_tapManager._holdActivated)
-        {
+        if (_tapManager._holdActivated && _superBar.fillAmount >= 1f)
             _superActivated = true;
-        }
 
         if (_superActivated)
         {
@@ -105,6 +106,7 @@ public class SuperMode : MonoBehaviour
 
 
                 _superAcumTime += 1 * Time.deltaTime;
+
                 if (_superAcumTime >= 10)
                 {
                     Color color1 = _super.GetComponent<SpriteRenderer>().material.color;
