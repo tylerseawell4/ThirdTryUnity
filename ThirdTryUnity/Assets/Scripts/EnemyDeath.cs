@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class EnemyDeath : MonoBehaviour
 {
-    private Collider2D[] _colliders;
     private int _hp;
     public float flashTime;
     private Color _origionalColor;
@@ -14,21 +13,18 @@ public class EnemyDeath : MonoBehaviour
     private EnemyController _enemyMovement;
     private bool _isColliding;
     private PlayerHealth _playerHealth;
+    private Collider2D _collider;
     public GameObject _enemyDroplingToSpawn;
     private void Awake()
     {
+        _collider = GetComponent<Collider2D>();
         _playerHealth = FindObjectOfType<PlayerHealth>();
+        _anim = GetComponent<Animator>();
+        _origionalColor = _renderer.color;
+        _enemyMovement = GetComponent<EnemyController>();
         _origionalColor = _renderer.color;
         _hp = 1;
         DetermineHp();
-    }
-    // Use this for initialization
-    void Start()
-    {
-        _anim = GetComponent<Animator>();
-        _origionalColor = _renderer.color;
-        _colliders = GetComponents<Collider2D>();
-        _enemyMovement = GetComponent<EnemyController>();
     }
 
     // Update is called once per frame
@@ -46,13 +42,12 @@ public class EnemyDeath : MonoBehaviour
 
         if (collision.gameObject.tag == "Super" || collision.gameObject.tag == "SuperActivation")
         {
-            if (collision.gameObject.tag == "Super")
-            {
-                FindObjectOfType<SuperMode>().SpawnLightning(transform);
-            }
-            foreach (var collider in _colliders)
-                collider.enabled = false;
+            _collider.enabled = false;
 
+            if (collision.gameObject.tag == "Super")
+                FindObjectOfType<SuperMode>().SpawnLightning(transform);
+
+            StartCoroutine("TurnRed");
             _enemyMovement._moveSpeed = 1f;
             gameObject.tag = "Nonlethal";
             StartCoroutine("DeathSequence");
@@ -62,11 +57,13 @@ public class EnemyDeath : MonoBehaviour
         {
             StartCoroutine("TurnRed");
             _hp--;
+
+            if (collision.gameObject.tag == "Player")
+                _hp = 0;
+
             if (_hp <= 0)
             {
-                foreach (var collider in _colliders)
-                    collider.enabled = false;
-
+                _collider.enabled = false;
                 _enemyMovement._moveSpeed = 1f;
                 gameObject.tag = "Nonlethal";
                 StartCoroutine("DeathSequence");
