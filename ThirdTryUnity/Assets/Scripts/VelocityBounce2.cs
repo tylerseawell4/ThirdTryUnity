@@ -83,7 +83,7 @@ public class VelocityBounce2 : MonoBehaviour
                 _playerControl._startingPlayerTopPtDiff2 = _playerControl._topPlayerPoint.position.y - transform.position.y;
 
 
-                _vMultiplier = _originalVMultiplier;
+                _vMultiplier = 2;
                 _moveCharacterDown = true;
                 _decrementGravity = false;
                 _hitBottom = false;
@@ -98,7 +98,17 @@ public class VelocityBounce2 : MonoBehaviour
             if (_player.velocity.y > 0)
                 Debug.Log("down" + _player.velocity.y.ToString());
             // Debug.Log(_player.velocity.magnitude);
-            ;
+            if (_vMultiplier < _originalVMultiplier)
+            {
+                Debug.Log(_vMultiplier);
+                _vMultiplier += .025f;
+            }
+            else
+            {
+                Debug.Log(_vMultiplier);
+                _vMultiplier = _originalVMultiplier;
+            }
+
             _player.velocity = new Vector3(_player.velocity.x, -_vMultiplier, 0f);
         }
 
