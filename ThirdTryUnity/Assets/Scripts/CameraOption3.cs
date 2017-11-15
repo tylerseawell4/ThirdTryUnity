@@ -26,7 +26,7 @@ public class CameraOption3 : MonoBehaviour
         _playerControl = FindObjectOfType<PlayerControl>();
         _camerLerpSpeed = 1.25f;
         _speed = _camerLerpSpeed;
-        _transitionSpeed = .3f;
+        _transitionSpeed = .325f;
 
 
         //high base value, will need to increase if we use a higher starting velocity

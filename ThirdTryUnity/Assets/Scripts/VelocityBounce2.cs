@@ -25,6 +25,10 @@ public class VelocityBounce2 : MonoBehaviour
     private int _runCount;
     private PickupSpawner _pickupSpawner;
     private Score _score;
+    private float _velocityDecreaseAmt;
+    private float _offset;
+    private Color _originalColor;
+
     // Use this for initialization
     void Start()
     {
@@ -39,33 +43,42 @@ public class VelocityBounce2 : MonoBehaviour
         _score = FindObjectOfType<Score>();
         _heightOffset = 5f;
         _runCount = 1;
+        _velocityDecreaseAmt = .025f;
+        _offset = 0;
+        _originalColor = GetComponent<SpriteRenderer>().color;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (_player.transform.position.y >= (_maxHeightValue - 25f) && !_hitrequestedHeight)
+            GetComponent<SpriteRenderer>().color = Color.red;
+
+
         //Debug.Log(_player.velocity.y);
-        if (_player.transform.position.y >= (_maxHeightValue - _heightOffset) && !_hitrequestedHeight)
+        if (_player.transform.position.y >= (_maxHeightValue - 15f) && !_hitrequestedHeight)
         {
            // _score.ChangeCalculatingPoint(transform.position.y);
             _decrementGravity = true;
             _hitrequestedHeight = true;
-            //Debug.Log(_player.transform.position.y);
+            Debug.Log(_player.transform.position.y);
+           
         }
 
         if (_decrementGravity)
         {
-            Debug.Log(_player.velocity);
-            _vMultiplier -= .1f;
+            //Debug.Log(_player.velocity);
+            _vMultiplier -= _velocityDecreaseAmt;
             _player.velocity = new Vector3(_player.velocity.x, _vMultiplier, 0f);
 
-            if (_vMultiplier <= 0)
+            if (_vMultiplier <= 3)
             {
+                _player.velocity = new Vector3(_player.velocity.x, 0, 0f);
                 _hitHeight = true;
                 _playerControl._forwardDashActivated = false;
 
                 _playerControl._time = 0f;
-                _playerControl._topPlayerPoint.localPosition = new Vector3(_playerControl.transform.position.x, 9.85f, _playerControl.transform.position.z);
+                _playerControl._topPlayerPoint.localPosition = new Vector3(_playerControl.transform.position.x, 6.5f, _playerControl.transform.position.z);
                 _playerControl._startingPlayerTopPtDiff = _playerControl._topPlayerPoint.position.y - transform.position.y;
                 _playerControl._startingPlayerTopPtDiff2 = _playerControl._topPlayerPoint.position.y - transform.position.y;
 
@@ -75,6 +88,7 @@ public class VelocityBounce2 : MonoBehaviour
                 _decrementGravity = false;
                 _hitBottom = false;
                 _playersExactHeight = _player.transform.position.y;
+                GetComponent<SpriteRenderer>().color = _originalColor;
                 Debug.Log(_playersExactHeight);
             }
         }
@@ -111,7 +125,7 @@ public class VelocityBounce2 : MonoBehaviour
             _playerControl._forwardDashActivated = false;
             _playerControl._time = 0f;
 
-            _playerControl._bottomPlayerPoint.localPosition = new Vector3(transform.position.x, -9.85f, transform.position.z);
+            _playerControl._bottomPlayerPoint.localPosition = new Vector3(transform.position.x, -6.5f, transform.position.z);
             _playerControl._startingPlayerBottomPtDiff = _playerControl._bottomPlayerPoint.position.y - transform.position.y;
             _playerControl._startingPlayerBottomPtDiff2 = _playerControl._bottomPlayerPoint.position.y - transform.position.y;
             _playerControl._score.BounceCount(); // Calling this every time the player collides with the ground to increase bounce count score by 1
@@ -127,17 +141,19 @@ public class VelocityBounce2 : MonoBehaviour
             _hitHeight = false;
             _playersExactHeight = 0;
 
-            if (_maxSpeed >= _vMultiplier && _bounceCount % 3 == 0)
+            if (_maxSpeed >= _vMultiplier && _bounceCount % 1 == 0)
             {
                 _pickupSpawner._shouldResetRunNumber = true;
                 _pickupSpawner._canSpawnOS = true;
                 _runCount = 1;
                 _vMultiplier += 2f;
-                _heightOffset += _bounceCount;
+               // _heightOffset += _bounceCount;
 
                 _camera._camerLerpSpeed += .225f;
                 _camera._transitionSpeed += .05f;
                 _camera._diffTransStartPosEndPos += 5;
+                _offset += .0015f;
+                _velocityDecreaseAmt += .0175f + _offset;
             }
 
             _originalVMultiplier = _vMultiplier;
