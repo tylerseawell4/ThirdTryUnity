@@ -12,18 +12,24 @@ public class GadFlyController : MonoBehaviour
     private Animator _anim;
     public GameObject _enemyDroplingToSpawn;
     private Transform target;
-    private float smoothSpeed = 0.125f;
+    private float smoothSpeed = 0.1f;
+
+    private bool _moveUp;
 
     void Awake()
     {
+        _moveUp = true;
         _anim = GetComponent<Animator>();
         _shootCount = 0;
-        _shootTime = 1f;
+        _shootTime = 1.5f;
         _playerControl = FindObjectOfType<PlayerControl>();
         target = _playerControl.transform;
         // transform.position = new Vector3(_playerControl.transform.position.x, _playerControl.transform.position.y - 5f, transform.position.z);
         transform.right = _playerControl.transform.position - transform.position;
         transform.rotation = Quaternion.Euler(0, 0, -90);
+        //_myRigidBody = GetComponent<Rigidbody2D>();
+        _playerControl = FindObjectOfType<PlayerControl>();
+       // _velocity = _playerControl._player.velocity;
     }
 
     void FixedUpdate()
@@ -33,14 +39,18 @@ public class GadFlyController : MonoBehaviour
 
         target = _playerControl.transform;
 
-
-        Vector3 desiredPosition = new Vector3(target.position.x, Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y + .75f, transform.position.z);
+        Vector3 desiredPosition = new Vector3(target.position.x, transform.position.y, transform.position.z);
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
 
-        transform.position = new Vector3(smoothedPosition.x, Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y + .75f, transform.position.z);
+        if (transform.position.y < (Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y + .75f) && _moveUp)
+            transform.position = new Vector3(smoothedPosition.x, transform.position.y + .25f, transform.position.z);
+        else
+        {
+            _moveUp = false;
+            transform.position = new Vector3(smoothedPosition.x, Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y + .75f, transform.position.z);
+        }
 
-
-        if (transform.position.y < Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y - .5f || transform.position.y > Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y + .5f)
+        if (transform.position.y < Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y - .7f || transform.position.y > Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y + .7f)
             _shootTime -= 1f * Time.deltaTime;
 
         if (_shootTime <= 0)

@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class EnemyBlast : MonoBehaviour
 {
-
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
     private void Update()
     {
         if (transform.position.y > Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y + .5f)
