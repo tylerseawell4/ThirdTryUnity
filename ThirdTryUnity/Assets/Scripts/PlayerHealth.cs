@@ -10,10 +10,11 @@ public class PlayerHealth : MonoBehaviour
     private PlayerDeath _playerDeath;
     private SuperMode _superMode;
     public GameObject _super;
-
+    private Animator _anim;
     // Use this for initialization
     private void Awake()
     {
+        _anim = GetComponent<Animator>();
         _healthCount = 1;
         _originalColor = _renderer.color;
         _playerDeath = GetComponent<PlayerDeath>();
@@ -57,9 +58,9 @@ public class PlayerHealth : MonoBehaviour
 
         _healthCount--;
 
-        if(_healthCount == 0)
+        if (_healthCount == 0)
         {
-            _playerDeath.Die();
+            StartCoroutine("DeathSequence");
             return;
         }
         if (_healthCount == 1)
@@ -83,5 +84,12 @@ public class PlayerHealth : MonoBehaviour
     public int GetPlayerHealth()
     {
         return _healthCount;
+    }
+
+    IEnumerator DeathSequence()
+    {
+        _anim.SetInteger("State", 1);
+        yield return new WaitForSeconds(.6f);
+        _playerDeath.Die();
     }
 }

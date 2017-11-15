@@ -14,31 +14,15 @@ public class PlayerDeath : MonoBehaviour
     private int _playerDeathCountToDate;
     private int _playerHighScore;
     private string _currentTotalScore;
-    // Use this for initialization
-    void Start()
+    
+    void Awake()
     {
         _gameOverPanel.SetActive(false);
         _playerHealth = GetComponent<PlayerHealth>();
         _score = FindObjectOfType<Score>();
         _playerDeathCountToDate = PlayerPrefs.GetInt("Deaths");
-        _playerHighScore = PlayerPrefs.GetInt("HighScore");
-       
+        _playerHighScore = PlayerPrefs.GetInt("HighScore");       
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    //12 is enemy layer
-    //    if (collision.gameObject.layer == 12 && _playerHealth.GetPlayerHealth() <= 0)
-    //    {
-            
-    //    }
-    //}
 
     public void Die()
     {
@@ -68,12 +52,5 @@ public class PlayerDeath : MonoBehaviour
         {
             _gameOverTotalScore.text = _score._totalScoreText.text;
         }
-    }
-    IEnumerator DeathSequence()
-    {
-        var anim = GetComponent<Animator>();
-        anim.SetInteger("State", 1);
-        yield return new WaitForSeconds(1f);
-        Destroy(gameObject);
     }
 }

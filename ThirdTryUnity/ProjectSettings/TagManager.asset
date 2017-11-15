@@ -21,6 +21,7 @@ TagManager:
   - EnemyDropling
   - Super
   - SuperActivation
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX
