@@ -20,6 +20,13 @@ public class SuperMode : MonoBehaviour
     public GameObject _lightningPrefab;
     private GameObject _superLightningAttack;
     private Image _superBar;
+    private bool _shouldShake;
+    private float _duration =1.25f;
+    private Vector3 _startPos;
+    private float _power =.1f;
+    private float _initalDuration;
+    private float _slowDownAmt =1.0f;
+    private Transform _camera;
 
     // Use this for initialization
     void Start()
@@ -27,12 +34,33 @@ public class SuperMode : MonoBehaviour
         _superAcumTime = 0f;
         _tapManager = FindObjectOfType<TapManager>();
         _superBar = GameObject.Find("SuperBar").GetComponent<Image>();
+
+        _camera = Camera.main.transform;
+        _initalDuration = _duration;
     }
 
     void FixedUpdate()
     {
         if (_tapManager._holdActivated && _superBar.fillAmount >= 1f)
+        {
             _superActivated = true;
+            _shouldShake = true;
+            Handheld.Vibrate();
+        }
+
+        if (_shouldShake)
+        {
+            if(_duration > 0)
+            {
+                _camera.localPosition = Camera.main.transform.localPosition + Random.insideUnitSphere * _power;
+                _duration -= Time.deltaTime * _slowDownAmt;
+            }
+            else
+            {
+                _shouldShake = false;
+                _duration = _initalDuration;
+            }
+        }
 
         if (_superActivated)
         {
