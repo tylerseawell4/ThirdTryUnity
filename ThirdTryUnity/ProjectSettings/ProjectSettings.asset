@@ -134,7 +134,7 @@ PlayerSettings:
       useSustainedPerformanceMode: 0
     hololens:
       depthFormat: 1
-  protectGraphicsMemory: 0
+  protectGraphicsMemory: 1
   useHDRDisplay: 0
   applicationIdentifier:
     Android: com.android.test

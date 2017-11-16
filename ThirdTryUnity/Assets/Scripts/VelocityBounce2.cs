@@ -61,7 +61,7 @@ public class VelocityBounce2 : MonoBehaviour
            // _score.ChangeCalculatingPoint(transform.position.y);
             _decrementGravity = true;
             _hitrequestedHeight = true;
-            Debug.Log(_player.transform.position.y);
+           // Debug.Log(_player.transform.position.y);
            
         }
 
@@ -83,13 +83,13 @@ public class VelocityBounce2 : MonoBehaviour
                 _playerControl._startingPlayerTopPtDiff2 = _playerControl._topPlayerPoint.position.y - transform.position.y;
 
 
-                _vMultiplier = 2;
+                _vMultiplier = 3;
                 _moveCharacterDown = true;
                 _decrementGravity = false;
                 _hitBottom = false;
                 _playersExactHeight = _player.transform.position.y;
                 GetComponent<SpriteRenderer>().color = _originalColor;
-                Debug.Log(_playersExactHeight);
+              //  Debug.Log(_playersExactHeight);
             }
         }
 
@@ -101,11 +101,11 @@ public class VelocityBounce2 : MonoBehaviour
             if (_vMultiplier < _originalVMultiplier)
             {
                 Debug.Log(_vMultiplier);
-                _vMultiplier += .025f;
+                _vMultiplier += .1f;
             }
             else
             {
-                Debug.Log(_vMultiplier);
+                //Debug.Log(_vMultiplier);
                 _vMultiplier = _originalVMultiplier;
             }
 
@@ -160,7 +160,7 @@ public class VelocityBounce2 : MonoBehaviour
                // _heightOffset += _bounceCount;
 
                 _camera._camerLerpSpeed += .225f;
-                _camera._transitionSpeed += .05f;
+                _camera._transitionSpeed += .025f;
                 _camera._diffTransStartPosEndPos += 5;
                 _offset += .0015f;
                 _velocityDecreaseAmt += .0175f + _offset;

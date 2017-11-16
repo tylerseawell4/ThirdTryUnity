@@ -33,7 +33,7 @@ public class PlayerHealth : MonoBehaviour
         //increase is called on the DetectSuperChild script
 
         //12 is enemy layer
-        if(collision.gameObject.layer == -1)
+        if(collision.gameObject.layer == 12)
             DecreasePlayerHeath();
     }
     public void IncreasePlayerHealth()
