@@ -17,6 +17,9 @@ public class EnemyBlast : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.tag == "Super")
+            FindObjectOfType<SuperMode>().SpawnLightning(transform);
+
         Destroy(gameObject);
     }
 }

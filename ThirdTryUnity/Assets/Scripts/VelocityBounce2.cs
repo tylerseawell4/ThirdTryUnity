@@ -45,14 +45,15 @@ public class VelocityBounce2 : MonoBehaviour
         _runCount = 1;
         _velocityDecreaseAmt = .025f;
         _offset = 0;
-        _originalColor = GetComponent<SpriteRenderer>().color;
+        //_originalColor = GetComponent<SpriteRenderer>().color;
     }
 
     // Update is called once per frame
     void Update()
     {
         if (_player.transform.position.y >= (_maxHeightValue - 25f) && !_hitrequestedHeight)
-            GetComponent<SpriteRenderer>().color = Color.red;
+            //GetComponent<SpriteRenderer>().color = Color.red;
+            //add code to start making the player air streams or whatever UI to start fading to indicate slowing down
 
 
         //Debug.Log(_player.velocity.y);
@@ -88,7 +89,7 @@ public class VelocityBounce2 : MonoBehaviour
                 _decrementGravity = false;
                 _hitBottom = false;
                 _playersExactHeight = _player.transform.position.y;
-                GetComponent<SpriteRenderer>().color = _originalColor;
+               // GetComponent<SpriteRenderer>().color = _originalColor;
               //  Debug.Log(_playersExactHeight);
             }
         }

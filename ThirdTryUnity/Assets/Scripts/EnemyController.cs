@@ -24,7 +24,7 @@ public class EnemyController : MonoBehaviour
             if (transform.position.x == Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x - 1.5f)
                 _sprite.flipY = true;
 
-            if (_playerControl._player.velocity.y < 0)
+            if (_playerControl != null && _playerControl._player.velocity.y < 0)
             {
                 _sprite.flipX = true;
                 _moveSpeed = -2.5f;
@@ -49,7 +49,7 @@ public class EnemyController : MonoBehaviour
                 _sprite.flipX = false;
                 
             }
-            if (_playerControl._player.velocity.y > 0)
+            if (_playerControl != null && _playerControl._player.velocity.y > 0)
                 _goUp = true;
             else
                 _goUp = false;

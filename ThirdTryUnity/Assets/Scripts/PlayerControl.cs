@@ -24,6 +24,7 @@ public class PlayerControl : MonoBehaviour
     private Vector2 _ogVel;
     private CameraOption3 _camera;
     private VelocityBounce2 _velBounce;
+    //private SwipeManager _swipeManager;
     // Use this for initialization
     void Start()
     {
@@ -41,6 +42,7 @@ public class PlayerControl : MonoBehaviour
         _startingPlayerBottomPtDiff2 = _bottomPlayerPoint.position.y - transform.position.y;
 
         _tapManager = FindObjectOfType<TapManager>();
+        //_swipeManager = FindObjectOfType<SwipeManager>();
         _velBounce = FindObjectOfType<VelocityBounce2>();
         _camera = FindObjectOfType<CameraOption3>();
         _score = FindObjectOfType<Score>();
@@ -65,14 +67,14 @@ public class PlayerControl : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) || SwipeManager.IsSwipingLeft() || SwipeManager.IsSwipingDownLeft()|| SwipeManager.IsSwipingUpLeft())
         {
             _leftDashActivated = true;
             _rightDashActivated = false;
             posX = _player.transform.position.x;
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D) || SwipeManager.IsSwipingRight() || SwipeManager.IsSwipingDownRight() || SwipeManager.IsSwipingUpRight())
         {
             _rightDashActivated = true;
             _leftDashActivated = false;
@@ -108,7 +110,8 @@ public class PlayerControl : MonoBehaviour
                 _leftDashActivated = false;
             }
         }
-        else if (Input.acceleration.x > .035f)
+
+        if (Input.acceleration.x > .035f)
             _player.velocity = new Vector3(30f * Input.acceleration.x, _player.velocity.y, 0f);
         else if (Input.acceleration.x < -.035f)
             _player.velocity = new Vector3(30f * Input.acceleration.x, _player.velocity.y, 0f);
@@ -120,7 +123,7 @@ public class PlayerControl : MonoBehaviour
 
         if (!_forwardDashActivated)
         {
-            if (_tapManager._doubleTap)
+            if ((_player.velocity.y > 0 &&SwipeManager.IsSwipingUp()) || (_player.velocity.y < 0 && SwipeManager.IsSwipingDown()))
             {
                 //checking if velocity is higher than 0 to see if we are going up (dont need to worry about transition when doing updash), 
                 //and checking to see if the player position is less than the exact height of the player when he reaches the stop 

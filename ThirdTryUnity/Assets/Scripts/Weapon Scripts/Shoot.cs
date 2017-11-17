@@ -36,7 +36,7 @@ public class Shoot : MonoBehaviour
             else if (_myRigidBody.velocity.y > 0)
                 _firePointTransform = _firePtUpPos;
 
-            Fire();
+                Fire();
 
             _fireRateCountdown = 0;
 
@@ -59,7 +59,7 @@ public class Shoot : MonoBehaviour
         //else if (Input.acceleration.x < .025f)
         //    obj.transform.position = new Vector3(_firePointTransform.position.x - (.25f + Mathf.Abs(Input.acceleration.x)), _firePointTransform.position.y, _firePointTransform.position.z);
         //else
-            obj.transform.position = _firePointTransform.position;
+        obj.transform.position = _firePointTransform.position;
 
         obj.transform.rotation = _firePointTransform.rotation;
         obj.SetActive(true);

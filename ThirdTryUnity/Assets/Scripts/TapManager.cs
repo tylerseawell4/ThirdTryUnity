@@ -22,7 +22,10 @@ public class TapManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (SwipeManager.IsSwiping())
+            _acumTime = 0f;
+
+        if (Input.GetMouseButtonDown(0) && !SwipeManager.IsSwiping())
         {
             //double tap
             if (_timeBetweenTaps > 0 && _tapCount == 1/*Number of Taps you want Minus One*/)
@@ -40,7 +43,7 @@ public class TapManager : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && !SwipeManager.IsSwiping())
         {
             _isHolding = true;
 
@@ -54,7 +57,7 @@ public class TapManager : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && !SwipeManager.IsSwiping())
         {
             _acumTime = 0;
             _isHolding = false;
