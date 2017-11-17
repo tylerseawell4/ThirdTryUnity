@@ -11,3 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TylerScene.unity
     guid: 9da2b6ab00220fa4fa47e2a449bc7c72
+  - enabled: 1
+    path: Assets/Scenes/WorldScene.unity
+    guid: 00000000000000000000000000000000

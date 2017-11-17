@@ -516,7 +516,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &465777590
 Transform:
   m_ObjectHideFlags: 0
@@ -802,10 +802,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1.5
-  _leftOutterBounds: {fileID: 750800947}
-  _rightOutterBounds: {fileID: 852337487}
-  _topOutterBounds: {fileID: 1296158250}
-  _bottomOutterBounds: {fileID: 923992746}
   _player: {fileID: 1800026171}
 --- !u!1 &741942235
 GameObject:
@@ -2704,10 +2700,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1.5
-  _leftOutterBounds: {fileID: 750800947}
-  _rightOutterBounds: {fileID: 852337487}
-  _topOutterBounds: {fileID: 1296158250}
-  _bottomOutterBounds: {fileID: 923992746}
   _player: {fileID: 1800026171}
 --- !u!58 &1915952368
 CircleCollider2D:
@@ -2952,10 +2944,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 1.5
-  _leftOutterBounds: {fileID: 750800947}
-  _rightOutterBounds: {fileID: 852337487}
-  _topOutterBounds: {fileID: 1296158250}
-  _bottomOutterBounds: {fileID: 923992746}
   _player: {fileID: 1800026171}
 --- !u!50 &1999751912
 Rigidbody2D:
