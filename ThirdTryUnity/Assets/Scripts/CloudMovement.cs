@@ -6,7 +6,7 @@ public class CloudMovement : MonoBehaviour
 {
 
     public float _speed = 1.5f;
-    public GameObject _player;
+    public SpriteRenderer _cloud;
 
     private Camera _camera;
     private float _leftOutterBounds;
@@ -17,9 +17,13 @@ public class CloudMovement : MonoBehaviour
     private VelocityBounce2 _playerVelocity;
     private float _cloudYPosition;
     private Renderer _renderer;
+    private PlayerControl _playerControl;
+    private BackgroundColorChange _backgroundColor;
     private void Start()
     {
         _playerVelocity = FindObjectOfType<VelocityBounce2>();
+        _playerControl = FindObjectOfType<PlayerControl>();
+        _backgroundColor = FindObjectOfType<BackgroundColorChange>();
         _renderer = GetComponent<Renderer>();
         _camera = FindObjectOfType<Camera>();
         RandomizeCloudProperties();
@@ -29,6 +33,7 @@ public class CloudMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        
         _topOutterBounds = _camera.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
         _leftOutterBounds = _camera.ScreenToWorldPoint(new Vector2(0, 0)).x;
         _rightOutterBounds = _camera.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x;
@@ -38,41 +43,41 @@ public class CloudMovement : MonoBehaviour
 
     private void OnBecameInvisible()
     {
-        if (_player != null)
-        {
-            if (_player.activeSelf)
+            if (_playerControl._player != null)
             {
-                if (_playerVelocity._player.velocity.y > 0)
+                if (_playerControl._player.gameObject.activeSelf)
                 {
-                    int randomPosition = Random.Range(0, 3);
-                    var randomXPosition = Random.Range(_leftOutterBounds - 3, Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x);
-                    transform.position = new Vector3(randomXPosition, _topOutterBounds + randomPosition + _renderer.bounds.size.y, transform.position.z);
-                    RandomizeCloudProperties();
+                    if (_playerControl._player.velocity.y > 0)
+                    {
+                        int randomPosition = Random.Range(0, 3);
+                        var randomXPosition = Random.Range(_leftOutterBounds - 3, Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x);
+                        transform.position = new Vector3(randomXPosition, _topOutterBounds + randomPosition + _renderer.bounds.size.y, transform.position.z);
+                        RandomizeCloudProperties();
+                    }
+                    else if (_playerVelocity._player.velocity.y <= 0)
+                    {
+                        int randomPosition = Random.Range(0, 3);
+                        var randomXPosition = Random.Range(_leftOutterBounds - 3, Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x);
+                        var randomYPosition = (_bottomOutterBounds - randomPosition - _renderer.bounds.size.y);
+                        if (randomYPosition <= 0)
+                        {
+                            randomYPosition = Random.Range(0, _topOutterBounds + _renderer.bounds.size.y);
+                            transform.position = new Vector3(_leftOutterBounds - 3, randomYPosition, transform.position.z);
+                        }
+                        else
+                        {
+                            transform.position = new Vector3(randomXPosition, randomYPosition, transform.position.z);
+                        }
+                        RandomizeCloudProperties();
+                    }
                 }
-                else if (_playerVelocity._player.velocity.y <= 0)
+                else
                 {
-                    int randomPosition = Random.Range(0, 3);
-                    var randomXPosition = Random.Range(_leftOutterBounds - 3, Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x);
-                    var randomYPosition = (_bottomOutterBounds - randomPosition - _renderer.bounds.size.y);
-                    if (randomYPosition <= 0)
-                    {
-                        randomYPosition = Random.Range(0, _topOutterBounds + _renderer.bounds.size.y);
-                        transform.position = new Vector3(_leftOutterBounds - 3, randomYPosition, transform.position.z);
-                    }
-                    else
-                    {
-                        transform.position = new Vector3(randomXPosition, randomYPosition, transform.position.z);
-                    }
+                    var randomYPosition = Random.Range(_bottomOutterBounds - _renderer.bounds.size.y, _topOutterBounds + _renderer.bounds.size.y);
+                    transform.position = new Vector3(_leftOutterBounds - _renderer.bounds.size.x, randomYPosition, transform.position.z);
                     RandomizeCloudProperties();
                 }
             }
-            else
-            {
-                var randomYPosition = Random.Range(_bottomOutterBounds - _renderer.bounds.size.y, _topOutterBounds + _renderer.bounds.size.y);
-                transform.position = new Vector3(_leftOutterBounds - _renderer.bounds.size.x, randomYPosition, transform.position.z);
-                RandomizeCloudProperties();
-            }
-        }
     }
 
     private void RandomizeCloudProperties()
