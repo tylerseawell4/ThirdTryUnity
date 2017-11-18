@@ -6,7 +6,7 @@ public class CloudMovement : MonoBehaviour
 {
 
     public float _cloudMovementSpeed = 1.5f;
-    public float _cloudColorTransitionSpeed = 0.5f;
+    public float _cloudColorTransitionSpeed = 0.25f;
     public Color _endCloudColor = new Color(0.25f, 0.25f, 0.25f, 1);
 
     private float _leftOutterBounds;
@@ -40,7 +40,7 @@ public class CloudMovement : MonoBehaviour
     void FixedUpdate()
     {
 
-        if (_backgroundColor._background.color != Color.white)
+        if (_backgroundColor._background.color != Color.white && _backgroundColor._background.transform.position.y >= _backgroundColor._backgroundChangeYValue)
         {
             if (_playerControl._player != null)
             {
