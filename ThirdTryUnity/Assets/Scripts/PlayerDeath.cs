@@ -9,10 +9,16 @@ public class PlayerDeath : MonoBehaviour
     public Text _gameOverBounceCount;
     public Text _gameOverTotalScore;
     public Text _gameOverDeathsToDate;
+    public Text _gameOverRecordBounceCount;
+    public Text _gameOverRecordHighScore;
+    public Text _gameOverEnemiesKilled;
+    public int _enemyDeathCounter = 0;
+
     private Score _score;
     private PlayerHealth _playerHealth;
     private int _playerDeathCountToDate;
-    private int _playerHighScore;
+    private int _recordHighScore;
+    private int _recordBounceCount;
     private string _currentTotalScore;
     
     void Awake()
@@ -21,17 +27,15 @@ public class PlayerDeath : MonoBehaviour
         _playerHealth = GetComponent<PlayerHealth>();
         _score = FindObjectOfType<Score>();
         _playerDeathCountToDate = PlayerPrefs.GetInt("Deaths");
-        _playerHighScore = PlayerPrefs.GetInt("HighScore");       
+        _recordHighScore = PlayerPrefs.GetInt("RecordHighScore");
+        _recordBounceCount = PlayerPrefs.GetInt("RecordBounceCount");
     }
 
     public void Die()
     {
         _currentTotalScore = _score._totalScoreText.text.Split(' ')[2];
         PlayerPreferences();
-
-        _gameOverBounceCount.text = _score._bounceCountText.text;      
-        _gameOverDeathsToDate.text = "Deaths to Date: " + _playerDeathCountToDate.ToString();
-
+        _gameOverEnemiesKilled.text += _enemyDeathCounter.ToString();
         gameObject.SetActive(false);
         _gameOverPanel.SetActive(true);
     }
@@ -41,16 +45,35 @@ public class PlayerDeath : MonoBehaviour
         _playerDeathCountToDate += 1;
         PlayerPrefs.SetInt("Deaths", _playerDeathCountToDate);
         PlayerPrefs.Save();
-       
-        if (Convert.ToInt32(_currentTotalScore) > _playerHighScore || _playerHighScore == 0)
+
+        _gameOverBounceCount.text = _score._bounceCountText.text;
+        _gameOverDeathsToDate.text = "Deaths to Date: " + _playerDeathCountToDate.ToString();
+
+        if (Convert.ToInt32(_currentTotalScore) > _recordHighScore || _recordHighScore == 0)
         {
-            PlayerPrefs.SetInt("HighScore", Convert.ToInt32(_currentTotalScore));
+            PlayerPrefs.SetInt("RecordHighScore", Convert.ToInt32(_currentTotalScore));
             PlayerPrefs.Save();
-            _gameOverTotalScore.text = "NEW HIGH SCORE!!!! " + _currentTotalScore;
+            _gameOverTotalScore.text = "NEW HIGH SCORE!!!!     " + _currentTotalScore;
+            _gameOverRecordHighScore.text += _currentTotalScore.ToString();
         }
         else
         {
             _gameOverTotalScore.text = _score._totalScoreText.text;
+            _gameOverRecordHighScore.text += _recordHighScore.ToString();
         }
+
+
+        if(_score._bounceCount > _recordBounceCount || _recordBounceCount == 0)
+        {
+            PlayerPrefs.SetInt("RecordBounceCount", _score._bounceCount);
+            PlayerPrefs.Save();
+            _gameOverRecordBounceCount.text += _score._bounceCount.ToString();
+        }
+        else
+        {
+            _gameOverRecordBounceCount.text += _recordBounceCount.ToString();
+        }
+
+
     }
 }
