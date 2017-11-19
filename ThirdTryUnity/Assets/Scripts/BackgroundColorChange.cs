@@ -27,20 +27,12 @@ public class BackgroundColorChange : MonoBehaviour {
                     {
                         _background.color = Color.Lerp(_background.color, Color.black, Time.deltaTime * _colorChangeSpeed);
                     }
-                    else
-                    {
-                        _background.color = Color.Lerp(_background.color, Color.white, Time.deltaTime * _colorChangeSpeed);
-                    }
                 }
             }
         }
         else if (transform.parent.position.y < _backgroundChangeYValue)
         {
-            if (_background.color == Color.black)
-            {
-                _background.color = Color.Lerp(Color.black, Color.white, Time.deltaTime * _colorChangeSpeed);
-            }
-            else if (_background.color != Color.white)
+           if (_background.color != Color.white)
             {
                 _background.color = Color.Lerp(_background.color, Color.white, Time.deltaTime * _colorChangeSpeed);
             }

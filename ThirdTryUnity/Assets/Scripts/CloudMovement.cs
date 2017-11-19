@@ -50,14 +50,22 @@ public class CloudMovement : MonoBehaviour
                     {
                         _spriteRenderer.color = Color.Lerp(_spriteRenderer.color, _endCloudColor, Time.deltaTime * _cloudColorTransitionSpeed);
                     }
-                    else
+                }
+            }
+        }
+        else if(_backgroundColor._background.color != Color.white && _backgroundColor._background.transform.position.y <= _backgroundColor._backgroundChangeYValue)
+        {
+            if (_playerControl._player != null)
+            {
+                if (_playerControl._player.gameObject.activeSelf)
+                {
+                    if (_playerControl._player.velocity.y < 0)
                     {
                         _spriteRenderer.color = Color.Lerp(_spriteRenderer.color, _startColor, Time.deltaTime * _cloudColorTransitionSpeed);
                     }
                 }
             }
         }
-
         _topOutterBounds = _camera.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
         _leftOutterBounds = _camera.ScreenToWorldPoint(new Vector2(0, 0)).x;
         _rightOutterBounds = _camera.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x;
