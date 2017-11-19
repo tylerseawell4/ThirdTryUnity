@@ -111,14 +111,12 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
-        if (Input.acceleration.x > .035f)
+        if (Input.acceleration.x > .035f && !_leftDashActivated)
             _player.velocity = new Vector3(30f * Input.acceleration.x, _player.velocity.y, 0f);
-        else if (Input.acceleration.x < -.035f)
+        else if (Input.acceleration.x < -.035f && !_rightDashActivated)
             _player.velocity = new Vector3(30f * Input.acceleration.x, _player.velocity.y, 0f);
         else
-        {
             _player.velocity = new Vector3(0f, _player.velocity.y, 0f);
-        }
 
 
         if (!_forwardDashActivated)
