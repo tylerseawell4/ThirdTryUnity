@@ -22,6 +22,9 @@ public class CloudMovement : MonoBehaviour
     private BackgroundColorChange _backgroundColor;
     private Color _startColor;
     private SpriteRenderer _spriteRenderer;
+    private string _cloudColorString;
+    private string _endCloudColorString;
+    private float _transitionDownYValue = 0;
 
     private void Start()
     {
@@ -37,8 +40,28 @@ public class CloudMovement : MonoBehaviour
     
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
+        _topOutterBounds = _camera.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
+        _leftOutterBounds = _camera.ScreenToWorldPoint(new Vector2(0, 0)).x;
+        _rightOutterBounds = _camera.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x;
+        _bottomOutterBounds = _camera.ScreenToWorldPoint(new Vector2(0, 0)).y;
+        transform.Translate(Vector3.right * Time.deltaTime * _cloudMovementSpeed);
+    }
+
+    void Update()
+    {
+
+        _cloudColorString = _spriteRenderer.color.ToString();
+        _endCloudColorString = _endCloudColor.ToString();
+
+        if (_cloudColorString == _endCloudColorString)
+        {
+            if (_transitionDownYValue == 0)
+            {
+                _transitionDownYValue = transform.position.y;
+            }
+        }
 
         if (_backgroundColor._background.color != Color.white && _backgroundColor._background.transform.position.y >= _backgroundColor._backgroundChangeYValue)
         {
@@ -53,24 +76,28 @@ public class CloudMovement : MonoBehaviour
                 }
             }
         }
-        else if(_backgroundColor._background.color != Color.white && _backgroundColor._background.transform.position.y <= _backgroundColor._backgroundChangeYValue)
+
+        if(_backgroundColor._background.color != Color.white)
         {
-            if (_playerControl._player != null)
+            if (_playerControl._player != null) 
             {
                 if (_playerControl._player.gameObject.activeSelf)
                 {
                     if (_playerControl._player.velocity.y < 0)
                     {
-                        _spriteRenderer.color = Color.Lerp(_spriteRenderer.color, _startColor, Time.deltaTime * _cloudColorTransitionSpeed);
+                        if (_transitionDownYValue == 0)
+                        {
+                            _spriteRenderer.color = Color.Lerp(_spriteRenderer.color, _startColor, Time.deltaTime * _cloudColorTransitionSpeed);
+                        }
+                        else if (transform.position.y <= _transitionDownYValue)
+                        {
+                            _spriteRenderer.color = Color.Lerp(_spriteRenderer.color, _startColor, Time.deltaTime * _cloudColorTransitionSpeed);
+                        }
+
                     }
                 }
             }
         }
-        _topOutterBounds = _camera.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
-        _leftOutterBounds = _camera.ScreenToWorldPoint(new Vector2(0, 0)).x;
-        _rightOutterBounds = _camera.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x;
-        _bottomOutterBounds = _camera.ScreenToWorldPoint(new Vector2(0, 0)).y;
-        transform.Translate(Vector3.right * Time.deltaTime * _cloudMovementSpeed);
     }
 
     private void OnBecameInvisible()
