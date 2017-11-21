@@ -87,10 +87,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c01c81e36f7217245a7312d6a9f9e9b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashTime: 0.25
   _renderer: {fileID: 212193592990696024}
   _enemyDroplingToSpawn: {fileID: 1893678822368496, guid: dc8101ff46a992447809cb8f8a06da96,
     type: 2}
+  flashTime: 0.25
 --- !u!114 &114333319859771882
 MonoBehaviour:
   m_ObjectHideFlags: 1
