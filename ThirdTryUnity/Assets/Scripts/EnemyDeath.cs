@@ -10,7 +10,7 @@ public class EnemyDeath : MonoBehaviour
 
     private int _hp;
     public float flashTime;
-    private Color _origionalColor;    
+    private Color _origionalColor;
     private Animator _anim;
     private EnemyController _enemyMovement;
     private bool _isColliding;
@@ -27,7 +27,7 @@ public class EnemyDeath : MonoBehaviour
         _origionalColor = _renderer.color;
         _enemyMovement = GetComponent<EnemyController>();
         _origionalColor = _renderer.color;
-        _hp = 1;
+        _hp = 2;
         DetermineHp();
     }
 
@@ -57,10 +57,16 @@ public class EnemyDeath : MonoBehaviour
             StartCoroutine("DeathSequence");
         }
 
+
         if (collision.gameObject.tag == "Bullet" || collision.gameObject.tag == "Player")
         {
+            var damage = 1;
+            var collisionWithMoveAndDestroyScript = collision.gameObject.GetComponent<MoveAndDestroyWeapon>();
+            if (collisionWithMoveAndDestroyScript != null)
+                damage = collisionWithMoveAndDestroyScript._damage;
+
             StartCoroutine("TurnRed");
-            _hp--;
+            _hp -= damage;
 
             if (collision.gameObject.tag == "Player")
                 _hp = 0;
@@ -100,6 +106,6 @@ public class EnemyDeath : MonoBehaviour
     private void DetermineHp()
     {
         if (transform.localScale.x >= 1.3f)
-            _hp = 2;
+            _hp = 4;
     }
 }

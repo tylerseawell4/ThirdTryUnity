@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MoveAndDestroyWeapon : MonoBehaviour
 {
-    [Tooltip("How fast the weapon will shoot from player")]
-    public float _bulletMoveSpeed = 10f;
+    //[Tooltip("How fast the weapon will shoot from player")]
+    //public float _bulletMoveSpeed = 10f;
 
     [Tooltip("How long until the weapon shot will be destroyed from the game view")]
     public float _destroyWeaponTime = 0.5f;
@@ -20,19 +20,21 @@ public class MoveAndDestroyWeapon : MonoBehaviour
     private float _initialBulletMoveSpeed;
     private bool _isFirst;
     private int _frameCount;
-
+    public float _addForceValue;
+    public bool _shouldOverPenatrate;
+    public int _damage;
     private void Start()
     {
         _playerControl = FindObjectOfType<PlayerControl>();
         _shoot = FindObjectOfType<Shoot>();
-        _initialBulletMoveSpeed = _bulletMoveSpeed;
+        // _initialBulletMoveSpeed = _bulletMoveSpeed;
         _myRigidBody = GetComponent<Rigidbody2D>();
     }
     void Update()
     {
         if (_playerControl._player != null)
         {
-            if (_playerControl._player.velocity.y >0)
+            if (_playerControl._player.velocity.y >= 0)
             {
                 if (name != "BulletDown")
                 {
@@ -49,7 +51,7 @@ public class MoveAndDestroyWeapon : MonoBehaviour
                     else
                         _myRigidBody.velocity = new Vector2(0, _playerControl._player.velocity.y);
 
-                    _myRigidBody.AddForce(transform.up * 500);
+                    _myRigidBody.AddForce(transform.up * _addForceValue);
                     name = "BulletUp";
                 }
             }
@@ -69,7 +71,7 @@ public class MoveAndDestroyWeapon : MonoBehaviour
                     }
                     else
                         _myRigidBody.velocity = new Vector2(0, _playerControl._player.velocity.y);
-                    _myRigidBody.AddForce(transform.up * -500);
+                    _myRigidBody.AddForce(transform.up * -_addForceValue);
                     name = "BulletDown";
                 }
             }
@@ -98,8 +100,9 @@ public class MoveAndDestroyWeapon : MonoBehaviour
     {
         //if (collision.tag == "Nonlethal") return;
 
-        if (collision.tag == "Player" || collision.tag == "Background") return;
+        if (collision.tag == "Player" || collision.tag == "Background" || collision.tag == "Bullet") return;
 
-        Destroy();
+        if (!_shouldOverPenatrate)
+            Destroy();
     }
 }

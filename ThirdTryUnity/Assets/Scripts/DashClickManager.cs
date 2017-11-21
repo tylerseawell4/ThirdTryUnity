@@ -18,14 +18,14 @@ public class DashClickManager : MonoBehaviour
     }
     private void Update()
     {
-        if (_playerControl._player.velocity.y >= 0 && _rotateAmount != 90)
+        if (_playerControl._player.velocity.y >= 0 && _rotateAmount != 0)
         {
-            _rotateAmount += 5;
+            _rotateAmount -= 10;
             _UpDownButton.rotation = Quaternion.Euler(_UpDownButton.rotation.x, _UpDownButton.rotation.y, _rotateAmount);
         }
-        else if (_playerControl._player.velocity.y < 0 && _rotateAmount != -90)
+        else if (_playerControl._player.velocity.y < 0 && _rotateAmount != 180)
         {
-            _rotateAmount -= 5;
+            _rotateAmount += 10;
             _UpDownButton.rotation = Quaternion.Euler(_UpDownButton.rotation.x, _UpDownButton.rotation.y, _rotateAmount);
         }
     }

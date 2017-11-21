@@ -222,7 +222,7 @@ public class PlayerControl : MonoBehaviour
             }
         }
         else
-            _tapManager._doubleTap = false;
+            _dashManager._isUpDownClicked = false;
 
 #if UNITY_ANDROID
         //creating neutral zone for character movements
