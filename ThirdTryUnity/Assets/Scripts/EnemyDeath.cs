@@ -5,18 +5,22 @@ using UnityEngine;
 
 public class EnemyDeath : MonoBehaviour
 {
+    public SpriteRenderer _renderer;
+    public GameObject _enemyDroplingToSpawn;
+
     private int _hp;
     public float flashTime;
-    private Color _origionalColor;
-    public SpriteRenderer _renderer;
+    private Color _origionalColor;    
     private Animator _anim;
     private EnemyController _enemyMovement;
     private bool _isColliding;
     private PlayerHealth _playerHealth;
     private Collider2D _collider;
-    public GameObject _enemyDroplingToSpawn;
+    private PlayerDeath _playerDeath;
+
     private void Awake()
     {
+        _playerDeath = FindObjectOfType<PlayerDeath>();
         _collider = GetComponent<Collider2D>();
         _playerHealth = FindObjectOfType<PlayerHealth>();
         _anim = GetComponent<Animator>();
@@ -89,6 +93,7 @@ public class EnemyDeath : MonoBehaviour
             _enemyDroplingToSpawn.transform.localScale = new Vector2(gameObject.transform.localScale.x, gameObject.transform.localScale.x);
         Instantiate(_enemyDroplingToSpawn, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, _enemyDroplingToSpawn.gameObject.transform.position.z), Quaternion.identity);
 
+        _playerDeath._enemyDeathCounter += 1;
         Destroy(gameObject);
     }
 

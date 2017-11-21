@@ -8,10 +8,10 @@ public class Score : MonoBehaviour
     public Text _bounceCountText;
     public Text _totalScoreText;
     public float _totalScoreNumber;
+    public int _bounceCount;
 
     private PlayerControl _player;
     private VelocityBounce2 _playerVelocity;
-    private int _bounceCount;
     private float _calculatePlayerPosition;
     private float _calculatedDistanceScore;
     private float _calculatedDistanceScoreDown;
