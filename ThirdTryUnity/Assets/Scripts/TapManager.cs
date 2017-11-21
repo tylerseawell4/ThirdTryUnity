@@ -12,20 +12,24 @@ public class TapManager : MonoBehaviour
     private float _acumTime = 0;
     private bool _isHolding;
     public bool _holdActivated;
-
+    private DashClickManager _dashManager;
     // Use this for initialization
     void Start()
     {
-
+        _dashManager = FindObjectOfType<DashClickManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (SwipeManager.IsSwiping())
-            _acumTime = 0f;
+        if (_dashManager._isLeftClicked || _dashManager._isRightClicked || _dashManager._isUpDownClicked)
+        {
+            _acumTime = 0;
+            return;
+        }
 
-        if (Input.GetMouseButtonDown(0) && !SwipeManager.IsSwiping())
+
+        if (Input.GetMouseButtonDown(0))
         {
             //double tap
             if (_timeBetweenTaps > 0 && _tapCount == 1/*Number of Taps you want Minus One*/)
@@ -43,7 +47,7 @@ public class TapManager : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButton(0) && !SwipeManager.IsSwiping())
+        if (Input.GetMouseButton(0))
         {
             _isHolding = true;
 
@@ -57,7 +61,7 @@ public class TapManager : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0) && !SwipeManager.IsSwiping())
+        if (Input.GetMouseButtonUp(0))
         {
             _acumTime = 0;
             _isHolding = false;

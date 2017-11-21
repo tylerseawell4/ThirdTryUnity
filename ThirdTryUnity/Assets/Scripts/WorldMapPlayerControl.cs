@@ -15,6 +15,7 @@ public class WorldMapPlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
+#if UNITY_ANDROID
         if (Input.touchCount > 0 && Input.GetTouch(0).phase != TouchPhase.Ended)
         {
             if (Input.acceleration.x > .035f)
@@ -33,7 +34,9 @@ public class WorldMapPlayerControl : MonoBehaviour
         }
         else
             _player.velocity = Vector3.zero;
+#endif
 
+#if UNITY_EDITOR
         if (Input.GetAxisRaw("Horizontal") > 0f)
         {
             //transform.localScale = new Vector3(1f, 1f, 1f);
@@ -56,6 +59,7 @@ public class WorldMapPlayerControl : MonoBehaviour
         }
         else
             _player.velocity = new Vector3(0f, 0f, 0f);
+#endif
 
         // transform.Translate(Input.acceleration.x * Time.deltaTime * 10f, -Input.acceleration.z * Time.deltaTime * 10f, 0);
     }

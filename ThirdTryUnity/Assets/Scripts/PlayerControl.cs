@@ -24,16 +24,17 @@ public class PlayerControl : MonoBehaviour
     private Vector2 _ogVel;
     private CameraOption3 _camera;
     private VelocityBounce2 _velBounce;
-    //private SwipeManager _swipeManager;
+    private DashClickManager _dashManager;
     // Use this for initialization
     void Start()
     {
+        _dashManager = FindObjectOfType<DashClickManager>();
         Screen.orientation = ScreenOrientation.Portrait;
         _activeMoveSpeed = 6f;
         _facingRight = true;
 
         _time = 0f;
-        
+
 
         _startingPlayerTopPtDiff = _topPlayerPoint.position.y - transform.position.y;
         _startingPlayerTopPtDiff2 = _topPlayerPoint.position.y - transform.position.y;
@@ -67,15 +68,17 @@ public class PlayerControl : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.A) || SwipeManager.IsSwipingLeft() || SwipeManager.IsSwipingDownLeft()|| SwipeManager.IsSwipingUpLeft())
+        if (Input.GetKeyDown(KeyCode.A) || _dashManager._isLeftClicked)
         {
+            _dashManager._isLeftClicked = false;
             _leftDashActivated = true;
             _rightDashActivated = false;
             posX = _player.transform.position.x;
         }
 
-        if (Input.GetKeyDown(KeyCode.D) || SwipeManager.IsSwipingRight() || SwipeManager.IsSwipingDownRight() || SwipeManager.IsSwipingUpRight())
+        if (Input.GetKeyDown(KeyCode.D) || _dashManager._isRightClicked)
         {
+            _dashManager._isRightClicked = false;
             _rightDashActivated = true;
             _leftDashActivated = false;
             posX = _player.transform.position.x;
@@ -121,15 +124,16 @@ public class PlayerControl : MonoBehaviour
 
         if (!_forwardDashActivated)
         {
-            if ((_player.velocity.y > 0 &&SwipeManager.IsSwipingUp()) || (_player.velocity.y < 0 && SwipeManager.IsSwipingDown()))
+            if ((_player.velocity.y > 0) && _dashManager._isUpDownClicked || (_player.velocity.y < 0 && _dashManager._isUpDownClicked))
             {
+                //flip back
+                _dashManager._isUpDownClicked = false;
                 //checking if velocity is higher than 0 to see if we are going up (dont need to worry about transition when doing updash), 
                 //and checking to see if the player position is less than the exact height of the player when he reaches the stop 
                 //minus a value X units down in order to create a deadzone where no dashing can occur so the camera can transition
                 if (_player.velocity.y > 0 || _player.position.y <= _velBounce._playersExactHeight - _camera._diffTransStartPosEndPos)
                 {
-                    //flip back
-                    _tapManager._doubleTap = false;
+                    _dashManager._isUpDownClicked = false;
                     _forwardDashActivated = true;
                     _shouldSlowCameraWhenGoingUp = true;
                     _currentPlayerPosDiff = 0f;
@@ -139,13 +143,13 @@ public class PlayerControl : MonoBehaviour
                         _shouldSlowCameraWhenGoingUp = false;
                 }
                 else
-                    _tapManager._doubleTap = false;
+                    _dashManager._isUpDownClicked = false;
             }
             else
-                _tapManager._doubleTap = false;
+                _dashManager._isUpDownClicked = false;
         }
         else
-            _tapManager._doubleTap = false;
+            _dashManager._isUpDownClicked = false;
 
         if (_forwardDashActivated && _player.velocity.y > 0)
         {
@@ -269,10 +273,10 @@ public class PlayerControl : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(_tapManager._holdActivated)
-        if (collision.gameObject.tag.Equals("Ground"))
-        {
-        
-        }
+        if (_tapManager._holdActivated)
+            if (collision.gameObject.tag.Equals("Ground"))
+            {
+
+            }
     }
 }

@@ -52,8 +52,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fbb7c4bfa7ca3146b3f9725febd4025, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 1.5
-  _player: {fileID: 0}
+  _cloudMovementSpeed: 1.5
+  _cloudColorTransitionSpeed: 0.25
+  _endCloudColor: {r: 0.25, g: 0.25, b: 0.25, a: 1}
 --- !u!212 &212560770826079770
 SpriteRenderer:
   m_ObjectHideFlags: 1

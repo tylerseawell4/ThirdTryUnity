@@ -267,7 +267,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44c56883d969bd94f8ce3420df734271, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1684902093}
+  _player: {fileID: 1684902093}
+  _renderer: {fileID: 0}
 --- !u!1 &1478593646
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,7 +493,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &1684902095
 SpriteRenderer:
   m_ObjectHideFlags: 0

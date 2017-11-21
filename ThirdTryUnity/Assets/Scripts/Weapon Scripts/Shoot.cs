@@ -16,6 +16,7 @@ public class Shoot : MonoBehaviour
     private bool _isInitialFire;
     private TapManager _tapManager;
     private Rigidbody2D _myRigidBody;
+
     void Start()
     {
         _playerControl = FindObjectOfType<PlayerControl>();
@@ -23,6 +24,7 @@ public class Shoot : MonoBehaviour
         _fireRateCountdown = 0;
         _tapManager = FindObjectOfType<TapManager>();
         _myRigidBody = GetComponent<Rigidbody2D>();
+       
     }
 
     void FixedUpdate()
@@ -36,7 +38,7 @@ public class Shoot : MonoBehaviour
             else if (_myRigidBody.velocity.y > 0)
                 _firePointTransform = _firePtUpPos;
 
-                Fire();
+            Fire();
 
             _fireRateCountdown = 0;
 
