@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShootShotgun : MonoBehaviour
+public class KetchupShotgun : MonoBehaviour
 {
     private Transform _firePointTransform;
     private PlayerControl _playerControl;
@@ -12,6 +12,7 @@ public class ShootShotgun : MonoBehaviour
     private Rigidbody2D _myRigidBody;
     private GameObject _shotgunBlast;
     public GameObject _shotgunBlastUp;
+    public GameObject _shotgunBlastDown;
     // Use this for initialization
     void Start()
     {
@@ -24,7 +25,6 @@ public class ShootShotgun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (_tapManager._doubleTap)
         {
             if (_myRigidBody.velocity.y <= 0)
@@ -34,7 +34,7 @@ public class ShootShotgun : MonoBehaviour
             }
             else if (_myRigidBody.velocity.y > 0)
             {
-                _shotgunBlast = _shotgunBlastUp;
+                _shotgunBlast = _shotgunBlastDown;
                 _firePointTransform = _firePtUpPos;
             }
 
@@ -57,7 +57,7 @@ public class ShootShotgun : MonoBehaviour
         //else if (Input.acceleration.x < .025f)
         //    obj.transform.position = new Vector3(_firePointTransform.position.x - (.25f + Mathf.Abs(Input.acceleration.x)), _firePointTransform.position.y, _firePointTransform.position.z);
         //else
-        obj.transform.position = _firePointTransform.position;
+        obj.transform.position = new Vector3(_firePointTransform.position.x, _firePointTransform.position.y, _shotgunBlast.transform.position.z);
 
         obj.transform.rotation = _firePointTransform.rotation;
         obj.SetActive(true);

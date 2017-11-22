@@ -28,6 +28,7 @@ public class VelocityBounce2 : MonoBehaviour
     private float _velocityDecreaseAmt;
     private float _offset;
     private Color _originalColor;
+    private EnemySpawner _enemySpawner;
 
     // Use this for initialization
     void Start()
@@ -40,6 +41,7 @@ public class VelocityBounce2 : MonoBehaviour
         _camera = FindObjectOfType<CameraOption3>();
         _playerControl = FindObjectOfType<PlayerControl>();
         _pickupSpawner = FindObjectOfType<PickupSpawner>();
+        _enemySpawner = FindObjectOfType<EnemySpawner>();
         _score = FindObjectOfType<Score>();
         _heightOffset = 5f;
         _runCount = 1;
@@ -165,6 +167,7 @@ public class VelocityBounce2 : MonoBehaviour
                 _camera._diffTransStartPosEndPos += 5;
                 _offset += .0015f;
                 _velocityDecreaseAmt += .0175f + _offset;
+                _enemySpawner._numberOfBugs++;
             }
 
             _originalVMultiplier = _vMultiplier;

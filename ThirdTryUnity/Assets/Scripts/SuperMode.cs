@@ -21,11 +21,11 @@ public class SuperMode : MonoBehaviour
     private GameObject _superLightningAttack;
     private Image _superBar;
     private bool _shouldShake;
-    private float _duration =1.25f;
+    private float _duration = 1.25f;
     private Vector3 _startPos;
-    private float _power =.1f;
+    private float _power = .1f;
     private float _initalDuration;
-    private float _slowDownAmt =1.0f;
+    private float _slowDownAmt = 1.0f;
     private Transform _camera;
 
     // Use this for initialization
@@ -50,9 +50,11 @@ public class SuperMode : MonoBehaviour
 
         if (_shouldShake)
         {
-            if(_duration > 0)
+            if (_duration > 0)
             {
-                _camera.localPosition = Camera.main.transform.localPosition + Random.insideUnitSphere * _power;
+                var shake = Camera.main.transform.localPosition + Random.insideUnitSphere * _power;
+                _camera.localPosition = new Vector3(shake.x, shake.y, _camera.localPosition.z);
+
                 _duration -= Time.deltaTime * _slowDownAmt;
             }
             else
@@ -167,7 +169,7 @@ public class SuperMode : MonoBehaviour
     }
     public void SpawnLightning(Transform enemy)
     {
-        _superLightningAttack = Instantiate(_lightningPrefab,transform.position,Quaternion.identity);
+        _superLightningAttack = Instantiate(_lightningPrefab, transform.position, Quaternion.identity);
         _superLightningAttack.transform.parent = transform;
         _superLightningAttack.GetComponent<LightningAttackTime>().SpawnLightning(enemy);
 

@@ -23,8 +23,7 @@ public class Shoot : MonoBehaviour
         _isInitialFire = true;
         _fireRateCountdown = 0;
         _tapManager = FindObjectOfType<TapManager>();
-        _myRigidBody = GetComponent<Rigidbody2D>();
-       
+        _myRigidBody = GetComponent<Rigidbody2D>();   
     }
 
     void FixedUpdate()
@@ -61,7 +60,7 @@ public class Shoot : MonoBehaviour
         //else if (Input.acceleration.x < .025f)
         //    obj.transform.position = new Vector3(_firePointTransform.position.x - (.25f + Mathf.Abs(Input.acceleration.x)), _firePointTransform.position.y, _firePointTransform.position.z);
         //else
-        obj.transform.position = _firePointTransform.position;
+        obj.transform.position = new Vector3(_firePointTransform.position.x, _firePointTransform.position.y, _bullet.transform.position.z);
 
         obj.transform.rotation = _firePointTransform.rotation;
         obj.SetActive(true);

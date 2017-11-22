@@ -17,25 +17,45 @@ public class MoveAndDestroyWeapon : MonoBehaviour
     private PlayerControl _playerControl;
     private Shoot _shoot;
     public SpriteRenderer _bullet;
-    private float _initialBulletMoveSpeed;
-    private bool _isFirst;
+    private bool _isFirstSpawnedIn;
     private int _frameCount;
     public float _addForceValue;
     public bool _shouldOverPenatrate;
+    public bool _shouldFade;
     public int _damage;
+
+    private float _leftOutterBounds;
+    private float _rightOutterBounds;
+    private float _topOutterBounds;
+    private float _bottomOutterBounds;
+
+    private Camera _camera;
     private void Start()
     {
         _playerControl = FindObjectOfType<PlayerControl>();
         _shoot = FindObjectOfType<Shoot>();
-        // _initialBulletMoveSpeed = _bulletMoveSpeed;
         _myRigidBody = GetComponent<Rigidbody2D>();
+        _camera = FindObjectOfType<Camera>();
+
+        _topOutterBounds = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
+        _leftOutterBounds = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x;
+        _rightOutterBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x;
+        _bottomOutterBounds = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y;
     }
     void Update()
     {
-        if (!_shouldOverPenatrate)
+        _topOutterBounds = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
+        _leftOutterBounds = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x;
+        _rightOutterBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x;
+        _bottomOutterBounds = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y;
+
+        if (transform.position.y > _topOutterBounds || transform.position.y < _bottomOutterBounds || transform.position.x > _rightOutterBounds || transform.position.x < _leftOutterBounds)
+            Destroy();
+
+        if (_shouldFade)
         {
             Color color1 = _bullet.GetComponent<SpriteRenderer>().material.color;
-            color1.a -= .015f;
+            color1.a -= .02f;
             _bullet.GetComponent<SpriteRenderer>().material.color = color1;
         }
         if (_playerControl._player != null)
@@ -46,11 +66,11 @@ public class MoveAndDestroyWeapon : MonoBehaviour
                 {
                     _bullet.flipY = true;
 
-                    if (_isFirst)
+                    if (_isFirstSpawnedIn)
                     {
                         _frameCount++;
                         if (_frameCount >= 2)
-                            _isFirst = false;
+                            _isFirstSpawnedIn = false;
 
                         _myRigidBody.velocity = _playerControl._player.velocity;
                     }
@@ -67,11 +87,11 @@ public class MoveAndDestroyWeapon : MonoBehaviour
                 {
                     _bullet.flipY = false;
 
-                    if (_isFirst)
+                    if (_isFirstSpawnedIn)
                     {
                         _frameCount++;
                         if (_frameCount >= 2)
-                            _isFirst = false;
+                            _isFirstSpawnedIn = false;
 
                         _myRigidBody.velocity = _playerControl._player.velocity;
                     }
@@ -87,10 +107,10 @@ public class MoveAndDestroyWeapon : MonoBehaviour
     {
         //if (_playerVelocityScript._hitHeight)
         //    _bullet.flipY = true;
-        _isFirst = true;
+        _isFirstSpawnedIn = true;
         _frameCount = 0;
         name = "Bullet";
-        Invoke("Destroy", _destroyWeaponTime);
+        //Invoke("Destroy", _destroyWeaponTime);
     }
     private void Destroy()
     {

@@ -15,6 +15,7 @@ public class EnemySpawner : MonoBehaviour
     private float[] _enemySizesRNG;
     public GameObject _wasp;
     private bool _shouldReAddWasp;
+    public int _numberOfBugs;
 
     // Use this for initialization
     void Start()
@@ -26,6 +27,7 @@ public class EnemySpawner : MonoBehaviour
         _enemySizesRNG = new float[] { .6f, .7f, .8f, .9f, 1, 1, 1, 1.3f, 1.4f, 1.5f };
         _leftrightXPos[0] = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x + 1.5f;
         _leftrightXPos[1] = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x - 1.5f;
+        _numberOfBugs = 1;
 
         //All enemies need to be in the "Enemy" layer to avoid collisions with the enviornment (clouds)
         foreach (var item in _prefabsToSpawns)
@@ -63,7 +65,7 @@ public class EnemySpawner : MonoBehaviour
                 _heightYGoingUp += _playerHeightCheck._playersExactHeight + _playerHeightCheck._increaseHeightBy;
 
                 int indexToReplaceWasp = 0;
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < _numberOfBugs; i++)
                 {
                     int index = 0;
                     var yPos = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
@@ -91,7 +93,7 @@ public class EnemySpawner : MonoBehaviour
                         if (randomVal - 2f <= 10)
                             randomVal += 2f;
                         Instantiate(bugToSpawn, new Vector3(_leftrightXPos[0], yPos + randomVal, bugToSpawn.transform.position.z), bugToSpawn.transform.rotation);
-                        Instantiate(_prefabsToSpawns[0], new Vector3(0, yPos + randomVal + 3, _prefabsToSpawns[0].transform.position.z), _prefabsToSpawns[0].transform.rotation);
+                       Instantiate(_prefabsToSpawns[0], new Vector3(0, yPos + randomVal + 3, _prefabsToSpawns[0].transform.position.z), _prefabsToSpawns[0].transform.rotation);
                         Instantiate(bugToSpawn, new Vector3(_leftrightXPos[1], yPos + randomVal, bugToSpawn.transform.position.z), bugToSpawn.transform.rotation);
 
                         //removing wasp so it doesnt double or triple spawn them
@@ -112,7 +114,7 @@ public class EnemySpawner : MonoBehaviour
                 _heightYGoingUp += _playerHeightCheck._playersExactHeight + _playerHeightCheck._increaseHeightBy;
 
                 int indexToReplaceWasp = 0;
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < _numberOfBugs; i++)
                 {
                     int index = 0;
                     var yPos = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
@@ -139,7 +141,7 @@ public class EnemySpawner : MonoBehaviour
                         if (randomVal - 2f <= 10)
                             randomVal += 2f;
                         Instantiate(bugToSpawn, new Vector3(_leftrightXPos[0], yPos + randomVal, bugToSpawn.transform.position.z), bugToSpawn.transform.rotation);
-                        Instantiate(_prefabsToSpawns[0], new Vector3(0, yPos + randomVal + 3, _prefabsToSpawns[0].transform.position.z), _prefabsToSpawns[0].transform.rotation);
+                       Instantiate(_prefabsToSpawns[0], new Vector3(0, yPos + randomVal + 3, _prefabsToSpawns[0].transform.position.z), _prefabsToSpawns[0].transform.rotation);
                         Instantiate(bugToSpawn, new Vector3(_leftrightXPos[1], yPos + randomVal, bugToSpawn.transform.position.z), bugToSpawn.transform.rotation);
 
                         //removing wasp so it doesnt double or triple spawn them
@@ -165,7 +167,7 @@ public class EnemySpawner : MonoBehaviour
                     _heightYGoingDown -= _playerHeightCheck._increaseHeightBy;
 
                     int indexToReplaceWasp = 0;
-                    for (int i = 0; i < 2; i++)
+                    for (int i = 0; i < 3; i++)
                     {
                         int index = 0;
                         var yPos = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y;
@@ -194,7 +196,7 @@ public class EnemySpawner : MonoBehaviour
                             if (randomVal - 2f <= 10)
                                 randomVal += 2f;
                             Instantiate(bugToSpawn, new Vector3(_leftrightXPos[0], yPos + randomVal, bugToSpawn.transform.position.z), bugToSpawn.transform.rotation);
-                            Instantiate(_prefabsToSpawns[0], new Vector3(0, yPos + randomVal + 3, _prefabsToSpawns[0].transform.position.z), _prefabsToSpawns[0].transform.rotation);
+                           Instantiate(_prefabsToSpawns[0], new Vector3(0, yPos + randomVal + 3, _prefabsToSpawns[0].transform.position.z), _prefabsToSpawns[0].transform.rotation);
                             Instantiate(bugToSpawn, new Vector3(_leftrightXPos[1], yPos + randomVal, bugToSpawn.transform.position.z), bugToSpawn.transform.rotation);
 
                             //removing wasp so it doesnt double or triple spawn them

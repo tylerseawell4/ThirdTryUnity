@@ -21,7 +21,7 @@ public class EnemyController : MonoBehaviour
         _sprite = GetComponent<SpriteRenderer>();
         if (gameObject.name.Contains("Wasp"))
         {
-            if (transform.position.x == Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x - 1.5f)
+            if (transform.position.x <= Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x && transform.position.x >= Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x + 3)
                 _sprite.flipY = true;
 
             if (_playerControl != null && _playerControl._player.velocity.y < 0)
