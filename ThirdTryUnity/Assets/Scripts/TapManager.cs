@@ -25,6 +25,7 @@ public class TapManager : MonoBehaviour
         if (_dashManager._isLeftClicked || _dashManager._isRightClicked || _dashManager._isUpDownClicked)
         {
             _acumTime = 0;
+            _tapCount = 0;
             return;
         }
 

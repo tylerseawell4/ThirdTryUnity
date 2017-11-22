@@ -1125,7 +1125,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &822078303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3552,6 +3552,24 @@ Prefab:
       propertyPath: _gameOverEnemiesKilled
       value: 
       objectReference: {fileID: 1789552631}
+    - target: {fileID: 4464475596755230, guid: b9cb31a4faf73ef4ea7a553734a93de2, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 7.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460255181429032, guid: b9cb31a4faf73ef4ea7a553734a93de2, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -7.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114322562022188558, guid: b9cb31a4faf73ef4ea7a553734a93de2,
+        type: 2}
+      propertyPath: _increaseHeightBy
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 114322562022188558, guid: b9cb31a4faf73ef4ea7a553734a93de2,
+        type: 2}
+      propertyPath: _startingHeight
+      value: 40
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114610694651942202, guid: b9cb31a4faf73ef4ea7a553734a93de2, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: b9cb31a4faf73ef4ea7a553734a93de2, type: 2}

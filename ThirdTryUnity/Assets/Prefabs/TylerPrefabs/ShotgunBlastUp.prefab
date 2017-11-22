@@ -154,7 +154,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1264560753404728}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.061}
+  m_LocalPosition: {x: -0.024057627, y: -9.088261, z: -0.059}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4264006985527620}
@@ -440,10 +440,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30e6ef4295c0e1f418964706a893d896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _destroyWeaponTime: 1.5
+  _destroyWeaponTime: 1
   _keepConstantSpeed: 0
   _bullet: {fileID: 212808142458956770}
-  _addForceValue: 150
+  _addForceValue: 250
+  _shouldOverPenatrate: 0
+  _damage: 1
 --- !u!114 &114155927490897258
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -455,10 +457,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30e6ef4295c0e1f418964706a893d896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _destroyWeaponTime: 1.5
+  _destroyWeaponTime: 1
   _keepConstantSpeed: 0
   _bullet: {fileID: 212276720957998650}
-  _addForceValue: 150
+  _addForceValue: 250
+  _shouldOverPenatrate: 0
+  _damage: 1
 --- !u!114 &114173235945748236
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -470,10 +474,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30e6ef4295c0e1f418964706a893d896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _destroyWeaponTime: 1.5
+  _destroyWeaponTime: 1
   _keepConstantSpeed: 0
   _bullet: {fileID: 212341618084201240}
-  _addForceValue: 150
+  _addForceValue: 250
+  _shouldOverPenatrate: 0
+  _damage: 1
 --- !u!114 &114633604105507848
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -485,10 +491,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30e6ef4295c0e1f418964706a893d896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _destroyWeaponTime: 1.5
+  _destroyWeaponTime: 1
   _keepConstantSpeed: 0
   _bullet: {fileID: 212133467655639870}
-  _addForceValue: 150
+  _addForceValue: 250
+  _shouldOverPenatrate: 0
+  _damage: 1
 --- !u!114 &114867368230392298
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -500,10 +508,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30e6ef4295c0e1f418964706a893d896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _destroyWeaponTime: 1.5
+  _destroyWeaponTime: 1
   _keepConstantSpeed: 0
   _bullet: {fileID: 212540509748392960}
-  _addForceValue: 150
+  _addForceValue: 250
+  _shouldOverPenatrate: 0
+  _damage: 1
 --- !u!212 &212133467655639870
 SpriteRenderer:
   m_ObjectHideFlags: 1

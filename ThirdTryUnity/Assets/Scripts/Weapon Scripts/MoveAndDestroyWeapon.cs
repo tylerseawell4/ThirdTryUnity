@@ -32,6 +32,12 @@ public class MoveAndDestroyWeapon : MonoBehaviour
     }
     void Update()
     {
+        if (!_shouldOverPenatrate)
+        {
+            Color color1 = _bullet.GetComponent<SpriteRenderer>().material.color;
+            color1.a -= .015f;
+            _bullet.GetComponent<SpriteRenderer>().material.color = color1;
+        }
         if (_playerControl._player != null)
         {
             if (_playerControl._player.velocity.y >= 0)
