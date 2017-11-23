@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shoot : MonoBehaviour
+public class KetchupShoot : MonoBehaviour
 {
     [Tooltip("The 'bullet' that will shoot out of firepoint. The bullet Asset MUST have the MoveAndDestroyWeapon script attached to it.")]
     public GameObject _bullet;

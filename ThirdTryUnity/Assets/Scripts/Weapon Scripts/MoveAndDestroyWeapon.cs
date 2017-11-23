@@ -15,7 +15,7 @@ public class MoveAndDestroyWeapon : MonoBehaviour
 
     private Rigidbody2D _myRigidBody;
     private PlayerControl _playerControl;
-    private Shoot _shoot;
+    private KetchupShoot _shoot;
     public SpriteRenderer _bullet;
     private bool _isFirstSpawnedIn;
     private int _frameCount;
@@ -33,7 +33,7 @@ public class MoveAndDestroyWeapon : MonoBehaviour
     private void Start()
     {
         _playerControl = FindObjectOfType<PlayerControl>();
-        _shoot = FindObjectOfType<Shoot>();
+        _shoot = FindObjectOfType<KetchupShoot>();
         _myRigidBody = GetComponent<Rigidbody2D>();
         _camera = FindObjectOfType<Camera>();
 
