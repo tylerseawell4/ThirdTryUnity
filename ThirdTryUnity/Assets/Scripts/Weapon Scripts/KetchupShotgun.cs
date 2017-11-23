@@ -5,7 +5,6 @@ using UnityEngine;
 public class KetchupShotgun : MonoBehaviour
 {
     private Transform _firePointTransform;
-    private PlayerControl _playerControl;
     public Transform _firePtUpPos;
     public Transform _firePtDownPos;
     private TapManager _tapManager;
@@ -16,10 +15,8 @@ public class KetchupShotgun : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        _playerControl = FindObjectOfType<PlayerControl>();
         _tapManager = FindObjectOfType<TapManager>();
         _myRigidBody = GetComponent<Rigidbody2D>();
-
     }
 
     // Update is called once per frame

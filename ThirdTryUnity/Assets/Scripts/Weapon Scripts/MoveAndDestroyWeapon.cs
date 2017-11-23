@@ -49,7 +49,7 @@ public class MoveAndDestroyWeapon : MonoBehaviour
         _rightOutterBounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x;
         _bottomOutterBounds = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y;
 
-        if (transform.position.y > _topOutterBounds || transform.position.y < _bottomOutterBounds || transform.position.x > _rightOutterBounds || transform.position.x < _leftOutterBounds)
+        if (gameObject.layer != 14 && transform.position.y > _topOutterBounds || transform.position.y < _bottomOutterBounds || transform.position.x > _rightOutterBounds || transform.position.x < _leftOutterBounds)
             Destroy();
 
         if (_shouldFade)
@@ -110,7 +110,8 @@ public class MoveAndDestroyWeapon : MonoBehaviour
         _isFirstSpawnedIn = true;
         _frameCount = 0;
         name = "Bullet";
-        //Invoke("Destroy", _destroyWeaponTime);
+        if (gameObject.layer == 14)
+            Invoke("Destroy", _destroyWeaponTime);
     }
     private void Destroy()
     {

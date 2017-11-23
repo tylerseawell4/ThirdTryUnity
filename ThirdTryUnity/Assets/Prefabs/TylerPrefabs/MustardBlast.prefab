@@ -105,7 +105,7 @@ MonoBehaviour:
   _addForceValue: 550
   _shouldOverPenatrate: 0
   _shouldFade: 0
-  _damage: 1
+  _damage: 2
 --- !u!212 &212137943226094306
 SpriteRenderer:
   m_ObjectHideFlags: 1

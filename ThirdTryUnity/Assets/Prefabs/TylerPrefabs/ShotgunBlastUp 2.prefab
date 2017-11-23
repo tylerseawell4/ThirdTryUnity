@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4793700533963274}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: ShotgunBlastUp 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 50602617882371808}
   - component: {fileID: 61145520948027424}
   - component: {fileID: 114013422276984492}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: laserRed01 (5)
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 50666642905074618}
   - component: {fileID: 61141580230553434}
   - component: {fileID: 114334391262616480}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: laserRed01 (6)
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 50033513830400506}
   - component: {fileID: 61383236111754522}
   - component: {fileID: 114076659894287810}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: laserRed01 (10)
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 50040949016522872}
   - component: {fileID: 61520638952377634}
   - component: {fileID: 114395146810647264}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: laserRed01 (9)
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 50923272907950364}
   - component: {fileID: 61490254379841198}
   - component: {fileID: 114537320062336164}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: laserRed01 (8)
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 50119910669036006}
   - component: {fileID: 61398168735089516}
   - component: {fileID: 114435883526228816}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: laserRed01 (7)
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -152,7 +152,7 @@ GameObject:
   - component: {fileID: 50453451595204862}
   - component: {fileID: 61413111256345920}
   - component: {fileID: 114418143207181948}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: laserRed01 (11)
   m_TagString: Bullet
   m_Icon: {fileID: 0}

@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 50549824724128662}
   - component: {fileID: 61766476608028406}
   - component: {fileID: 114741138470595290}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: laserRed01 (8)
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 50923120828899364}
   - component: {fileID: 61448179603219080}
   - component: {fileID: 114017125217142444}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: laserRed01 (10)
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 50954244851712636}
   - component: {fileID: 61653273599474228}
   - component: {fileID: 114618577999949252}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: laserRed01 (11)
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -80,7 +80,7 @@ GameObject:
   - component: {fileID: 50918531075458736}
   - component: {fileID: 61594803419978296}
   - component: {fileID: 114963931597976494}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: laserRed01 (9)
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 50337055878121298}
   - component: {fileID: 61531725959268650}
   - component: {fileID: 114039158597754650}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: laserRed01 (5)
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4258054099861924}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: ShotgunBlastUp 2 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 50275587914642170}
   - component: {fileID: 61171858546364372}
   - component: {fileID: 114945602890997344}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: laserRed01 (7)
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -152,7 +152,7 @@ GameObject:
   - component: {fileID: 50503208270847186}
   - component: {fileID: 61301996910394326}
   - component: {fileID: 114671687515099614}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: laserRed01 (6)
   m_TagString: Bullet
   m_Icon: {fileID: 0}

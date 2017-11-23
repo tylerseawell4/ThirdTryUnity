@@ -333,7 +333,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 1
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
 --- !u!222 &23620332
@@ -1130,7 +1130,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &822078303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3274,6 +3274,19 @@ MonoBehaviour:
   _firePtUpPos: {fileID: 18272351}
   _firePtDownPos: {fileID: 144225217}
   _mustardBlast: {fileID: 1022618072018540, guid: 250f697c89531f54aae8c82607a95b4c,
+    type: 2}
+--- !u!114 &1800026184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1800026171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90a8c2c90211a184c89147d3e77ac292, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shotgunBlast: {fileID: 1921598838989504, guid: b93430c5c6e806242bb12d2c7c857400,
     type: 2}
 --- !u!1001 &1833161471
 Prefab:
