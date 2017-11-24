@@ -107,4 +107,22 @@ public class EnemyController : MonoBehaviour
             //need .left since it is rotated to move UP
             transform.Translate(Vector3.left * _moveSpeed * Time.deltaTime);
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!gameObject.name.Contains("Wasp") && collision.gameObject.layer == 12)
+        {
+            if (_movingRight)
+            {
+                _movingRight = false;
+                _sprite.flipX = false;
+                _moveXPos = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x;
+            }
+            else if(!_movingRight)
+            {
+                _movingRight = true;
+                _sprite.flipX = true;
+                _moveXPos = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x;
+            }         
+        }
+    }
 }
