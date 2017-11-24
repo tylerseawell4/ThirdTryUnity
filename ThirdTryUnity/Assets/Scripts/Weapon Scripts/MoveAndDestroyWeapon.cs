@@ -30,6 +30,8 @@ public class MoveAndDestroyWeapon : MonoBehaviour
     private float _bottomOutterBounds;
 
     private Camera _camera;
+    public bool _shouldFollow;
+
     private void Start()
     {
         _playerControl = FindObjectOfType<PlayerControl>();
@@ -66,16 +68,23 @@ public class MoveAndDestroyWeapon : MonoBehaviour
                 {
                     _bullet.flipY = true;
 
-                    if (_isFirstSpawnedIn)
+                    if (_shouldFollow)
                     {
-                        _frameCount++;
-                        if (_frameCount >= 2)
-                            _isFirstSpawnedIn = false;
-
                         _myRigidBody.velocity = _playerControl._player.velocity;
                     }
                     else
-                        _myRigidBody.velocity = new Vector2(0, _playerControl._player.velocity.y);
+                    {
+                        if (_isFirstSpawnedIn)
+                        {
+                            _frameCount++;
+                            if (_frameCount >= 2)
+                                _isFirstSpawnedIn = false;
+
+                            _myRigidBody.velocity = _playerControl._player.velocity;
+                        }
+                        else
+                            _myRigidBody.velocity = new Vector2(0, _playerControl._player.velocity.y);
+                    }
 
                     _myRigidBody.AddForce(transform.up * _addForceValue);
                     name = "BulletUp";

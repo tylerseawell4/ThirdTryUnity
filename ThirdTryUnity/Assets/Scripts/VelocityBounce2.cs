@@ -154,21 +154,21 @@ public class VelocityBounce2 : MonoBehaviour
             _hitHeight = false;
             _playersExactHeight = 0;
 
-            if (_maxSpeed >= _vMultiplier && _bounceCount % 3 == 0)
-            {
-                _pickupSpawner._shouldResetRunNumber = true;
-                _pickupSpawner._canSpawnOS = true;
-                _runCount = 1;
-                _vMultiplier += 2f;
-               // _heightOffset += _bounceCount;
+            //if (_maxSpeed >= _vMultiplier && _bounceCount % 3 == 0)
+            //{
+            //    _pickupSpawner._shouldResetRunNumber = true;
+            //    _pickupSpawner._canSpawnOS = true;
+            //    _runCount = 1;
+            //    _vMultiplier += 2f;
+            //   // _heightOffset += _bounceCount;
 
-                _camera._camerLerpSpeed += .225f;
-                _camera._transitionSpeed += .025f;
-                _camera._diffTransStartPosEndPos += 5;
-                _offset += .0015f;
-                _velocityDecreaseAmt += .0175f + _offset;
-                _enemySpawner._numberOfBugs++;
-            }
+            //    _camera._camerLerpSpeed += .225f;
+            //    _camera._transitionSpeed += .025f;
+            //    _camera._diffTransStartPosEndPos += 5;
+            //    _offset += .0015f;
+            //    _velocityDecreaseAmt += .0175f + _offset;
+            //    _enemySpawner._numberOfBugs++;
+            //}
 
             _originalVMultiplier = _vMultiplier;
             _player.velocity = Vector3.up * _vMultiplier;
