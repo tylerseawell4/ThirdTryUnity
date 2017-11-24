@@ -13,10 +13,15 @@ public class EnemyController : MonoBehaviour
     private float _acumTime = 0;
     private bool _goUp;
     private PlayerControl _playerControl;
-
+    private bool _shouldRotate;
+    private float _rotationAmount;
+    private Vector2 _collisionPoint;
+    private bool _moveWithBeam;
+    private Rigidbody2D _rigidbody;
     // Use this for initialization
     void Start()
     {
+        _rigidbody = GetComponent<Rigidbody2D>();
         _playerControl = FindObjectOfType<PlayerControl>();
         _sprite = GetComponent<SpriteRenderer>();
         if (gameObject.name.Contains("Wasp"))
@@ -47,7 +52,7 @@ public class EnemyController : MonoBehaviour
                 _moveXPos = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x;
                 _movingRight = false;
                 _sprite.flipX = false;
-                
+
             }
             if (_playerControl != null && _playerControl._player.velocity.y > 0)
                 _goUp = true;
@@ -72,40 +77,62 @@ public class EnemyController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!gameObject.name.Contains("Wasp"))
+        if (!_moveWithBeam)
         {
-            _acumTime += 1 * Time.deltaTime;
-            if (_acumTime >= _changeYDirectionTime && _goUp)
+            if (!gameObject.name.Contains("Wasp"))
             {
-                _acumTime = 0f;
-                _currYPos = transform.position.y + 5f;
-            }
-            else if (_acumTime >= _changeYDirectionTime && !_goUp)
-            {
-                _acumTime = 0f;
-                _currYPos = transform.position.y - 5f;
-            }
+                _acumTime += 1 * Time.deltaTime;
+                if (_acumTime >= _changeYDirectionTime && _goUp)
+                {
+                    _acumTime = 0f;
+                    _currYPos = transform.position.y + 5f;
+                }
+                else if (_acumTime >= _changeYDirectionTime && !_goUp)
+                {
+                    _acumTime = 0f;
+                    _currYPos = transform.position.y - 5f;
+                }
 
 
-            if (!_movingRight && transform.position.x <= _moveXPos + 1)
-            {
-                _moveXPos = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x;
-                _movingRight = true;
-                _sprite.flipX = true;
+                if (!_movingRight && transform.position.x <= _moveXPos + 1)
+                {
+                    _moveXPos = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x;
+                    _movingRight = true;
+                    _sprite.flipX = true;
 
-            }
-            if (_movingRight && transform.position.x >= _moveXPos - 1)
-            {
-                _moveXPos = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x;
-                _movingRight = false;
-                _sprite.flipX = false;
+                }
+                if (_movingRight && transform.position.x >= _moveXPos - 1)
+                {
+                    _moveXPos = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x;
+                    _movingRight = false;
+                    _sprite.flipX = false;
+                }
+                else
+                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(_moveXPos, _currYPos, transform.position.z), _moveSpeed * Time.deltaTime);
             }
             else
-                transform.position = Vector3.MoveTowards(transform.position, new Vector3(_moveXPos, _currYPos, transform.position.z), _moveSpeed * Time.deltaTime);
+                //need .left since it is rotated to move UP
+                transform.Translate(Vector3.left * _moveSpeed * Time.deltaTime);
         }
         else
-            //need .left since it is rotated to move UP
-            transform.Translate(Vector3.left * _moveSpeed * Time.deltaTime);
+        {
+            if (_rigidbody != null && _playerControl._player.velocity.y > 0)
+                _rigidbody.velocity = new Vector2(_playerControl._player.velocity.x, _playerControl._player.velocity.y + 3f);
+            else if (_rigidbody != null && _playerControl._player.velocity.y <= 0)
+                _rigidbody.velocity = new Vector2(_playerControl._player.velocity.x, _playerControl._player.velocity.y + -3f);
+        }
+
+        if (_shouldRotate && !gameObject.name.Contains("Wasp"))
+        {
+            _rotationAmount += 5f;
+            transform.rotation = Quaternion.Euler(0, 0, _rotationAmount);
+        }
+
+        if (!_shouldRotate && _rotationAmount != 0)
+        {
+            _rotationAmount -= 5f;
+            transform.rotation = Quaternion.Euler(0, 0, _rotationAmount);
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -117,12 +144,34 @@ public class EnemyController : MonoBehaviour
                 _sprite.flipX = false;
                 _moveXPos = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x;
             }
-            else if(!_movingRight)
+            else if (!_movingRight)
             {
                 _movingRight = true;
                 _sprite.flipX = true;
                 _moveXPos = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x;
-            }         
+            }
+        }
+
+        if (collision.gameObject.tag == "Beam")
+        {
+            _moveWithBeam = true;
+            _shouldRotate = true;
+
+            if (_rigidbody != null && _playerControl._player.velocity.y > 0)
+                _rigidbody.velocity = new Vector2(_playerControl._player.velocity.x, _playerControl._player.velocity.y + 3f);
+            else if (_rigidbody != null && _playerControl._player.velocity.y <= 0)
+                _rigidbody.velocity = new Vector2(_playerControl._player.velocity.x, _playerControl._player.velocity.y + -3f);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Beam")
+        {
+            if (_rigidbody != null)
+                _rigidbody.velocity = Vector2.zero;
+            _shouldRotate = false;
+            _moveWithBeam = false;
         }
     }
 }

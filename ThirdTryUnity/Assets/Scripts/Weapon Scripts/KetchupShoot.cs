@@ -10,7 +10,6 @@ public class KetchupShoot : MonoBehaviour
     public float _fireRate;
     private float _fireRateCountdown;
     private Transform _firePointTransform;
-    private PlayerControl _playerControl;
     public Transform _firePtUpPos;
     public Transform _firePtDownPos;
     private bool _isInitialFire;
@@ -19,7 +18,6 @@ public class KetchupShoot : MonoBehaviour
 
     void Start()
     {
-        _playerControl = FindObjectOfType<PlayerControl>();
         _isInitialFire = true;
         _fireRateCountdown = 0;
         _tapManager = FindObjectOfType<TapManager>();

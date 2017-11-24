@@ -7,7 +7,6 @@ public class MustardShoot : MonoBehaviour
     [Tooltip("How many 'bullets' can fire per second")]
     public float _fireRate;
     private Transform _firePointTransform;
-    private PlayerControl _playerControl;
     public Transform _firePtUpPos;
     public Transform _firePtDownPos;
     private bool _isInitialFire;
@@ -17,7 +16,6 @@ public class MustardShoot : MonoBehaviour
 
     void Start()
     {
-        _playerControl = FindObjectOfType<PlayerControl>();
         _tapManager = FindObjectOfType<TapManager>();
         _myRigidBody = GetComponent<Rigidbody2D>();
     }

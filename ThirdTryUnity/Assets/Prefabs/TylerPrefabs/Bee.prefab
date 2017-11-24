@@ -24,6 +24,8 @@ GameObject:
   - component: {fileID: 114333319859771882}
   - component: {fileID: 114160120088992352}
   - component: {fileID: 58612699527699522}
+  - component: {fileID: 50013949207610316}
+  - component: {fileID: 114365324986491412}
   m_Layer: 12
   m_Name: Bee
   m_TagString: Enemy
@@ -39,11 +41,31 @@ Transform:
   m_GameObject: {fileID: 1628032976683300}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -11.874875, y: -12.0782795, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 0}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &50013949207610316
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1628032976683300}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 0.0001
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!58 &58612699527699522
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -103,6 +125,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 0
+--- !u!114 &114365324986491412
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1628032976683300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6c213986fb3eb94dad0f9ff0d0b1f63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212193592990696024
 SpriteRenderer:
   m_ObjectHideFlags: 1
