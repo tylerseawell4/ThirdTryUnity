@@ -44,7 +44,16 @@ public class EnemyDeath : MonoBehaviour
 
         _isColliding = true;
 
-        if (collision.gameObject.tag == "Super" || collision.gameObject.tag == "SuperActivation")
+        var sprite = collision.gameObject.GetComponent<SpriteRenderer>();
+        if (sprite != null)
+        {
+            var inWormColor = new Color(.25f, .25f, .25f, .6f);
+            if (sprite.color == inWormColor)
+                return;
+        }
+
+
+            if (collision.gameObject.tag == "Super" || collision.gameObject.tag == "SuperActivation")
         {
             _collider.enabled = false;
 

@@ -32,15 +32,22 @@ public class DetectSuperChild : MonoBehaviour
             return;
 
         if (tag == "Overshield")
+        {
             if (collision.tag == "Player")
             {
-                _playerHealth.IncreasePlayerHealth();
-                Destroy(gameObject);
+                var inWormColor = new Color(.25f, .25f, .25f, .6f);
+                if (_playerHealth.GetComponent<SpriteRenderer>().color != inWormColor)
+                {
+                    _playerHealth.IncreasePlayerHealth();
+                    Destroy(gameObject);
+                }
             }
+        }
 
         if (tag == "EnemyDropling" && collision.tag == "Player")
         {
-            if (!_superMode._superActivated)
+            var inWormColor = new Color(.25f, .25f, .25f, .6f);
+            if (!_superMode._superActivated && _playerHealth.GetComponent<SpriteRenderer>().color != inWormColor)
             {
                 var value = Math.Abs((transform.localScale.x / 100) * 2);
                 _superMoveManager.IncreaseSuperBar(value);

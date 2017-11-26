@@ -33,8 +33,12 @@ public class PlayerHealth : MonoBehaviour
         if (gameObject.tag == "Super" || gameObject.tag == "SuperActivation" || collision.gameObject.tag == "WormTail" || collision.gameObject.tag == "WormMouth") return;
 
         //12 is enemy layer
-        if(collision.gameObject.layer == 12)
-            DecreasePlayerHeath();
+        if (collision.gameObject.layer == 12)
+        {
+            var inWormColor = new Color(.25f, .25f, .25f, .6f);
+            if (gameObject.GetComponent<SpriteRenderer>().color != inWormColor)
+                DecreasePlayerHeath();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

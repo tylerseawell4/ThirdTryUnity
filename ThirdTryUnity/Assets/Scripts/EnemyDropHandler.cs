@@ -18,7 +18,9 @@ public class EnemyDropHandler : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player" && _superBar.GetComponent<Image>().fillAmount < 1f && !_superMode._superActivated)
         {
-            Destroy(gameObject);
+            var inWormColor = new Color(.25f, .25f, .25f, .6f);
+            if (!_superMode._superActivated && (collision.gameObject.GetComponent<SpriteRenderer>().color != inWormColor))
+                Destroy(gameObject);
         }
     }
 }
