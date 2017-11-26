@@ -25,9 +25,15 @@ public class PlayerControl : MonoBehaviour
     private CameraOption3 _camera;
     private VelocityBounce2 _velBounce;
     private DashClickManager _dashManager;
+    private SpriteRenderer _sprite;
+    private Color _originalColor;
+    private Color _inWormColor;
     // Use this for initialization
     void Start()
     {
+        _inWormColor = new Color(.25f, .25f, .25f, .6f);
+        _sprite = GetComponent<SpriteRenderer>();
+        _originalColor = _sprite.material.color;
         _dashManager = FindObjectOfType<DashClickManager>();
         Screen.orientation = ScreenOrientation.Portrait;
         _activeMoveSpeed = 6f;
@@ -273,10 +279,14 @@ public class PlayerControl : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (_tapManager._holdActivated)
-            if (collision.gameObject.tag.Equals("Ground"))
-            {
+        if (collision.gameObject.tag == "WormMouth")
+        {
+            _sprite.color = _inWormColor;
+        }
 
-            }
+        if (collision.gameObject.tag == "WormTail" && _sprite.color != _originalColor)
+        {
+            _sprite.color = _originalColor;
+        }
     }
 }

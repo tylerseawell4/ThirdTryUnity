@@ -23,6 +23,8 @@ TagManager:
   - SuperActivation
   - EnemyBullet
   - Beam
+  - WormMouth
+  - WormTail
   layers:
   - Default
   - TransparentFX

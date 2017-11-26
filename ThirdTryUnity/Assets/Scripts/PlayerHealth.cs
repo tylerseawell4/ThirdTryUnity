@@ -30,10 +30,17 @@ public class PlayerHealth : MonoBehaviour
     {
         if (gameObject.tag == "Super" || gameObject.tag == "SuperActivation") return;
 
-        //increase is called on the DetectSuperChild script
-
         //12 is enemy layer
         if(collision.gameObject.layer == -1)
+            DecreasePlayerHeath();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (gameObject.tag == "Super" || gameObject.tag == "SuperActivation") return;
+
+        //12 is enemy layer
+        if (collision.gameObject.layer == 12)
             DecreasePlayerHeath();
     }
     public void IncreasePlayerHealth()

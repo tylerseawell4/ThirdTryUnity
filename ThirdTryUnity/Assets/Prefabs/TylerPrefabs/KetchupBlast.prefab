@@ -104,7 +104,9 @@ MonoBehaviour:
   _bullet: {fileID: 212987591805491064}
   _addForceValue: 500
   _shouldOverPenatrate: 1
+  _shouldFade: 0
   _damage: 2
+  _shouldFollow: 0
 --- !u!212 &212987591805491064
 SpriteRenderer:
   m_ObjectHideFlags: 1

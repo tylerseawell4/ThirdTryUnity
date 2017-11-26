@@ -18,9 +18,12 @@ public class EnemyController : MonoBehaviour
     private Vector2 _collisionPoint;
     private bool _moveWithBeam;
     private Rigidbody2D _rigidbody;
+    private MayoShoot _mayoShoot;
+
     // Use this for initialization
     void Start()
     {
+        _mayoShoot = FindObjectOfType<MayoShoot>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _playerControl = FindObjectOfType<PlayerControl>();
         _sprite = GetComponent<SpriteRenderer>();
@@ -116,10 +119,20 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            if (_rigidbody != null && _playerControl._player.velocity.y > 0)
-                _rigidbody.velocity = new Vector2(_playerControl._player.velocity.x, _playerControl._player.velocity.y + 3f);
-            else if (_rigidbody != null && _playerControl._player.velocity.y <= 0)
-                _rigidbody.velocity = new Vector2(_playerControl._player.velocity.x, _playerControl._player.velocity.y + -3f);
+            if (!_mayoShoot._shouldPull)
+            {
+                if (_rigidbody != null && _playerControl._player.velocity.y > 0)
+                    _rigidbody.velocity = new Vector2(_playerControl._player.velocity.x, _playerControl._player.velocity.y + 4f);
+                else if (_rigidbody != null && _playerControl._player.velocity.y <= 0)
+                    _rigidbody.velocity = new Vector2(_playerControl._player.velocity.x, _playerControl._player.velocity.y + -4f);
+            }
+            else
+            {
+                if (_rigidbody != null && _playerControl._player.velocity.y > 0)
+                    _rigidbody.velocity = new Vector2(_playerControl._player.velocity.x, _playerControl._player.velocity.y - 8f);
+                else if (_rigidbody != null && _playerControl._player.velocity.y <= 0)
+                    _rigidbody.velocity = new Vector2(_playerControl._player.velocity.x, _playerControl._player.velocity.y + 8f);
+            }
         }
 
         if (_shouldRotate && !gameObject.name.Contains("Wasp"))
@@ -136,6 +149,8 @@ public class EnemyController : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.tag == "WormMouth") return;
+
         if (!gameObject.name.Contains("Wasp") && collision.gameObject.layer == 12)
         {
             if (_movingRight)

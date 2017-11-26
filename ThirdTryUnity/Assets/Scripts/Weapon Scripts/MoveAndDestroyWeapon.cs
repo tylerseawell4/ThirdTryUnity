@@ -17,6 +17,7 @@ public class MoveAndDestroyWeapon : MonoBehaviour
     private PlayerControl _playerControl;
     private KetchupShoot _shoot;
     public SpriteRenderer _bullet;
+    private Color _originalColor;
     private bool _isFirstSpawnedIn;
     private int _frameCount;
     public float _addForceValue;
@@ -31,10 +32,18 @@ public class MoveAndDestroyWeapon : MonoBehaviour
 
     private Camera _camera;
     public bool _shouldFollow;
+    private Color _inWormColor;
 
-    private void Start()
+    private void Awake()
     {
+        _originalColor = _bullet.color;
         _playerControl = FindObjectOfType<PlayerControl>();
+        _inWormColor = new Color(.25f, .25f, .25f, .6f);
+        if (_playerControl.GetComponent<SpriteRenderer>().color == _inWormColor)
+            _bullet.color = _inWormColor;
+    }
+    private void Start()
+    {    
         _shoot = FindObjectOfType<KetchupShoot>();
         _myRigidBody = GetComponent<Rigidbody2D>();
         _camera = FindObjectOfType<Camera>();
@@ -135,10 +144,22 @@ public class MoveAndDestroyWeapon : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //if (collision.tag == "Nonlethal") return;
+        if (collision.gameObject.tag.Contains("Worm"))
+        {
+            _bullet.color = _inWormColor;
+            gameObject.GetComponent<Collider2D>().isTrigger = false;
+            return;
+        }
 
         if (collision.tag == "Player" || collision.tag == "Background" || collision.tag == "Bullet") return;
 
         if (!_shouldOverPenatrate)
+            Destroy();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "WormMouth")
             Destroy();
     }
 }
