@@ -11,9 +11,11 @@ public class PlayerHealth : MonoBehaviour
     private SuperMode _superMode;
     public GameObject _super;
     private Animator _anim;
+    private TapManager _tapManager;
     // Use this for initialization
     private void Awake()
     {
+        _tapManager = FindObjectOfType<TapManager>();
         _anim = GetComponent<Animator>();
         _healthCount = 1;
         _originalColor = _renderer.color;
@@ -28,10 +30,10 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (gameObject.tag == "Super" || gameObject.tag == "SuperActivation") return;
+        if (gameObject.tag == "Super" || gameObject.tag == "SuperActivation" || collision.gameObject.tag == "WormTail" || collision.gameObject.tag == "WormMouth") return;
 
         //12 is enemy layer
-        if(collision.gameObject.layer == -1)
+        if(collision.gameObject.layer == 12)
             DecreasePlayerHeath();
     }
 
@@ -67,6 +69,7 @@ public class PlayerHealth : MonoBehaviour
 
         if (_healthCount == 0)
         {
+            _tapManager.enabled = false;
             StartCoroutine("DeathSequence");
             return;
         }

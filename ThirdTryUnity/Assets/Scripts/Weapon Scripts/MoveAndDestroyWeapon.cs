@@ -36,11 +36,13 @@ public class MoveAndDestroyWeapon : MonoBehaviour
 
     private void Awake()
     {
-        _originalColor = _bullet.color;
         _playerControl = FindObjectOfType<PlayerControl>();
         _inWormColor = new Color(.25f, .25f, .25f, .6f);
         if (_playerControl.GetComponent<SpriteRenderer>().color == _inWormColor)
+        {
+            gameObject.GetComponent<Collider2D>().isTrigger = false;
             _bullet.color = _inWormColor;
+        }
     }
     private void Start()
     {    
@@ -160,6 +162,10 @@ public class MoveAndDestroyWeapon : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "WormMouth")
+        {
+           var col= gameObject.GetComponent<Collider2D>();
+            col.isTrigger = true;
             Destroy();
+        }
     }
 }

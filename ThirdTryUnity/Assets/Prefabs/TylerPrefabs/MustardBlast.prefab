@@ -106,6 +106,7 @@ MonoBehaviour:
   _shouldOverPenatrate: 0
   _shouldFade: 0
   _damage: 2
+  _shouldFollow: 0
 --- !u!212 &212137943226094306
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -141,7 +142,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: db733df4fd325404eb6fcf1849faa503, type: 3}
-  m_Color: {r: 1, g: 0.97058827, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.972549, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 1
   m_DrawMode: 0

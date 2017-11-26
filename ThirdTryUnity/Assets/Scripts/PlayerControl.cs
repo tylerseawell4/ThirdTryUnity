@@ -289,4 +289,10 @@ public class PlayerControl : MonoBehaviour
             _sprite.color = _originalColor;
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag.Contains("Bullet"))
+            collision.collider.isTrigger = true;
+    }
 }
