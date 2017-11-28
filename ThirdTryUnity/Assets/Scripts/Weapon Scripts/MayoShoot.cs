@@ -22,6 +22,7 @@ public class MayoShoot : MonoBehaviour
 
     void FixedUpdate()
     {
+        //
         if (_obj != null && _fireRateCountdown > 0)
         {
             if (_tapManager._doubleTap)
