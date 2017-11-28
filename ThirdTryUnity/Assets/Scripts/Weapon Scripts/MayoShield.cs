@@ -34,6 +34,8 @@ public class MayoShield : MonoBehaviour
         else if (_playercontrol._player.velocity.y > 0)
             _firePos = _fireUpPos.position;
 
+
+        //need to instantiate instead of always having it in hierarchy
         if (_mayoShield.activeInHierarchy)
             _mayoRigidBody.transform.position = new Vector3(_playercontrol._player.position.x, _firePos.y, _mayoRigidBody.transform.position.z);
     }
