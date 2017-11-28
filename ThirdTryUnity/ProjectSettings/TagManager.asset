@@ -25,6 +25,7 @@ TagManager:
   - Beam
   - WormMouth
   - WormTail
+  - Mayoshield
   layers:
   - Default
   - TransparentFX

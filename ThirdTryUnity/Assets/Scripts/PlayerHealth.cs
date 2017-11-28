@@ -12,6 +12,7 @@ public class PlayerHealth : MonoBehaviour
     public GameObject _super;
     private Animator _anim;
     private TapManager _tapManager;
+
     // Use this for initialization
     private void Awake()
     {

@@ -13,22 +13,30 @@ public class MayoShoot : MonoBehaviour
     private bool _isMayoBeamActive;
     private GameObject _obj;
     public bool _shouldPull;
-
+    private MayoShield _mayoShield;
     void Start()
     {
         _tapManager = FindObjectOfType<TapManager>();
         _myRigidBody = GetComponent<Rigidbody2D>();
+        _mayoShield = GetComponent<MayoShield>();
     }
 
     void FixedUpdate()
     {
-        //
         if (_obj != null && _fireRateCountdown > 0)
         {
             if (_tapManager._doubleTap)
             {
                 _tapManager._doubleTap = false;
                 _shouldPull = !_shouldPull;
+
+                if (!_mayoShield._mayoShield.activeInHierarchy)
+                {
+                    _mayoShield._mayoShield.SetActive(true);
+
+                    if (_mayoShield._timeActive <= 0)
+                        _mayoShield._timeActive = 5f;
+                }
             }
 
             _fireRateCountdown -= 1 * Time.deltaTime;

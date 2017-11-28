@@ -53,7 +53,7 @@ public class EnemyDeath : MonoBehaviour
         }
 
 
-            if (collision.gameObject.tag == "Super" || collision.gameObject.tag == "SuperActivation")
+        if (collision.gameObject.tag == "Super" || collision.gameObject.tag == "SuperActivation")
         {
             _collider.enabled = false;
 
@@ -116,5 +116,12 @@ public class EnemyDeath : MonoBehaviour
     {
         if (transform.localScale.x >= 1.3f)
             _hp = 4;
+    }
+    public void Die()
+    {
+        _collider.enabled = false;
+        _enemyMovement._moveSpeed = 1f;
+        gameObject.tag = "Nonlethal";
+        StartCoroutine("DeathSequence");
     }
 }

@@ -19,13 +19,23 @@ public class EnemyController : MonoBehaviour
     private bool _moveWithBeam;
     private Rigidbody2D _rigidbody;
     private MayoShoot _mayoShoot;
+    private float _knockBackTime;
+    private Transform _target;
+    private Vector3 _originalTransformUp;
+    private EnemyDeath _enemyDeath;
+    private bool _canDieFromForce;
 
     // Use this for initialization
     void Start()
     {
+        _canDieFromForce = false;
+        _knockBackTime = 1f;
+        _enemyDeath = GetComponent<EnemyDeath>();
+        _originalTransformUp = transform.up;
         _mayoShoot = FindObjectOfType<MayoShoot>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _playerControl = FindObjectOfType<PlayerControl>();
+        _target = _playerControl.transform;
         _sprite = GetComponent<SpriteRenderer>();
         if (gameObject.name.Contains("Wasp"))
         {
@@ -70,6 +80,17 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
+        if (_canDieFromForce)
+        {
+            _knockBackTime -= Time.deltaTime * 1f;
+            if (_knockBackTime <= 0)
+            {
+                _knockBackTime = 1f;
+                _canDieFromForce = false;
+                _rigidbody.velocity = Vector2.zero;
+                _currYPos = transform.position.y;
+            }
+        }
         var screenHeightTop = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
         var screenHeightBottom = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y;
         var check1 = gameObject.transform.position.y + 35;
@@ -151,6 +172,67 @@ public class EnemyController : MonoBehaviour
     {
         if (collision.gameObject.tag == "WormMouth") return;
 
+        if (collision.gameObject.tag == "Beam")
+        {
+            _canDieFromForce = true;
+            _moveWithBeam = true;
+            _shouldRotate = true;
+
+            if (_rigidbody != null && _playerControl._player.velocity.y > 0)
+                _rigidbody.velocity = new Vector2(_playerControl._player.velocity.x, _playerControl._player.velocity.y + 3f);
+            else if (_rigidbody != null && _playerControl._player.velocity.y <= 0)
+                _rigidbody.velocity = new Vector2(_playerControl._player.velocity.x, _playerControl._player.velocity.y + -3f);
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Beam")
+        {
+            _canDieFromForce = true;
+            _knockBackTime = 1f;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Beam")
+        {
+            if (_rigidbody != null)
+                _rigidbody.velocity = Vector2.zero;
+            _shouldRotate = false;
+            _moveWithBeam = false;
+            _canDieFromForce = true;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == 12 && _canDieFromForce || collision.gameObject.tag == "Ground" && _canDieFromForce)
+        {
+            if (collision.gameObject.layer == 12)
+                collision.gameObject.GetComponent<EnemyDeath>().Die();
+
+            _enemyDeath.Die();
+        }
+        if (collision.gameObject.tag == "Ground")
+        {
+            _goUp = true;
+        }
+        if (collision.gameObject.tag == "Mayoshield")
+        {
+            //var ctPt = collision.contacts[0].point;
+            if (_playerControl._player.velocity.y > 0)
+            {
+                _rigidbody.AddForce(Vector2.up * .075f);
+                _canDieFromForce = true;
+            }
+            else
+            {
+                _rigidbody.AddForce(Vector2.down * .075f);
+                _canDieFromForce = true;
+            }
+        }
         if (!gameObject.name.Contains("Wasp") && collision.gameObject.layer == 12)
         {
             if (_movingRight)
@@ -166,27 +248,6 @@ public class EnemyController : MonoBehaviour
                 _moveXPos = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x;
             }
         }
-
-        if (collision.gameObject.tag == "Beam")
-        {
-            _moveWithBeam = true;
-            _shouldRotate = true;
-
-            if (_rigidbody != null && _playerControl._player.velocity.y > 0)
-                _rigidbody.velocity = new Vector2(_playerControl._player.velocity.x, _playerControl._player.velocity.y + 3f);
-            else if (_rigidbody != null && _playerControl._player.velocity.y <= 0)
-                _rigidbody.velocity = new Vector2(_playerControl._player.velocity.x, _playerControl._player.velocity.y + -3f);
-        }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Beam")
-        {
-            if (_rigidbody != null)
-                _rigidbody.velocity = Vector2.zero;
-            _shouldRotate = false;
-            _moveWithBeam = false;
-        }
-    }
 }
