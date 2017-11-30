@@ -81,7 +81,7 @@ public class VelocityBounce2 : MonoBehaviour
                 _playerControl._forwardDashActivated = false;
 
                 _playerControl._time = 0f;
-                _playerControl._topPlayerPoint.localPosition = new Vector3(_playerControl.transform.position.x, 7.5f, _playerControl.transform.position.z);
+                _playerControl._topPlayerPoint.localPosition = new Vector3(_playerControl.transform.position.x, 8.5f, _playerControl.transform.position.z);
                 _playerControl._startingPlayerTopPtDiff = _playerControl._topPlayerPoint.position.y - transform.position.y;
                 _playerControl._startingPlayerTopPtDiff2 = _playerControl._topPlayerPoint.position.y - transform.position.y;
 
@@ -91,8 +91,12 @@ public class VelocityBounce2 : MonoBehaviour
                 _decrementGravity = false;
                 _hitBottom = false;
                 _playersExactHeight = _player.transform.position.y;
-               // GetComponent<SpriteRenderer>().color = _originalColor;
-              //  Debug.Log(_playersExactHeight);
+
+                _playerControl._bottomPlayerPoint.localPosition = new Vector3(transform.position.x, -8.5f, transform.position.z);
+                _camera._cameraMovingDownTarget.localPosition = new Vector3(transform.position.x, -8.5f, transform.position.z);
+
+                // GetComponent<SpriteRenderer>().color = _originalColor;
+                //  Debug.Log(_playersExactHeight);
             }
         }
 
@@ -133,12 +137,25 @@ public class VelocityBounce2 : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag.Equals("Ground"))
+
+        if (collision.gameObject.tag.Equals("Ground") || collision.gameObject.tag.Equals("BounceBack"))
         {
+
+            if (collision.gameObject.tag.Equals("BounceBack"))
+            {
+                _camera._hitBounceBug = true;
+            }
+
             _playerControl._forwardDashActivated = false;
             _playerControl._time = 0f;
 
-            _playerControl._bottomPlayerPoint.localPosition = new Vector3(transform.position.x, -7.5f, transform.position.z);
+            _playerControl._topPlayerPoint.localPosition = new Vector3(_playerControl.transform.position.x, 8.5f, _playerControl.transform.position.z);
+           _camera._cameraMovingUpTarget.localPosition = new Vector3(transform.position.x, 8.5f, transform.position.z);
+
+            _playerControl._bottomPlayerPoint.localPosition = new Vector3(_playerControl.transform.position.x, -8.5f, _playerControl.transform.position.z);
+            _camera._cameraMovingDownTarget.localPosition = new Vector3(transform.position.x, -8.5f, transform.position.z);
+
+
             _playerControl._startingPlayerBottomPtDiff = _playerControl._bottomPlayerPoint.position.y - transform.position.y;
             _playerControl._startingPlayerBottomPtDiff2 = _playerControl._bottomPlayerPoint.position.y - transform.position.y;
             _playerControl._score.BounceCount(); // Calling this every time the player collides with the ground to increase bounce count score by 1

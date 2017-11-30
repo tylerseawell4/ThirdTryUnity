@@ -24,6 +24,8 @@ public class EnemyController : MonoBehaviour
     private Vector3 _originalTransformUp;
     private EnemyDeath _enemyDeath;
     private bool _canDieFromForce;
+    public bool _shouldChangeYPos;
+    public bool _shouldDieFromBeingOffSceen;
 
     // Use this for initialization
     void Start()
@@ -93,10 +95,13 @@ public class EnemyController : MonoBehaviour
         }
         var screenHeightTop = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
         var screenHeightBottom = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y;
-        var check1 = gameObject.transform.position.y + 35;
-        var check2 = gameObject.transform.position.y - 35;
-        if (check1 < screenHeightTop || check2 > screenHeightBottom)
-            Destroy(gameObject);
+        if (_shouldDieFromBeingOffSceen)
+        {
+            var check1 = gameObject.transform.position.y + 35;
+            var check2 = gameObject.transform.position.y - 35;
+            if (check1 < screenHeightTop || check2 > screenHeightBottom)
+                Destroy(gameObject);
+        }
     }
 
     void FixedUpdate()
@@ -106,12 +111,12 @@ public class EnemyController : MonoBehaviour
             if (!gameObject.name.Contains("Wasp"))
             {
                 _acumTime += 1 * Time.deltaTime;
-                if (_acumTime >= _changeYDirectionTime && _goUp)
+                if (_acumTime >= _changeYDirectionTime && _goUp && _shouldChangeYPos)
                 {
                     _acumTime = 0f;
                     _currYPos = transform.position.y + 5f;
                 }
-                else if (_acumTime >= _changeYDirectionTime && !_goUp)
+                else if (_acumTime >= _changeYDirectionTime && !_goUp && _shouldChangeYPos)
                 {
                     _acumTime = 0f;
                     _currYPos = transform.position.y - 5f;

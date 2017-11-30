@@ -34,7 +34,7 @@ public class PlayerHealth : MonoBehaviour
         if (gameObject.tag == "Super" || gameObject.tag == "SuperActivation" || collision.gameObject.tag == "WormTail" || collision.gameObject.tag == "WormMouth") return;
 
         //12 is enemy layer
-        if (collision.gameObject.layer == 12)
+        if (collision.gameObject.layer == 12 || collision.gameObject.tag == "BounceBack")
         {
             var inWormColor = new Color(.25f, .25f, .25f, .6f);
             if (gameObject.GetComponent<SpriteRenderer>().color != inWormColor)

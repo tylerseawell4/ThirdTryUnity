@@ -162,6 +162,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 0
+  _shouldChangeYPos: 0
+  _shouldDieFromBeingOffSceen: 0
 --- !u!114 &114381041611202528
 MonoBehaviour:
   m_ObjectHideFlags: 1

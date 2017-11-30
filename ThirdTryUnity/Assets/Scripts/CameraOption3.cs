@@ -18,6 +18,8 @@ public class CameraOption3 : MonoBehaviour
     public bool _shouldTrans;
     public float _transitionSpeed;
     public float _diffTransStartPosEndPos;
+    public bool _hitBounceBug;
+    private bool _shouldResetMovingDownTarget;
 
     private void Start()
     {
@@ -37,7 +39,8 @@ public class CameraOption3 : MonoBehaviour
     {
         _ogVel = _playerBounce._player.velocity;
 
-        if (_playerControl._player.velocity.y <= 0)
+
+        if (_playerControl._player.velocity.y < 0)
         {
             if (_playerControl._player.velocity.y > 0)
                 Debug.Log("down" + _playerControl._player.velocity.y.ToString());
@@ -50,10 +53,27 @@ public class CameraOption3 : MonoBehaviour
                 _playerBounce.enabled = false;
                 _playerBounce._player.velocity = new Vector2(_playerBounce._player.velocity.x, 0f);
             }
+            //if (_camerasFocusPoint.localPosition.y - .05f > _cameraMovingDownTarget.localPosition.y)
+            //{
+            //    _camerasFocusPoint.localPosition = Vector3.Lerp(_cameraMovingUpTarget.localPosition, _cameraMovingDownTarget.localPosition, .025f);
+            //}
+            //else
+            //{
+            //    _shouldResetMovingDownTarget = true;
+            //    _camerasFocusPoint = _cameraMovingDownTarget;
+            //}
+
+            //if (_shouldResetMovingDownTarget)
+            //{
+            //    _shouldResetMovingDownTarget = false;
+            //    _cameraMovingUpTarget.localPosition = new Vector3(_playerControl.transform.position.x, 8.5f, _playerControl.transform.position.z);
+            //}
+
+            _speed = _camerLerpSpeed;
 
             CameraLerp();
         }
-        else if (_playerControl._player.velocity.y > 0)
+        else if (_playerControl._player.velocity.y > 0 && !_hitBounceBug)
         {
             if (_playerControl._player.velocity.y < 0)
                 Debug.Log("up" + _playerControl._player.velocity.y.ToString());
@@ -61,6 +81,23 @@ public class CameraOption3 : MonoBehaviour
             _camerasFocusPoint = _cameraMovingUpTarget;
             _speed = _camerLerpSpeed;
 
+            CameraLerp();
+        }
+        else if (_playerControl._player.velocity.y >= 0 && _hitBounceBug)
+        {
+            if (_camerasFocusPoint.localPosition.y + .05f < _cameraMovingUpTarget.localPosition.y)
+            {
+                _camerasFocusPoint.localPosition = Vector3.Lerp(_cameraMovingDownTarget.localPosition, _cameraMovingUpTarget.localPosition, .03f);
+
+            }
+            else
+            {
+                _hitBounceBug = false;
+                _camerasFocusPoint = _cameraMovingUpTarget;
+                _cameraMovingDownTarget.localPosition = new Vector3(_playerControl.transform.position.x, -8.5f, _playerControl.transform.position.z);
+            }
+
+            _speed = _camerLerpSpeed;
 
             CameraLerp();
         }

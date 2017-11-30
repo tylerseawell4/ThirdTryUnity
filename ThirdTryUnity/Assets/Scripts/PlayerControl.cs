@@ -182,7 +182,11 @@ public class PlayerControl : MonoBehaviour
                     _currentPlayerPosDiff = _topPlayerPoint.position.y - transform.position.y;
 
                     if (_currentPlayerPosDiff >= _startingPlayerTopPtDiff)
+                    {
                         _shouldSlowCameraWhenGoingUp = false;
+                       _topPlayerPoint.localPosition = new Vector3(transform.position.x, 8.5f, transform.position.z);
+                       
+                    }
                 }
             }
             else
@@ -217,7 +221,10 @@ public class PlayerControl : MonoBehaviour
                     _currentPlayerPosDiff = _bottomPlayerPoint.position.y - transform.position.y;
 
                     if (_currentPlayerPosDiff <= _startingPlayerBottomPtDiff)
+                    {
                         _shouldSlowCameraWhenGoingUp = true;
+                        _bottomPlayerPoint.localPosition = new Vector3(transform.position.x, -8.5f, transform.position.z);
+                    }
                 }
             }
             else

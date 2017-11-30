@@ -26,6 +26,7 @@ TagManager:
   - WormMouth
   - WormTail
   - Mayoshield
+  - BounceBack
   layers:
   - Default
   - TransparentFX
