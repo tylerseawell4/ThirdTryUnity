@@ -98,6 +98,8 @@ public class VelocityBounce2 : MonoBehaviour
 
                 _playerControl._bottomPlayerPoint.localPosition = new Vector3(transform.position.x, -8.5f, transform.position.z);
                 _camera._cameraMovingDownTarget.localPosition = new Vector3(transform.position.x, -8.5f, transform.position.z);
+                _playerControl._startingPlayerBottomPtDiff = _playerControl._bottomPlayerPoint.position.y - transform.position.y;
+                _playerControl._startingPlayerBottomPtDiff2 = _playerControl._bottomPlayerPoint.position.y - transform.position.y;
 
                 // GetComponent<SpriteRenderer>().color = _originalColor;
                 //  Debug.Log(_playersExactHeight);
@@ -149,52 +151,26 @@ public class VelocityBounce2 : MonoBehaviour
                 _camera._hitBounceBug = true;
                 _bugBugHeight = collision.transform.position.y - _playersOGPos;
             }
-            else
-            {
+            else   
                 _bugBugHeight = 0f;
-            }
 
             _playerControl._forwardDashActivated = false;
             _playerControl._time = 0f;
 
             _playerControl._topPlayerPoint.localPosition = new Vector3(_playerControl.transform.position.x, 8.5f, _playerControl.transform.position.z);
            _camera._cameraMovingUpTarget.localPosition = new Vector3(transform.position.x, 8.5f, transform.position.z);
-
-            _playerControl._bottomPlayerPoint.localPosition = new Vector3(_playerControl.transform.position.x, -8.5f, _playerControl.transform.position.z);
-            _camera._cameraMovingDownTarget.localPosition = new Vector3(transform.position.x, -8.5f, transform.position.z);
-
-
-            _playerControl._startingPlayerBottomPtDiff = _playerControl._bottomPlayerPoint.position.y - transform.position.y;
-            _playerControl._startingPlayerBottomPtDiff2 = _playerControl._bottomPlayerPoint.position.y - transform.position.y;
+   
             _playerControl._score.BounceCount(); // Calling this every time the player collides with the ground to increase bounce count score by 1
                                                  // _score.ChangeCalculatingPoint(transform.position.y);
             _runCount++;
             _playerControl._forwardDashActivated = false;
             _playerControl._time = 0f;
-
             _hitBottom = true;
             _bounceCount++;
             _hitHeight = false;
             _hitrequestedHeight = false;
             _hitHeight = false;
             _playersExactHeight = 0;
-
-            //if (_maxSpeed >= _vMultiplier && _bounceCount % 3 == 0)
-            //{
-            //    _pickupSpawner._shouldResetRunNumber = true;
-            //    _pickupSpawner._canSpawnOS = true;
-            //    _runCount = 1;
-            //    _vMultiplier += 2f;
-            //   // _heightOffset += _bounceCount;
-
-            //    _camera._camerLerpSpeed += .225f;
-            //    _camera._transitionSpeed += .025f;
-            //    _camera._diffTransStartPosEndPos += 5;
-            //    _offset += .0015f;
-            //    _velocityDecreaseAmt += .0175f + _offset;
-            //    _enemySpawner._numberOfBugs++;
-            //}
-
             _originalVMultiplier = _vMultiplier;
             _player.velocity = Vector3.up * _vMultiplier;
             _moveCharacterDown = false;
