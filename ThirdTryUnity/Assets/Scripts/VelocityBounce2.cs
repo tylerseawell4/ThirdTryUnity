@@ -29,10 +29,13 @@ public class VelocityBounce2 : MonoBehaviour
     private float _offset;
     private Color _originalColor;
     private EnemySpawner _enemySpawner;
+    private float _playersOGPos;
+    private float _bugBugHeight;
 
     // Use this for initialization
     void Start()
     {
+        _playersOGPos = gameObject.transform.position.y;
         _bounceCount = 0;
         _player.gravityScale = 0f;
         _vMultiplier = 7.5f;
@@ -85,6 +88,7 @@ public class VelocityBounce2 : MonoBehaviour
                 _playerControl._startingPlayerTopPtDiff = _playerControl._topPlayerPoint.position.y - transform.position.y;
                 _playerControl._startingPlayerTopPtDiff2 = _playerControl._topPlayerPoint.position.y - transform.position.y;
 
+                _startingHeight -= _bugBugHeight;
 
                 _vMultiplier = 3;
                 _moveCharacterDown = true;
@@ -140,10 +144,14 @@ public class VelocityBounce2 : MonoBehaviour
 
         if (collision.gameObject.tag.Equals("Ground") || collision.gameObject.tag.Equals("BounceBack"))
         {
-
             if (collision.gameObject.tag.Equals("BounceBack"))
             {
                 _camera._hitBounceBug = true;
+                _bugBugHeight = collision.transform.position.y - _playersOGPos;
+            }
+            else
+            {
+                _bugBugHeight = 0f;
             }
 
             _playerControl._forwardDashActivated = false;
@@ -190,7 +198,7 @@ public class VelocityBounce2 : MonoBehaviour
             _originalVMultiplier = _vMultiplier;
             _player.velocity = Vector3.up * _vMultiplier;
             _moveCharacterDown = false;
-            _startingHeight += _increaseHeightBy;
+            _startingHeight += _increaseHeightBy + _bugBugHeight;
             _maxHeightValue = _startingHeight;
         }
     }
