@@ -2135,6 +2135,7 @@ MonoBehaviour:
   _transitionSpeed: 0
   _diffTransStartPosEndPos: 0
   _hitBounceBug: 0
+  _canDash: 0
 --- !u!1 &1263499001
 GameObject:
   m_ObjectHideFlags: 0
@@ -4582,11 +4583,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4153178566014584, guid: 85cfc7c17f12d0247bb3081675bb34a8, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -3.16
+      value: -5.1
       objectReference: {fileID: 0}
     - target: {fileID: 4153178566014584, guid: 85cfc7c17f12d0247bb3081675bb34a8, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.42
+      value: 28.3
       objectReference: {fileID: 0}
     - target: {fileID: 4153178566014584, guid: 85cfc7c17f12d0247bb3081675bb34a8, type: 2}
       propertyPath: m_LocalPosition.z

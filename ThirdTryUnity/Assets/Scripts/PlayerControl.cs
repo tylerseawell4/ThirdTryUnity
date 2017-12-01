@@ -137,7 +137,7 @@ public class PlayerControl : MonoBehaviour
                 //checking if velocity is higher than 0 to see if we are going up (dont need to worry about transition when doing updash), 
                 //and checking to see if the player position is less than the exact height of the player when he reaches the stop 
                 //minus a value X units down in order to create a deadzone where no dashing can occur so the camera can transition
-                if (_player.velocity.y > 0 || _player.position.y <= _velBounce._playersExactHeight - _camera._diffTransStartPosEndPos)
+                if (_camera._canDash)
                 {
                     _dashManager._isUpDownClicked = false;
                     _forwardDashActivated = true;

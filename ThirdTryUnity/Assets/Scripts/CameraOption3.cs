@@ -20,9 +20,11 @@ public class CameraOption3 : MonoBehaviour
     public float _diffTransStartPosEndPos;
     public bool _hitBounceBug;
     private bool _shouldResetMovingDownTarget;
+    public bool _canDash;
 
     private void Start()
     {
+        _canDash = true;    
         _camerasFocusPoint = _cameraMovingUpTarget;
         _playerBounce = FindObjectOfType<VelocityBounce2>();
         _playerControl = FindObjectOfType<PlayerControl>();
@@ -32,7 +34,7 @@ public class CameraOption3 : MonoBehaviour
 
 
         //high base value, will need to increase if we use a higher starting velocity
-        _diffTransStartPosEndPos = 15f;
+        _diffTransStartPosEndPos = 11f;
     }
 
     private void FixedUpdate()
@@ -119,10 +121,12 @@ public class CameraOption3 : MonoBehaviour
 
         if (!_shouldTrans)
         {
+            _canDash = true;    
             v3.y = Mathf.Lerp(v3.y, _camerasFocusPoint.position.y, _speed);
         }
         else
         {
+            _canDash = false;
             v3.y = Mathf.MoveTowards(v3.y, _camerasFocusPoint.position.y, _transitionSpeed);
             if (transform.position.y >= _camerasFocusPoint.position.y)
             {
