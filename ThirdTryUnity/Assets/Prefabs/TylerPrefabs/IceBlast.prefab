@@ -37,8 +37,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1201773031766376}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.745965, y: -8.025153, z: 0}
-  m_LocalScale: {x: 5, y: 1.96875, z: 1}
+  m_LocalPosition: {x: -0.8661, y: -8.7708, z: 0}
+  m_LocalScale: {x: 4.4667096, y: 1.5954467, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -99,11 +99,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30e6ef4295c0e1f418964706a893d896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _destroyWeaponTime: 500
+  _destroyWeaponTime: 1.75
   _keepConstantSpeed: 0
   _bullet: {fileID: 212891492746979874}
   _addForceValue: 550
-  _shouldOverPenatrate: 1
+  _shouldOverPenatrate: 0
   _shouldFade: 0
   _damage: 2
   _shouldFollow: 0
