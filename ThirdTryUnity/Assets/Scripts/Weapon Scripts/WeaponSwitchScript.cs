@@ -11,7 +11,7 @@ public class WeaponSwitchScript : MonoBehaviour
     private MustardShoot _mustardShoot;
     private MustardShotgun _mustardShotgun;
     private IceShoot _iceShoot;
-    private IceShotgun _iceShotgun;
+    private IceSpike _iceShotgun;
     private TapManager _tapManager;
     private void Start()
     {
@@ -21,7 +21,7 @@ public class WeaponSwitchScript : MonoBehaviour
         _mustardShoot = FindObjectOfType<MustardShoot>();
         _mustardShotgun = FindObjectOfType<MustardShotgun>();
         _iceShoot = FindObjectOfType<IceShoot>();
-        _iceShotgun = FindObjectOfType<IceShotgun>();
+        _iceShotgun = FindObjectOfType<IceSpike>();
 
         if (_ketchupShotgun.enabled && _ketchupShotgun.enabled)
             _switchBtnText.text = "Ketchup";

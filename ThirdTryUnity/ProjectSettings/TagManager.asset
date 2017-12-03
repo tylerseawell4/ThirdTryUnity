@@ -27,6 +27,7 @@ TagManager:
   - WormTail
   - Mayoshield
   - BounceBack
+  - IceSpike
   layers:
   - Default
   - TransparentFX

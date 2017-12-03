@@ -53,7 +53,7 @@ public class EnemyDeath : MonoBehaviour
         }
 
 
-        if (collision.gameObject.tag == "Super" || collision.gameObject.tag == "SuperActivation")
+        if (collision.gameObject.tag == "Super" || collision.gameObject.tag == "SuperActivation" )
         {
             _collider.enabled = false;
 
@@ -66,7 +66,12 @@ public class EnemyDeath : MonoBehaviour
             StartCoroutine("DeathSequence");
         }
 
+        if (collision.gameObject.tag == "IceSpike")
+        {
+            _collider.enabled = false;
 
+            StartCoroutine("DeathSequence");
+        }
         if (collision.gameObject.tag == "Bullet" || collision.gameObject.tag == "Player")
         {
             var damage = 1;
