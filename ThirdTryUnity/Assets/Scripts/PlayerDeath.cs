@@ -20,7 +20,7 @@ public class PlayerDeath : MonoBehaviour
     private int _recordHighScore;
     private int _recordBounceCount;
     private string _currentTotalScore;
-    
+
     void Awake()
     {
         _gameOverPanel.SetActive(false);
@@ -36,6 +36,7 @@ public class PlayerDeath : MonoBehaviour
         _currentTotalScore = _score._totalScoreText.text.Split(' ')[2];
         PlayerPreferences();
         _gameOverEnemiesKilled.text += _enemyDeathCounter.ToString();
+        transform.Find("IceSpikes").gameObject.SetActive(false);
         gameObject.SetActive(false);
         _gameOverPanel.SetActive(true);
     }

@@ -28,19 +28,21 @@ public class IceSpike : MonoBehaviour
         if (_iceSpike.activeSelf)
         {
             _iceSpike.transform.localScale = Vector3.Lerp(_iceSpike.transform.localScale, _endSize, .5f);
-
-        }
-        if (_tapManager._doubleTap)
-        {
-            //enable the spike
-            _iceSpike.SetActive(true);
-            StartCoroutine("SpikeActiveTime");
-            //flip back to false
-            _tapManager._doubleTap = false;
         }
         else
         {
-            _tapManager._doubleTap = false;
+            if (_tapManager._doubleTap)
+            {
+                //enable the spike
+                _iceSpike.SetActive(true);
+                StartCoroutine("SpikeActiveTime");
+                //flip back to false
+                _tapManager._doubleTap = false;
+            }
+            else
+            {
+                _tapManager._doubleTap = false;
+            }
         }
     }
     IEnumerator SpikeActiveTime()
