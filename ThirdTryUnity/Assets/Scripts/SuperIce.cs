@@ -21,6 +21,7 @@ public class SuperIce : MonoBehaviour {
     private float _bottomOutterBounds;
     private float _calculatedDistance;
     private float _initalDuration;
+    private float _superAcumTime;
 
     private int _rotationCounter = 0;
     private float _duration = 1.25f;
@@ -28,7 +29,9 @@ public class SuperIce : MonoBehaviour {
     private float _slowDownAmt = 1.0f;
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
+        _superAcumTime = 0f;
         _superBar = GameObject.Find("SuperBar").GetComponent<Image>();
         _tapManager = FindObjectOfType<TapManager>();
         _camera = Camera.main.transform;
@@ -99,8 +102,30 @@ public class SuperIce : MonoBehaviour {
                     obj.GetComponent<Animator>().enabled = false;
                 }
             }
+            _superAcumTime += 1 * Time.deltaTime;
 
-            
+            if (_superAcumTime >= 10)
+            {
+                Color color1 = _iceOrb.GetComponent<SpriteRenderer>().material.color;
+                color1.a -= .025f;
+                _iceOrb.GetComponent<SpriteRenderer>().material.color = color1;
+
+                var yScale = _iceOrb.transform.localScale.y;
+                var xScale = _iceOrb.transform.localScale.x;
+                yScale -= .085f;
+                xScale -= .085f;
+
+                _iceOrb.transform.localScale = new Vector2(xScale, yScale);
+                if (color1.a <= 0f)
+                {
+                    _tapManager._holdActivated = false;
+                    _superInstantiated = false;
+                    _superIceActivated = false;
+                    _superAcumTime = 0f;
+                    Destroy(_iceOrb);
+                }
+            }
+
         }
     }
 }
