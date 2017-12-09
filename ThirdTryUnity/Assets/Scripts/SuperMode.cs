@@ -38,7 +38,7 @@ public class SuperMode : MonoBehaviour
         _camera = Camera.main.transform;
         _initalDuration = _duration;
     }
-
+   
     void FixedUpdate()
     {
         if (_tapManager._holdActivated && _superBar.fillAmount >= 1f)

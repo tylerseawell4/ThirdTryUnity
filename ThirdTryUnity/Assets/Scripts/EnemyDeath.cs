@@ -64,6 +64,7 @@ public class EnemyDeath : MonoBehaviour
             _enemyMovement._moveSpeed = 1f;
             gameObject.tag = "Nonlethal";
             StartCoroutine("DeathSequence");
+
         }
 
         if (collision.gameObject.tag == "IceSpike")

@@ -13,8 +13,13 @@ public class WeaponSwitchScript : MonoBehaviour
     private IceShoot _iceShoot;
     private IceSpike _iceShotgun;
     private TapManager _tapManager;
+    private GameObject _mainCamera;
+    private SuperMode _superMode;
+    private SuperIce _superIce;
+
     private void Start()
     {
+        _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         _tapManager = FindObjectOfType<TapManager>();
         _ketchupShoot = FindObjectOfType<KetchupShoot>();
         _ketchupShotgun = FindObjectOfType<KetchupShotgun>();
@@ -22,6 +27,8 @@ public class WeaponSwitchScript : MonoBehaviour
         _mustardShotgun = FindObjectOfType<MustardShotgun>();
         _iceShoot = FindObjectOfType<IceShoot>();
         _iceShotgun = FindObjectOfType<IceSpike>();
+        _superMode = FindObjectOfType<SuperMode>();
+        _superIce = FindObjectOfType<SuperIce>();
 
         if (_ketchupShotgun.enabled && _ketchupShotgun.enabled)
             _switchBtnText.text = "Ketchup";
@@ -42,6 +49,9 @@ public class WeaponSwitchScript : MonoBehaviour
             _ketchupShotgun.enabled = false;
             _mustardShoot.enabled = true;
             _mustardShotgun.enabled = true;
+            _superIce.enabled = false;
+            _superMode.enabled = true;
+            _mainCamera.GetComponent<FrostEffect>().enabled = false;
         }
         else if (_mustardShoot.enabled && _mustardShotgun.enabled)
         {
@@ -50,6 +60,9 @@ public class WeaponSwitchScript : MonoBehaviour
             _mustardShotgun.enabled = false;
             _iceShoot.enabled = true;
             _iceShotgun.enabled = true;
+            _superIce.enabled = true;
+            _superMode.enabled = false;
+            _mainCamera.GetComponent<FrostEffect>().enabled = true;
         }
         else if (_iceShoot.enabled && _iceShotgun.enabled)
         {
@@ -58,6 +71,9 @@ public class WeaponSwitchScript : MonoBehaviour
             _iceShoot.enabled = false;
             _ketchupShoot.enabled = true;
             _ketchupShotgun.enabled = true;
+            _superIce.enabled = false;
+            _superMode.enabled = true;
+            _mainCamera.GetComponent<FrostEffect>().enabled = false;
         }
     }
 }
