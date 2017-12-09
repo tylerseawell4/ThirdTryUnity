@@ -58,7 +58,10 @@ public class EnemyDeath : MonoBehaviour
             _collider.enabled = false;
 
             if (collision.gameObject.tag == "Super")
+            {
                 FindObjectOfType<SuperMode>().SpawnLightning(transform);
+            }
+
 
             StartCoroutine("TurnRed");
             _enemyMovement._moveSpeed = 1f;
