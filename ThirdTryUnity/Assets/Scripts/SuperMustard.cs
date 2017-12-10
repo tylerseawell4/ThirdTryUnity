@@ -11,30 +11,22 @@ public class SuperMustard : MonoBehaviour
     private float _superAcumTime;
     public GameObject[] _fireArray;
     public GameObject[] _fireWings;
-
-    private GameObject _super;
-    public GameObject _superPrefab;
+    public GameObject[] _fireBursts;
     public GameObject _superActivationPrefab;
-    private GameObject _superActivationTop;
-    private GameObject _superActivationBottom;
-    private GameObject _superActivationLeft;
-    private GameObject _superActivationRight;
-    private bool _lightningCreated;
-    public GameObject _lightningPrefab;
-    private GameObject _superLightningAttack;
     private Image _superBar;
-    private bool _shouldShake;
-    private float _duration = 1.25f;
+    public bool _shouldShake;
+    private float _duration = 1.5f;
     private float _power = .1f;
     private float _initalDuration;
     private float _slowDownAmt = 1.0f;
     private Transform _camera;
     private float _rotationAmountClockwise;
-    private bool _makeSmaller;
+    private bool _makeSmallerFireArray;
     private float _rotationAmountCounter;
+    private bool _makeSmallerFireBursts;
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         _superAcumTime = 0f;
         _tapManager = FindObjectOfType<TapManager>();
@@ -42,6 +34,20 @@ public class SuperMustard : MonoBehaviour
 
         _camera = Camera.main.transform;
         _initalDuration = _duration;
+        ResetSuper();
+    }
+
+    private void ResetSuper()
+    {
+        foreach (var fire in _fireBursts)
+        {
+            fire.transform.localScale = new Vector3(1f, 1f, 1f);
+
+            Color color = fire.GetComponent<SpriteRenderer>().color;
+
+            color.a = 0;
+            fire.GetComponent<SpriteRenderer>().color = color;
+        }
 
         foreach (var fire in _fireArray)
         {
@@ -65,13 +71,6 @@ public class SuperMustard : MonoBehaviour
 
     void FixedUpdate()
     {
-        //if (_tapManager._holdActivated && _superBar.fillAmount >= 1f)
-        //{
-        //    _superActivated = true;
-        //    _shouldShake = true;
-        //    Handheld.Vibrate();
-        //}
-
         if (_tapManager._holdActivated)
         {
             _tapManager._holdActivated = false;
@@ -80,7 +79,6 @@ public class SuperMustard : MonoBehaviour
             Handheld.Vibrate();
             _superActivationPrefab.SetActive(true);
         }
-
 
         if (_shouldShake)
         {
@@ -100,174 +98,144 @@ public class SuperMustard : MonoBehaviour
 
         if (_superActivated)
         {
-
-            var currentScaleFire = _fireArray[0].transform.localScale.x;
-            if (!_makeSmaller)
+            if (_superAcumTime < 10f)
             {
-                currentScaleFire += .05f;
-                if (currentScaleFire >= 4f)
-                    _makeSmaller = true;
-            }
-            else if (currentScaleFire >= .75f)
-            {
-                currentScaleFire -= .035f;
-            }
-
-            for (int i = 0; i <_fireArray.Length; i++)
-            {
-                if (i % 2 == 0)
+                var currentScaleFire = _fireArray[0].transform.localScale.x;
+                if (!_makeSmallerFireArray)
                 {
-                    _rotationAmountClockwise += .5f;
-                    _rotationAmountCounter -= .5f;
-                    _fireArray[i].transform.rotation = Quaternion.Euler(0, 0, _rotationAmountClockwise);
-                    _fireArray[i].transform.localScale = new Vector3(currentScaleFire, currentScaleFire, 1f);
+                    currentScaleFire += .05f;
+                    if (currentScaleFire >= 5f)
+                        _makeSmallerFireArray = true;
                 }
-                else
+                else if (currentScaleFire >= .75f)
                 {
-                    _rotationAmountCounter -= .5f;
-                    _fireArray[i].transform.rotation = Quaternion.Euler(0, 0, _rotationAmountCounter);
-                    _fireArray[i].transform.localScale = new Vector3(currentScaleFire, currentScaleFire, 1f);
+                    currentScaleFire -= .05f;
                 }
-                Color color = _fireArray[i].GetComponent<SpriteRenderer>().color;
-                if (color.a < 1)
+
+                for (int i = 0; i < _fireArray.Length; i++)
                 {
-                    color.a += .15f;
-                    _fireArray[i].GetComponent<SpriteRenderer>().color = color;
+                    if (i % 2 == 0)
+                    {
+                        _rotationAmountClockwise += .5f;
+                        _rotationAmountCounter -= .5f;
+                        _fireArray[i].transform.rotation = Quaternion.Euler(0, 0, _rotationAmountClockwise);
+                        _fireArray[i].transform.localScale = new Vector3(currentScaleFire, currentScaleFire, 1f);
+                    }
+                    else
+                    {
+                        _rotationAmountCounter -= .5f;
+                        _fireArray[i].transform.rotation = Quaternion.Euler(0, 0, _rotationAmountCounter);
+                        _fireArray[i].transform.localScale = new Vector3(currentScaleFire, currentScaleFire, 1f);
+                    }
+                    Color color = _fireArray[i].GetComponent<SpriteRenderer>().color;
+                    if (color.a < 1)
+                    {
+                        color.a += .15f;
+                        _fireArray[i].GetComponent<SpriteRenderer>().color = color;
+                    }
+                }
+
+                var currentScaleFire2 = _fireBursts[0].transform.localScale.x;
+                if (!_makeSmallerFireBursts)
+                {
+                    currentScaleFire2 += .05f;
+                    if (currentScaleFire2 >= 3f)
+                        _makeSmallerFireBursts = true;
+                }
+                else if (currentScaleFire2 >= 1.5f)
+                {
+                    currentScaleFire2 -= .035f;
+                }
+
+                foreach (var fireBursts in _fireBursts)
+                {
+                    fireBursts.transform.localScale = new Vector3(currentScaleFire2, currentScaleFire2, 1f);
+
+                    Color color = fireBursts.GetComponent<SpriteRenderer>().color;
+                    if (color.a < .5f)
+                    {
+                        color.a += .15f;
+                        fireBursts.GetComponent<SpriteRenderer>().color = color;
+                    }
+                }
+
+                if (_makeSmallerFireBursts)
+                {
+                    var currentScaleX = _fireWings[0].transform.localScale.x;
+                    var currentScaleY = _fireWings[0].transform.localScale.y;
+                    foreach (var firewing in _fireWings)
+                    {
+                        Color color = firewing.GetComponent<SpriteRenderer>().color;
+
+                        if (color.a < .75f)
+                        {
+                            color.a += .01f;
+                            firewing.GetComponent<SpriteRenderer>().color = color;
+                        }
+
+                        if (currentScaleX <= .75)
+                            currentScaleX += .01f;
+
+                        if (currentScaleY <= .75)
+                            currentScaleY += .02f;
+
+                        firewing.transform.localScale = new Vector3(currentScaleX, currentScaleY, 1f);
+                    }
+
                 }
             }
 
-            if(_makeSmaller)
+            _superAcumTime += 1 * Time.deltaTime;
+
+            if (_superAcumTime >= 10)
             {
+                var currentScaleFire3 = _fireBursts[0].transform.localScale.x;
+                currentScaleFire3 -= .04f;
+
+                foreach (var fireBursts in _fireBursts)
+                {
+                    fireBursts.transform.localScale = new Vector3(currentScaleFire3, currentScaleFire3, 1f);
+
+                    Color color = fireBursts.GetComponent<SpriteRenderer>().color;
+                    if (color.a >= 0f)
+                    {
+                        color.a -= .04f;
+                        fireBursts.GetComponent<SpriteRenderer>().color = color;
+                    }
+                }
+
                 var currentScaleX = _fireWings[0].transform.localScale.x;
                 var currentScaleY = _fireWings[0].transform.localScale.y;
                 foreach (var firewing in _fireWings)
                 {
                     Color color = firewing.GetComponent<SpriteRenderer>().color;
 
-                    if (color.a < .6f)
+                    if (color.a >= 0)
                     {
-                        color.a += .01f;
+                        color.a -= .01f;
                         firewing.GetComponent<SpriteRenderer>().color = color;
                     }
 
-                    if (currentScaleX <= 1)
-                        currentScaleX += .01f;
+                    if (currentScaleX >= 0)
+                        currentScaleX -= .03f;
 
-                    if (currentScaleY <= 1)
-                        currentScaleY += .02f;
+                    if (currentScaleY >= 0)
+                        currentScaleY -= .05f;
 
                     firewing.transform.localScale = new Vector3(currentScaleX, currentScaleY, 1f);
                 }
+
+                if (currentScaleY <= 0f)
+                {
+                    _makeSmallerFireArray = false;
+                    _makeSmallerFireBursts = false;
+                    ResetSuper();
+                    _superActivationPrefab.SetActive(false);
+                    _tapManager._holdActivated = false;
+                    _superActivated = false;
+                    _superAcumTime = 0f;
+                }
             }
-
-
-
-            //if (!_lightningCreated)
-            //{
-            //    var topPos = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
-            //    _superActivationTop = Instantiate(_superActivationPrefab, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, _superActivationPrefab.transform.position.z), Quaternion.Euler(0, 0, -180));
-            //    _superActivationTop.transform.parent = transform;
-
-            //    var bottomPos = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y;
-            //    _superActivationBottom = Instantiate(_superActivationPrefab, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, _superActivationPrefab.transform.position.z), Quaternion.identity);
-            //    _superActivationBottom.transform.parent = transform;
-
-            //    var leftPos = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x;
-            //    _superActivationLeft = Instantiate(_superActivationPrefab, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, _superActivationPrefab.transform.position.z), Quaternion.Euler(0, 0, -90));
-            //    _superActivationLeft.transform.parent = transform;
-
-            //    var rightPos = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x;
-            //    _superActivationRight = Instantiate(_superActivationPrefab, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, _superActivationPrefab.transform.position.z), Quaternion.Euler(0, 0, 90));
-            //    _superActivationRight.transform.parent = transform;
-
-            //    _lightningCreated = true;
-            //}
-
-            //if (_lightningCreated)
-            //{
-            //    if (!_superInstantiated)
-            //    {
-            //        _superInstantiated = true;
-            //        if (_super == null)
-            //            _super = new GameObject();
-            //        _super = Instantiate(_superPrefab, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, _superPrefab.transform.position.z), _superPrefab.transform.rotation);
-            //        _super.transform.parent = transform;
-            //    }
-
-            //    Color color = _super.GetComponent<SpriteRenderer>().color;
-
-            //    if (color.a < 1)
-            //    {
-            //        color.a += .0175f;
-            //        _super.GetComponent<SpriteRenderer>().color = color;
-            //    }
-
-            //    if (_superActivationTop.transform.localScale.y > 0)
-            //    {
-            //        var yScale = _superActivationTop.transform.localScale.y;
-            //        yScale -= .085f;
-            //        _superActivationTop.transform.localScale = new Vector2(_superActivationTop.transform.localScale.x, yScale);
-            //    }
-
-            //    if (_superActivationBottom.transform.localScale.y > 0)
-            //    {
-            //        var yScale = _superActivationBottom.transform.localScale.y;
-            //        yScale -= .085f;
-            //        _superActivationBottom.transform.localScale = new Vector2(_superActivationBottom.transform.localScale.x, yScale);
-            //    }
-
-            //    if (_superActivationLeft.transform.localScale.y > 0)
-            //    {
-            //        var yScale = _superActivationLeft.transform.localScale.y;
-            //        yScale -= .085f;
-            //        _superActivationLeft.transform.localScale = new Vector2(_superActivationLeft.transform.localScale.x, yScale);
-            //    }
-
-            //    if (_superActivationRight.transform.localScale.y > 0)
-            //    {
-            //        var yScale = _superActivationRight.transform.localScale.y;
-            //        yScale -= .085f;
-            //        _superActivationRight.transform.localScale = new Vector2(_superActivationRight.transform.localScale.x, yScale);
-            //    }
-
-
-            //    _superAcumTime += 1 * Time.deltaTime;
-
-            //    if (_superAcumTime >= 10)
-            //    {
-            //        Color color1 = _super.GetComponent<SpriteRenderer>().material.color;
-            //        color1.a -= .025f;
-            //        _super.GetComponent<SpriteRenderer>().material.color = color1;
-
-            //        var yScale = _super.transform.localScale.y;
-            //        var xScale = _super.transform.localScale.x;
-            //        yScale -= .085f;
-            //        xScale -= .085f;
-
-            //        _super.transform.localScale = new Vector2(xScale, yScale);
-            //        if (color1.a <= 0f)
-            //        {
-            //            _tapManager._holdActivated = false;
-            //            _superInstantiated = false;
-            //            _superActivated = false;
-            //            _lightningCreated = false;
-            //            _superAcumTime = 0f;
-            //            Destroy(_superActivationTop);
-            //            Destroy(_superActivationBottom);
-            //            Destroy(_superActivationLeft);
-            //            Destroy(_superActivationRight);
-            //            Destroy(_super);
-            //        }
-            //    }
-            // }
-
         }
     }
-    //public void SpawnLightning(Transform enemy)
-    //{
-    //    _superLightningAttack = Instantiate(_lightningPrefab, transform.position, Quaternion.identity);
-    //    _superLightningAttack.transform.parent = transform;
-    //    _superLightningAttack.GetComponent<LightningAttackTime>().SpawnLightning(enemy);
-
-    //}
 }

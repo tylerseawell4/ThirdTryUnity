@@ -7,20 +7,28 @@ using UnityEngine.UI;
 public class SuperMoveManager : MonoBehaviour
 {
     public Image _superBar;
-    private SuperKetchup _SuperKetchup;
+    private SuperKetchup _superKetchup;
     private Color _originalColor;
     private SuperIce _superIce;
-
+    private SuperMustard _superMustard;
+    public bool _mustardActivated;
+    public bool _ketchupActivated;
+    public bool _iceActivated;
     private void Start()
     {
-        _SuperKetchup = GameObject.Find("Player").GetComponent<SuperKetchup>();
+        _superKetchup = GameObject.Find("Player").GetComponent<SuperKetchup>();
         _superIce = GameObject.Find("Player").GetComponent<SuperIce>();
+        _superMustard = GameObject.Find("Player").GetComponent<SuperMustard>();
         _originalColor = _superBar.color;
     }
 
     private void FixedUpdate()
     {
-        if (_SuperKetchup._superActivated || _superIce._superIceActivated)
+        _mustardActivated = _superMustard._superActivated;
+        _iceActivated = _superIce._superIceActivated;
+        _ketchupActivated = _superKetchup._superActivated;
+
+        if (_superKetchup._superActivated || _superIce._superIceActivated || _superMustard._superActivated)
             _superBar.fillAmount -= .002f;
 
         if (_superBar.fillAmount < 0)

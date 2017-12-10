@@ -13,6 +13,7 @@ public class CameraOption3 : MonoBehaviour
     public float _yMax;
     public VelocityBounce2 _playerBounce;
     private PlayerControl _playerControl;
+    private SuperMustard _superMustard;
     public float _camerLerpSpeed;
     private Vector2 _ogVel;
     public bool _shouldTrans;
@@ -24,6 +25,7 @@ public class CameraOption3 : MonoBehaviour
 
     private void Start()
     {
+        _superMustard = FindObjectOfType<SuperMustard>();
         _canDash = true;    
         _camerasFocusPoint = _cameraMovingUpTarget;
         _playerBounce = FindObjectOfType<VelocityBounce2>();
@@ -39,8 +41,12 @@ public class CameraOption3 : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _ogVel = _playerBounce._player.velocity;
+        if(transform.position.x != 0 && !_superMustard._shouldShake)
+        {
+            transform.position = new Vector3(0f, transform.position.y, transform.position.z);
+        }
 
+        _ogVel = _playerBounce._player.velocity;
 
         if (_playerControl._player.velocity.y < 0)
         {

@@ -17,9 +17,11 @@ public class EnemyDeath : MonoBehaviour
     private PlayerHealth _playerHealth;
     private Collider2D _collider;
     private PlayerDeath _playerDeath;
+    private SuperMoveManager _superMoveManager;
 
     private void Awake()
     {
+        _superMoveManager = FindObjectOfType<SuperMoveManager>();
         _playerDeath = FindObjectOfType<PlayerDeath>();
         _collider = GetComponent<Collider2D>();
         _playerHealth = FindObjectOfType<PlayerHealth>();
@@ -57,7 +59,7 @@ public class EnemyDeath : MonoBehaviour
         {
             _collider.enabled = false;
 
-            if (collision.gameObject.tag == "Super")
+           if (collision.gameObject.tag == "Super" && _superMoveManager._ketchupActivated)
             {
                 FindObjectOfType<SuperKetchup>().SpawnLightning(transform);
             }
