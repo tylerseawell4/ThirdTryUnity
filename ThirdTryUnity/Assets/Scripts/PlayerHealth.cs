@@ -8,7 +8,7 @@ public class PlayerHealth : MonoBehaviour
     private int _healthCount;
     private Color _originalColor;
     private PlayerDeath _playerDeath;
-    private SuperMode _superMode;
+    private SuperKetchup _SuperKetchup;
     private SuperIce _superIce;
     public GameObject _super;
     private Animator _anim;
@@ -22,7 +22,7 @@ public class PlayerHealth : MonoBehaviour
         _healthCount = 1;
         _originalColor = _renderer.color;
         _playerDeath = GetComponent<PlayerDeath>();
-        _superMode = GetComponent<SuperMode>();
+        _SuperKetchup = GetComponent<SuperKetchup>();
         _superIce = GetComponent<SuperIce>();
     }
     // Update is called once per frame
@@ -70,7 +70,7 @@ public class PlayerHealth : MonoBehaviour
     }
     private void DecreasePlayerHeath()
     {
-        if (_superMode._superActivated || _superIce._superIceActivated) return;
+        if (_SuperKetchup._superActivated || _superIce._superIceActivated) return;
 
         _healthCount--;
 

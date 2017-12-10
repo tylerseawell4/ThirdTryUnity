@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SuperMode : MonoBehaviour
+public class SuperKetchup : MonoBehaviour
 {
     private TapManager _tapManager;
     public bool _superActivated;

@@ -7,7 +7,7 @@ public class DetectSuperChild : MonoBehaviour
 {
     private PlayerHealth _playerHealth;
     private SuperMoveManager _superMoveManager;
-    private SuperMode _superMode;
+    private SuperKetchup _SuperKetchup;
     // Use this for initialization
     void Start()
     {
@@ -16,7 +16,7 @@ public class DetectSuperChild : MonoBehaviour
         {
             _playerHealth = player.GetComponent<PlayerHealth>();
             _superMoveManager = player.GetComponent<SuperMoveManager>();
-            _superMode = GameObject.Find("Player").GetComponent<SuperMode>();
+            _SuperKetchup = GameObject.Find("Player").GetComponent<SuperKetchup>();
         }
     }
 
@@ -47,7 +47,7 @@ public class DetectSuperChild : MonoBehaviour
         if (tag == "EnemyDropling" && collision.tag == "Player")
         {
             var inWormColor = new Color(.25f, .25f, .25f, .6f);
-            if (!_superMode._superActivated && _playerHealth.GetComponent<SpriteRenderer>().color != inWormColor)
+            if (!_SuperKetchup._superActivated && _playerHealth.GetComponent<SpriteRenderer>().color != inWormColor)
             {
                 var value = Math.Abs((transform.localScale.x / 100) * 2);
                 _superMoveManager.IncreaseSuperBar(value);

@@ -59,7 +59,7 @@ public class EnemyDeath : MonoBehaviour
 
             if (collision.gameObject.tag == "Super")
             {
-                FindObjectOfType<SuperMode>().SpawnLightning(transform);
+                FindObjectOfType<SuperKetchup>().SpawnLightning(transform);
             }
 
 

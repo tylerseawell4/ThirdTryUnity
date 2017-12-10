@@ -14,7 +14,7 @@ public class WeaponSwitchScript : MonoBehaviour
     private IceSpike _iceShotgun;
     private TapManager _tapManager;
     private GameObject _mainCamera;
-    private SuperMode _superMode;
+    private SuperKetchup _SuperKetchup;
     private SuperIce _superIce;
 
     private void Start()
@@ -27,7 +27,7 @@ public class WeaponSwitchScript : MonoBehaviour
         _mustardShotgun = FindObjectOfType<MustardShotgun>();
         _iceShoot = FindObjectOfType<IceShoot>();
         _iceShotgun = FindObjectOfType<IceSpike>();
-        _superMode = FindObjectOfType<SuperMode>();
+        _SuperKetchup = FindObjectOfType<SuperKetchup>();
         _superIce = FindObjectOfType<SuperIce>();
 
         if (_ketchupShotgun.enabled && _ketchupShotgun.enabled)
@@ -50,7 +50,7 @@ public class WeaponSwitchScript : MonoBehaviour
             _mustardShoot.enabled = true;
             _mustardShotgun.enabled = true;
             _superIce.enabled = false;
-            _superMode.enabled = true;
+            _SuperKetchup.enabled = true;
             _mainCamera.GetComponent<FrostEffect>().enabled = false;
         }
         else if (_mustardShoot.enabled && _mustardShotgun.enabled)
@@ -61,7 +61,7 @@ public class WeaponSwitchScript : MonoBehaviour
             _iceShoot.enabled = true;
             _iceShotgun.enabled = true;
             _superIce.enabled = true;
-            _superMode.enabled = false;
+            _SuperKetchup.enabled = false;
             _mainCamera.GetComponent<FrostEffect>().enabled = true;
         }
         else if (_iceShoot.enabled && _iceShotgun.enabled)
@@ -72,7 +72,7 @@ public class WeaponSwitchScript : MonoBehaviour
             _ketchupShoot.enabled = true;
             _ketchupShotgun.enabled = true;
             _superIce.enabled = false;
-            _superMode.enabled = true;
+            _SuperKetchup.enabled = true;
             _mainCamera.GetComponent<FrostEffect>().enabled = false;
         }
     }
