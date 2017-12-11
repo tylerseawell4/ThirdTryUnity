@@ -36,6 +36,7 @@ public class SuperIce : MonoBehaviour {
         _tapManager = FindObjectOfType<TapManager>();
         _camera = Camera.main.transform;
         _initalDuration = _duration;
+        _superIceActivated = false;
     }
 
     private void FixedUpdate()

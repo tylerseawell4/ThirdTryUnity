@@ -78,6 +78,7 @@ public class EnemyDeath : MonoBehaviour
 
             StartCoroutine("DeathSequence");
         }
+
         if (collision.gameObject.tag == "Bullet" || collision.gameObject.tag == "Player")
         {
             var damage = 1;
@@ -100,6 +101,70 @@ public class EnemyDeath : MonoBehaviour
             }
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (_isColliding)
+            return;
+
+        _isColliding = true;
+
+        var sprite = collision.gameObject.GetComponent<SpriteRenderer>();
+        if (sprite != null)
+        {
+            var inWormColor = new Color(.25f, .25f, .25f, .6f);
+            if (sprite.color == inWormColor)
+                return;
+        }
+
+        if (collision.gameObject.tag == "Super" || collision.gameObject.tag == "SuperActivation")
+        {
+            _collider.enabled = false;
+
+            if (collision.gameObject.tag == "Super" && _superMoveManager._ketchupActivated)
+            {
+                FindObjectOfType<SuperKetchup>().SpawnLightning(transform);
+            }
+
+
+            StartCoroutine("TurnRed");
+            _enemyMovement._moveSpeed = 1f;
+            gameObject.tag = "Nonlethal";
+            StartCoroutine("DeathSequence");
+
+        }
+
+        if (collision.gameObject.tag == "IceSpike")
+        {
+            _collider.enabled = false;
+
+            StartCoroutine("DeathSequence");
+        }
+
+        if (collision.gameObject.tag == "Bullet" || collision.gameObject.tag == "Player")
+        {
+            var damage = 1;
+            var collisionWithMoveAndDestroyScript = collision.gameObject.GetComponent<MoveAndDestroyWeapon>();
+            if (collisionWithMoveAndDestroyScript != null)
+                damage = collisionWithMoveAndDestroyScript._damage;
+
+            StartCoroutine("TurnRed");
+            _hp -= damage;
+
+            if (collision.gameObject.tag == "Player")
+                _hp = 0;
+
+            if (_hp <= 0)
+            {
+                _collider.enabled = false;
+                _enemyMovement._moveSpeed = 1f;
+                gameObject.tag = "Nonlethal";
+                StartCoroutine("DeathSequence");
+            }
+        }
+    }
+
+
 
     IEnumerator TurnRed()
     {

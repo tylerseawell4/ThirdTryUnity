@@ -243,13 +243,15 @@ public class EnemyController : MonoBehaviour
             if (_movingRight)
             {
                 _movingRight = false;
-                _sprite.flipX = false;
+                if (_sprite != null)
+                    _sprite.flipX = false;
                 _moveXPos = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x;
             }
             else if (!_movingRight)
             {
                 _movingRight = true;
-                _sprite.flipX = true;
+                if (_sprite != null)
+                    _sprite.flipX = true;
                 _moveXPos = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x;
             }
         }

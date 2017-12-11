@@ -20,10 +20,14 @@ public class PlayerDeath : MonoBehaviour
     private int _recordHighScore;
     private int _recordBounceCount;
     private string _currentTotalScore;
+    public GameObject _selfRezPanel;
+    private MustardSelfRez _selfRez;
 
     void Awake()
     {
+        _selfRez = FindObjectOfType<MustardSelfRez>();
         _gameOverPanel.SetActive(false);
+        _selfRezPanel.SetActive(false);
         _playerHealth = GetComponent<PlayerHealth>();
         _score = FindObjectOfType<Score>();
         _playerDeathCountToDate = PlayerPrefs.GetInt("Deaths");
@@ -39,6 +43,9 @@ public class PlayerDeath : MonoBehaviour
         transform.Find("IceSpikes").gameObject.SetActive(false);
         gameObject.SetActive(false);
         _gameOverPanel.SetActive(true);
+        _selfRezPanel.SetActive(true);
+        _selfRez._countDownTimer = 5.9f;
+        _selfRez._startTimer = true;
     }
 
     private void PlayerPreferences()

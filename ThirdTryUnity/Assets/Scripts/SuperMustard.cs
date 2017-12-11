@@ -24,6 +24,8 @@ public class SuperMustard : MonoBehaviour
     private bool _makeSmallerFireArray;
     private float _rotationAmountCounter;
     private bool _makeSmallerFireBursts;
+    private MustardSelfRez _mustardSelfRez;
+    private bool _isSelfRezing;
 
     // Use this for initialization
     void Awake()
@@ -31,7 +33,7 @@ public class SuperMustard : MonoBehaviour
         _superAcumTime = 0f;
         _tapManager = FindObjectOfType<TapManager>();
         _superBar = GameObject.Find("SuperBar").GetComponent<Image>();
-
+        _mustardSelfRez = FindObjectOfType<MustardSelfRez>();
         _camera = Camera.main.transform;
         _initalDuration = _duration;
         ResetSuper();
@@ -71,8 +73,14 @@ public class SuperMustard : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (_tapManager._holdActivated)
+        if (_tapManager._holdActivated || _mustardSelfRez._shouldSelfRez)
         {
+            if (_mustardSelfRez._shouldSelfRez)
+            {
+                _isSelfRezing = true;
+                _mustardSelfRez._shouldSelfRez = false;
+            }
+
             _tapManager._holdActivated = false;
             _superActivated = true;
             _shouldShake = true;
@@ -140,11 +148,22 @@ public class SuperMustard : MonoBehaviour
                 {
                     currentScaleFire2 += .05f;
                     if (currentScaleFire2 >= 3f)
-                        _makeSmallerFireBursts = true;
+                        _makeSmallerFireBursts = true;         
                 }
                 else if (currentScaleFire2 >= 1.5f)
-                {
                     currentScaleFire2 -= .035f;
+
+                if (_isSelfRezing)
+                {                
+                    Color color = gameObject.GetComponent<SpriteRenderer>().color;
+                    if (color.a <= 1)
+                    {
+                        color.a += .025f;
+                        gameObject.GetComponent<SpriteRenderer>().color = color;                        
+                    }
+
+                    if(color.a >= 1)
+                        _isSelfRezing = false;
                 }
 
                 foreach (var fireBursts in _fireBursts)
@@ -181,7 +200,6 @@ public class SuperMustard : MonoBehaviour
 
                         firewing.transform.localScale = new Vector3(currentScaleX, currentScaleY, 1f);
                     }
-
                 }
             }
 

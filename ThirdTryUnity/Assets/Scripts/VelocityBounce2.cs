@@ -10,7 +10,7 @@ public class VelocityBounce2 : MonoBehaviour
     private float _vMultiplier;
     public bool _hitHeight;
     public bool _hitBottom;
-    private bool _decrementGravity;
+    public bool _decrementGravity;
     public bool _moveCharacterDown;
     private bool _hitrequestedHeight;
     private float _originalVMultiplier;
@@ -71,6 +71,7 @@ public class VelocityBounce2 : MonoBehaviour
            
         }
 
+        //triggers falling code
         if (_decrementGravity)
         {
             //Debug.Log(_player.velocity);

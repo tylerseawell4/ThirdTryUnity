@@ -9,6 +9,7 @@ public class PlayerHealth : MonoBehaviour
     private Color _originalColor;
     private PlayerDeath _playerDeath;
     private SuperKetchup _SuperKetchup;
+    private SuperMustard _superMustard;
     private SuperIce _superIce;
     public GameObject _super;
     private Animator _anim;
@@ -24,6 +25,7 @@ public class PlayerHealth : MonoBehaviour
         _playerDeath = GetComponent<PlayerDeath>();
         _SuperKetchup = GetComponent<SuperKetchup>();
         _superIce = GetComponent<SuperIce>();
+        _superMustard = GetComponent<SuperMustard>();
     }
     // Update is called once per frame
     void Update()
@@ -33,7 +35,9 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (gameObject.tag == "Super" || gameObject.tag == "SuperActivation" || collision.gameObject.tag == "WormTail" || collision.gameObject.tag == "WormMouth") return;
+        if (_superMustard._superActivated || _superIce._superIceActivated || _SuperKetchup._superActivated) return;
+
+        if (collision.gameObject.tag == "WormTail" || collision.gameObject.tag == "WormMouth") return;
 
         //12 is enemy layer
         if (collision.gameObject.layer == 12 || collision.gameObject.tag == "BounceBack")
@@ -46,7 +50,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (gameObject.tag == "Super" || gameObject.tag == "SuperActivation") return;
+        if (_superMustard._superActivated || _superIce._superIceActivated || _SuperKetchup._superActivated) return;
 
         //12 is enemy layer
         if (collision.gameObject.layer == 12)
@@ -76,7 +80,6 @@ public class PlayerHealth : MonoBehaviour
 
         if (_healthCount == 0)
         {
-            _tapManager.enabled = false;
             StartCoroutine("DeathSequence");
             return;
         }
@@ -92,11 +95,10 @@ public class PlayerHealth : MonoBehaviour
         {
             _renderer.color = Color.yellow;
         }
-        else if (_healthCount == 4)
+        else if (_healthCount >= 4)
         {
             _renderer.color = Color.blue;
         }
-
     }
     public int GetPlayerHealth()
     {
@@ -106,7 +108,20 @@ public class PlayerHealth : MonoBehaviour
     IEnumerator DeathSequence()
     {
         _anim.SetInteger("State", 1);
+
         yield return new WaitForSeconds(.6f);
+
+        Color color = gameObject.GetComponent<SpriteRenderer>().color;
+
+        color.a = 0f;
+        gameObject.GetComponent<SpriteRenderer>().color = color;
+
+        _anim.SetInteger("State", 0);
+
+        yield return new WaitForSeconds(.6f);
+
         _playerDeath.Die();
+
+        _healthCount = 1;
     }
 }
