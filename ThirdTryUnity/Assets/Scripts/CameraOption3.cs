@@ -22,11 +22,12 @@ public class CameraOption3 : MonoBehaviour
     public bool _hitBounceBug;
     private bool _shouldResetMovingDownTarget;
     public bool _canDash;
+    private float _cameraMovementAfterShakeToReset;
 
     private void Start()
     {
         _superMustard = FindObjectOfType<SuperMustard>();
-        _canDash = true;    
+        _canDash = true;
         _camerasFocusPoint = _cameraMovingUpTarget;
         _playerBounce = FindObjectOfType<VelocityBounce2>();
         _playerControl = FindObjectOfType<PlayerControl>();
@@ -41,9 +42,15 @@ public class CameraOption3 : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(transform.position.x != 0 && !_superMustard._shouldShake)
+        if (transform.position.x != 0 && !_superMustard._shouldShake)
         {
-            transform.position = new Vector3(0f, transform.position.y, transform.position.z);
+            _cameraMovementAfterShakeToReset = transform.position.x;
+            _cameraMovementAfterShakeToReset -= .01f;
+
+            if (_cameraMovementAfterShakeToReset < 0f)
+                _cameraMovementAfterShakeToReset = 0f;
+
+            transform.position = new Vector3(_cameraMovementAfterShakeToReset, transform.position.y, transform.position.z);
         }
 
         _ogVel = _playerBounce._player.velocity;
@@ -127,7 +134,7 @@ public class CameraOption3 : MonoBehaviour
 
         if (!_shouldTrans)
         {
-            _canDash = true;    
+            _canDash = true;
             v3.y = Mathf.Lerp(v3.y, _camerasFocusPoint.position.y, _speed);
         }
         else

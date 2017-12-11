@@ -26,6 +26,8 @@ public class SuperMustard : MonoBehaviour
     private bool _makeSmallerFireBursts;
     private MustardSelfRez _mustardSelfRez;
     private bool _isSelfRezing;
+    private bool _makeBurstsBigger;
+    private bool _canAttack;
 
     // Use this for initialization
     void Awake()
@@ -37,10 +39,15 @@ public class SuperMustard : MonoBehaviour
         _camera = Camera.main.transform;
         _initalDuration = _duration;
         ResetSuper();
+        _makeBurstsBigger = true;
     }
 
     private void ResetSuper()
     {
+        _tapManager._doubleTap = false;
+        _makeBurstsBigger = true;
+        _canAttack = false;
+
         foreach (var fire in _fireBursts)
         {
             fire.transform.localScale = new Vector3(1f, 1f, 1f);
@@ -73,6 +80,35 @@ public class SuperMustard : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (_tapManager._doubleTap && _superActivated && _canAttack)
+        {
+            var currentScaleFire = _fireBursts[0].transform.localScale.x;
+
+            if (_makeBurstsBigger)
+            {
+                currentScaleFire += .1f;
+                if (currentScaleFire >= 3.5f)
+                    _makeBurstsBigger = false;
+            }
+            else
+            {
+                if (currentScaleFire >= 0f)
+                    currentScaleFire -= .05f;
+                else
+                {
+                    _tapManager._doubleTap = false;
+                    _makeBurstsBigger = true;
+                    _canAttack = false;
+                }
+            }
+
+
+            foreach (var fireBursts in _fireBursts)
+            {
+                fireBursts.transform.localScale = new Vector3(currentScaleFire, currentScaleFire, 1f);
+            }
+        }
+
         if (_tapManager._holdActivated || _mustardSelfRez._shouldSelfRez)
         {
             if (_mustardSelfRez._shouldSelfRez)
@@ -115,10 +151,12 @@ public class SuperMustard : MonoBehaviour
                     if (currentScaleFire >= 5f)
                         _makeSmallerFireArray = true;
                 }
-                else if (currentScaleFire >= .75f)
+                else if (currentScaleFire >= .575f)
                 {
                     currentScaleFire -= .05f;
                 }
+                else if (currentScaleFire <= .75f && _makeSmallerFireArray)
+                    _fireArray[0].GetComponent<Collider2D>().enabled = false;
 
                 for (int i = 0; i < _fireArray.Length; i++)
                 {
@@ -148,21 +186,23 @@ public class SuperMustard : MonoBehaviour
                 {
                     currentScaleFire2 += .05f;
                     if (currentScaleFire2 >= 3f)
-                        _makeSmallerFireBursts = true;         
+                        _makeSmallerFireBursts = true;
                 }
-                else if (currentScaleFire2 >= 1.5f)
+                else if (currentScaleFire2 >= 0f)
                     currentScaleFire2 -= .035f;
+                else if (_makeSmallerFireBursts && currentScaleFire2 <= 0f)
+                    _canAttack = true;  
 
                 if (_isSelfRezing)
-                {                
+                {
                     Color color = gameObject.GetComponent<SpriteRenderer>().color;
                     if (color.a <= 1)
                     {
                         color.a += .025f;
-                        gameObject.GetComponent<SpriteRenderer>().color = color;                        
+                        gameObject.GetComponent<SpriteRenderer>().color = color;
                     }
 
-                    if(color.a >= 1)
+                    if (color.a >= 1)
                         _isSelfRezing = false;
                 }
 
