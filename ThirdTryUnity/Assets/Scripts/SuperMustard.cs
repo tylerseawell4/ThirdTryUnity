@@ -47,6 +47,7 @@ public class SuperMustard : MonoBehaviour
         _tapManager._doubleTap = false;
         _makeBurstsBigger = true;
         _canAttack = false;
+        _fireArray[0].GetComponent<Collider2D>().enabled = true;
 
         foreach (var fire in _fireBursts)
         {
@@ -102,7 +103,6 @@ public class SuperMustard : MonoBehaviour
                 }
             }
 
-
             foreach (var fireBursts in _fireBursts)
             {
                 fireBursts.transform.localScale = new Vector3(currentScaleFire, currentScaleFire, 1f);
@@ -155,7 +155,7 @@ public class SuperMustard : MonoBehaviour
                 {
                     currentScaleFire -= .05f;
                 }
-                else if (currentScaleFire <= .75f && _makeSmallerFireArray)
+                else if (currentScaleFire <= .575f && _makeSmallerFireArray)
                     _fireArray[0].GetComponent<Collider2D>().enabled = false;
 
                 for (int i = 0; i < _fireArray.Length; i++)

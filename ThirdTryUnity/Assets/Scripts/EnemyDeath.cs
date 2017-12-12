@@ -67,7 +67,7 @@ public class EnemyDeath : MonoBehaviour
             if (!_superKetchup._enemiesThatCanBeShocked.Contains(gameObject))
                 _superKetchup._enemiesThatCanBeShocked.Add(gameObject);
         }
-        else if (collision.gameObject.tag == "SuperActivation")
+        else if (collision.gameObject.tag == "SuperActivation" || collision.gameObject.tag == "Super")
             Die();
         else if (collision.gameObject.tag == "IceSpike")
             Die();

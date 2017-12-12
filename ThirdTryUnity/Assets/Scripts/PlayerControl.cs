@@ -28,9 +28,20 @@ public class PlayerControl : MonoBehaviour
     private SpriteRenderer _sprite;
     private Color _originalColor;
     private Color _inWormColor;
+    public SuperEnums _superState;
     // Use this for initialization
     void Start()
     {
+        if (GetComponent<SuperKetchup>().enabled)
+            _superState = SuperEnums.Ketchup;
+        else if (GetComponent<SuperMustard>().enabled)
+            _superState = SuperEnums.Mustard;
+        else if (GetComponent<SuperIce>().enabled)
+            _superState = SuperEnums.Mayo;
+        //else if (GetComponent<>().enabled)
+        //    _superState = SuperEnums.SnP;
+
+
         _inWormColor = new Color(.25f, .25f, .25f, .6f);
         _sprite = GetComponent<SpriteRenderer>();
         _originalColor = _sprite.material.color;

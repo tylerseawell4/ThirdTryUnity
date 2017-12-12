@@ -43,9 +43,13 @@ public class PlayerDeath : MonoBehaviour
         transform.Find("IceSpikes").gameObject.SetActive(false);
         gameObject.SetActive(false);
         _gameOverPanel.SetActive(true);
-        _selfRezPanel.SetActive(true);
-        _selfRez._countDownTimer = 5.9f;
-        _selfRez._startTimer = true;
+
+        if (GetComponent<PlayerControl>()._superState == SuperEnums.Mustard)
+        {
+            _selfRezPanel.SetActive(true);
+            _selfRez._countDownTimer = 5.9f;
+            _selfRez._startTimer = true;
+        }
     }
 
     private void PlayerPreferences()
