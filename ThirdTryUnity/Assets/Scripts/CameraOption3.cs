@@ -37,7 +37,7 @@ public class CameraOption3 : MonoBehaviour
 
 
         //high base value, will need to increase if we use a higher starting velocity
-        _diffTransStartPosEndPos = 11f;
+        _diffTransStartPosEndPos = 4f;
     }
 
     private void FixedUpdate()

@@ -56,15 +56,16 @@ public class VelocityBounce2 : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+
+    void FixedUpdate()
     {
         if (!_playerCanMove)
         {
-            _player.velocity = new Vector3(_player.velocity.x, 0, 0f);
+            _player.velocity = new Vector3(0, 0, 0f);
             return;
         }
 
-        if (_player.transform.position.y >= (_maxHeightValue - 25f) && !_hitrequestedHeight)
+        ///if (_player.transform.position.y >= (_maxHeightValue - 25f) && !_hitrequestedHeight)
             //GetComponent<SpriteRenderer>().color = Color.red;
             //add code to start making the player air streams or whatever UI to start fading to indicate slowing down
 
@@ -149,6 +150,7 @@ public class VelocityBounce2 : MonoBehaviour
         }
     }
 
+
     public int GetRunCount()
     {
         return _runCount;
@@ -205,7 +207,7 @@ public class VelocityBounce2 : MonoBehaviour
             }
 
             _playerCanMove = false;
-            _player.velocity = new Vector3(_player.velocity.x, 0, 0f);
+            _player.velocity = new Vector3(0, 0, 0f);
         }
     }
 }
