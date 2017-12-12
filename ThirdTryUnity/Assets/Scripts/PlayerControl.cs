@@ -85,7 +85,7 @@ public class PlayerControl : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.A) || _dashManager._isLeftClicked)
+        if (_velBounce._playerCanMove && (Input.GetKeyDown(KeyCode.A) || _dashManager._isLeftClicked))
         {
             _dashManager._isLeftClicked = false;
             _leftDashActivated = true;
@@ -93,7 +93,7 @@ public class PlayerControl : MonoBehaviour
             posX = _player.transform.position.x;
         }
 
-        if (Input.GetKeyDown(KeyCode.D) || _dashManager._isRightClicked)
+        if (_velBounce._playerCanMove && (Input.GetKeyDown(KeyCode.D) || _dashManager._isRightClicked))
         {
             _dashManager._isRightClicked = false;
             _rightDashActivated = true;

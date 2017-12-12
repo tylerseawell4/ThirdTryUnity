@@ -28,6 +28,7 @@ TagManager:
   - Mayoshield
   - BounceBack
   - IceSpike
+  - SpiderWebSticky
   layers:
   - Default
   - TransparentFX

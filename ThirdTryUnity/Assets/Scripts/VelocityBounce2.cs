@@ -31,10 +31,12 @@ public class VelocityBounce2 : MonoBehaviour
     private EnemySpawner _enemySpawner;
     private float _playersOGPos;
     private float _bugBugHeight;
-
+    public bool _playerCanMove;
+    public GameObject _web;
     // Use this for initialization
     void Start()
     {
+        _playerCanMove = true;
         _playersOGPos = gameObject.transform.position.y;
         _bounceCount = 0;
         _player.gravityScale = 0f;
@@ -56,20 +58,26 @@ public class VelocityBounce2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!_playerCanMove)
+        {
+            _player.velocity = new Vector3(_player.velocity.x, 0, 0f);
+            return;
+        }
+
         if (_player.transform.position.y >= (_maxHeightValue - 25f) && !_hitrequestedHeight)
             //GetComponent<SpriteRenderer>().color = Color.red;
             //add code to start making the player air streams or whatever UI to start fading to indicate slowing down
 
 
-        //Debug.Log(_player.velocity.y);
-        if (_player.transform.position.y >= (_maxHeightValue - 15f) && !_hitrequestedHeight)
-        {
-           // _score.ChangeCalculatingPoint(transform.position.y);
-            _decrementGravity = true;
-            _hitrequestedHeight = true;
-           // Debug.Log(_player.transform.position.y);
-           
-        }
+            //Debug.Log(_player.velocity.y);
+            if (_player.transform.position.y >= (_maxHeightValue - 15f) && !_hitrequestedHeight)
+            {
+                // _score.ChangeCalculatingPoint(transform.position.y);
+                _decrementGravity = true;
+                _hitrequestedHeight = true;
+                // Debug.Log(_player.transform.position.y);
+
+            }
 
         //triggers falling code
         if (_decrementGravity)
@@ -106,34 +114,38 @@ public class VelocityBounce2 : MonoBehaviour
                 //  Debug.Log(_playersExactHeight);
             }
         }
-
-        if (_moveCharacterDown)
+        if (_playerCanMove)
         {
-            if (_player.velocity.y > 0)
-                Debug.Log("down" + _player.velocity.y.ToString());
-            // Debug.Log(_player.velocity.magnitude);
-            if (_vMultiplier < _originalVMultiplier)
+            if (_moveCharacterDown)
             {
-                Debug.Log(_vMultiplier);
-                _vMultiplier += .1f;
+                if (_player.velocity.y > 0)
+                    Debug.Log("down" + _player.velocity.y.ToString());
+                // Debug.Log(_player.velocity.magnitude);
+                if (_vMultiplier < _originalVMultiplier)
+                {
+                    Debug.Log(_vMultiplier);
+                    _vMultiplier += .1f;
+                }
+                else
+                {
+                    //Debug.Log(_vMultiplier);
+                    _vMultiplier = _originalVMultiplier;
+                }
+
+                if (_player.velocity.y != -_vMultiplier)
+                    _player.velocity = new Vector3(_player.velocity.x, -_vMultiplier, 0f);
             }
-            else
+
+
+            if (!_hitHeight)
             {
-                //Debug.Log(_vMultiplier);
-                _vMultiplier = _originalVMultiplier;
+                if (_player.velocity.y < 0)
+                    Debug.Log("up" + _player.velocity.y.ToString());
+                //  Debug.Log(_player.velocity.magnitude);
+
+                if (_player.velocity.y != _vMultiplier)
+                    _player.velocity = new Vector3(_player.velocity.x, _vMultiplier, 0f);
             }
-
-            _player.velocity = new Vector3(_player.velocity.x, -_vMultiplier, 0f);
-        }
-
-
-        if (!_hitHeight)
-        {
-            if (_player.velocity.y < 0)
-                Debug.Log("up" + _player.velocity.y.ToString());
-            //  Debug.Log(_player.velocity.magnitude);
-
-            _player.velocity = new Vector3(_player.velocity.x, _vMultiplier, 0f);
         }
     }
 
@@ -152,15 +164,15 @@ public class VelocityBounce2 : MonoBehaviour
                 _camera._hitBounceBug = true;
                 _bugBugHeight = collision.transform.position.y - _playersOGPos;
             }
-            else   
+            else
                 _bugBugHeight = 0f;
 
             _playerControl._forwardDashActivated = false;
             _playerControl._time = 0f;
 
             _playerControl._topPlayerPoint.localPosition = new Vector3(_playerControl.transform.position.x, 8.5f, _playerControl.transform.position.z);
-           _camera._cameraMovingUpTarget.localPosition = new Vector3(transform.position.x, 8.5f, transform.position.z);
-   
+            _camera._cameraMovingUpTarget.localPosition = new Vector3(transform.position.x, 8.5f, transform.position.z);
+
             _playerControl._score.BounceCount(); // Calling this every time the player collides with the ground to increase bounce count score by 1
                                                  // _score.ChangeCalculatingPoint(transform.position.y);
             _runCount++;
@@ -177,6 +189,23 @@ public class VelocityBounce2 : MonoBehaviour
             _moveCharacterDown = false;
             _startingHeight += _increaseHeightBy + _bugBugHeight;
             _maxHeightValue = _startingHeight;
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "SpiderWebSticky")
+        {
+
+
+            var webChildren = _web.GetComponentsInChildren<AreaEffector2D>();
+
+            foreach (var child in webChildren)
+            {
+                child.forceMagnitude = 0f;
+            }
+
+            _playerCanMove = false;
+            _player.velocity = new Vector3(_player.velocity.x, 0, 0f);
         }
     }
 }
