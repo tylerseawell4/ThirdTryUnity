@@ -18,9 +18,11 @@ public class EnemyDeath : MonoBehaviour
     private Collider2D _collider;
     private PlayerDeath _playerDeath;
     private SuperMoveManager _superMoveManager;
+    private SuperKetchup _superKetchup;
 
     private void Awake()
     {
+        _superKetchup = FindObjectOfType<SuperKetchup>();
         _superMoveManager = FindObjectOfType<SuperMoveManager>();
         _playerDeath = FindObjectOfType<PlayerDeath>();
         _collider = GetComponent<Collider2D>();
@@ -39,6 +41,12 @@ public class EnemyDeath : MonoBehaviour
         _isColliding = false;
     }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Super" && _superKetchup._enemiesThatCanBeShocked.Contains(gameObject))
+            _superKetchup._enemiesThatCanBeShocked.Remove(gameObject);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (_isColliding)
@@ -54,52 +62,24 @@ public class EnemyDeath : MonoBehaviour
                 return;
         }
 
-
-        if (collision.gameObject.tag == "Super" || collision.gameObject.tag == "SuperActivation" )
+        if (collision.gameObject.tag == "Super" && _superMoveManager._ketchupActivated)
         {
-            _collider.enabled = false;
-
-           if (collision.gameObject.tag == "Super" && _superMoveManager._ketchupActivated)
-            {
-                FindObjectOfType<SuperKetchup>().SpawnLightning(transform);
-            }
-
-
-            StartCoroutine("TurnRed");
-            _enemyMovement._moveSpeed = 1f;
-            gameObject.tag = "Nonlethal";
-            StartCoroutine("DeathSequence");
-
+            if (!_superKetchup._enemiesThatCanBeShocked.Contains(gameObject))
+                _superKetchup._enemiesThatCanBeShocked.Add(gameObject);
         }
+        else if (collision.gameObject.tag == "SuperActivation")
+            Die();
+        else if (collision.gameObject.tag == "IceSpike")
+            Die();
+    }
 
-        if (collision.gameObject.tag == "IceSpike")
-        {
-            _collider.enabled = false;
-
-            StartCoroutine("DeathSequence");
-        }
-
-        if (collision.gameObject.tag == "Bullet" || collision.gameObject.tag == "Player")
-        {
-            var damage = 1;
-            var collisionWithMoveAndDestroyScript = collision.gameObject.GetComponent<MoveAndDestroyWeapon>();
-            if (collisionWithMoveAndDestroyScript != null)
-                damage = collisionWithMoveAndDestroyScript._damage;
-
-            StartCoroutine("TurnRed");
-            _hp -= damage;
-
-            if (collision.gameObject.tag == "Player")
-                _hp = 0;
-
-            if (_hp <= 0)
-            {
-                _collider.enabled = false;
-                _enemyMovement._moveSpeed = 1f;
-                gameObject.tag = "Nonlethal";
-                StartCoroutine("DeathSequence");
-            }
-        }
+    public void Die()
+    {
+        _collider.enabled = false;
+        StartCoroutine("TurnRed");
+        _enemyMovement._moveSpeed = 1f;
+        gameObject.tag = "Nonlethal";
+        StartCoroutine("DeathSequence");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -117,30 +97,6 @@ public class EnemyDeath : MonoBehaviour
                 return;
         }
 
-        if (collision.gameObject.tag == "Super" || collision.gameObject.tag == "SuperActivation")
-        {
-            _collider.enabled = false;
-
-            if (collision.gameObject.tag == "Super" && _superMoveManager._ketchupActivated)
-            {
-                FindObjectOfType<SuperKetchup>().SpawnLightning(transform);
-            }
-
-
-            StartCoroutine("TurnRed");
-            _enemyMovement._moveSpeed = 1f;
-            gameObject.tag = "Nonlethal";
-            StartCoroutine("DeathSequence");
-
-        }
-
-        if (collision.gameObject.tag == "IceSpike")
-        {
-            _collider.enabled = false;
-
-            StartCoroutine("DeathSequence");
-        }
-
         if (collision.gameObject.tag == "Bullet" || collision.gameObject.tag == "Player")
         {
             var damage = 1;
@@ -155,16 +111,11 @@ public class EnemyDeath : MonoBehaviour
                 _hp = 0;
 
             if (_hp <= 0)
-            {
-                _collider.enabled = false;
-                _enemyMovement._moveSpeed = 1f;
-                gameObject.tag = "Nonlethal";
-                StartCoroutine("DeathSequence");
-            }
+                Die();
         }
+        else if (collision.gameObject.tag == "IceSpike")
+            Die();
     }
-
-
 
     IEnumerator TurnRed()
     {
@@ -192,12 +143,5 @@ public class EnemyDeath : MonoBehaviour
     {
         if (transform.localScale.x >= 1.3f)
             _hp = 4;
-    }
-    public void Die()
-    {
-        _collider.enabled = false;
-        _enemyMovement._moveSpeed = 1f;
-        gameObject.tag = "Nonlethal";
-        StartCoroutine("DeathSequence");
     }
 }

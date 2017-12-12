@@ -27,6 +27,7 @@ public class SuperKetchup : MonoBehaviour
     private float _initalDuration;
     private float _slowDownAmt = 1.0f;
     private Transform _camera;
+    public List<GameObject> _enemiesThatCanBeShocked;
 
     // Use this for initialization
     void Start()
@@ -37,8 +38,23 @@ public class SuperKetchup : MonoBehaviour
 
         _camera = Camera.main.transform;
         _initalDuration = _duration;
+        _enemiesThatCanBeShocked = new List<GameObject>();
     }
-   
+
+    private void Update()
+    {
+        if (_tapManager._doubleTap && _superActivated)
+        {
+            _tapManager._doubleTap = false;
+            foreach (var enemy in _enemiesThatCanBeShocked.ToArray())
+            {
+                SpawnLightning(enemy.transform);
+                _enemiesThatCanBeShocked.Remove(enemy);
+                enemy.GetComponent<EnemyDeath>().Die();
+            }
+        }
+    }
+
     void FixedUpdate()
     {
         if (_tapManager._holdActivated && _superBar.fillAmount >= 1f)
