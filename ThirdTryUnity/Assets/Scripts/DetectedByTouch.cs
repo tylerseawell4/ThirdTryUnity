@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DetectedByTouch : MonoBehaviour
 {
+    public bool _wasTouched;
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -17,6 +18,10 @@ public class DetectedByTouch : MonoBehaviour
                 if (hit.collider.gameObject.layer == 12)
                 {
                     hit.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+                }
+                if(hit.collider.gameObject.tag == "Star")
+                {
+                    _wasTouched = true;
                 }
             }
         }

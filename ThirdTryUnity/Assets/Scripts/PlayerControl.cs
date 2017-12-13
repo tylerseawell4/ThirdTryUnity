@@ -33,11 +33,14 @@ public class PlayerControl : MonoBehaviour
     private int _arrowHitCount;
     public GameObject _web;
     private float _inputFactor;
+    private bool _shouldPressButton;
+    public GameObject _star;
+    private bool _makeSmaller;
 
     // Use this for initialization
     void Start()
     {
-        _inputFactor = 1.25f;
+        _inputFactor = 1.5f;
         if (GetComponent<SuperKetchup>().enabled)
             _superState = SuperEnums.Ketchup;
         else if (GetComponent<SuperMustard>().enabled)
@@ -91,6 +94,36 @@ public class PlayerControl : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (_shouldPressButton)
+        {
+            var scale = _star.transform.localScale;
+            if(scale.x < .6 && !_makeSmaller)
+            {
+                scale = new Vector3(scale.x += .01f, scale.y += .01f);
+            }
+            else
+            {
+                _makeSmaller = true;
+            }
+
+            if(scale.x >.3f && _makeSmaller)
+            {
+                scale = new Vector3(scale.x -= .01f, scale.y -= .01f);
+            }
+            else
+            {
+                _makeSmaller = false;
+            }
+            _star.transform.localScale = scale;
+            if (_star.GetComponent<DetectedByTouch>()._wasTouched)
+            {
+                _makeSmaller = false;
+                _velBounce._playerCanMove = true;
+                _velBounce.AfterWebExit();
+                Destroy(_web);
+                _shouldPressButton = false;
+            }
+        }
         if (_velBounce._playerCanMove && (Input.GetKeyDown(KeyCode.A) || _dashManager._isLeftClicked))
         {
             _dashManager._isLeftClicked = false;
@@ -143,7 +176,7 @@ public class PlayerControl : MonoBehaviour
             _player.velocity = new Vector3(30f * Input.acceleration.x, _player.velocity.y, 0f);
         else if (_velBounce._playerCanMove)
             _player.velocity = new Vector3(0f, _player.velocity.y, 0f);
-        else if (Input.acceleration.x < 0f && !_velBounce._playerCanMove)
+        else if (Input.acceleration.x < 0f && !_velBounce._playerCanMove && !_shouldPressButton)
         {
             if (_webArrows[0].activeInHierarchy)
             {
@@ -151,17 +184,19 @@ public class PlayerControl : MonoBehaviour
                 var scaleFactor = Mathf.Abs(Input.acceleration.x * _inputFactor);
                 scale = new Vector3(scaleFactor, scaleFactor);
                 _webArrows[1].transform.localScale = scale;
-              
+
                 if (_webArrows[1].transform.localScale.x >= _webArrows[0].transform.localScale.x)
                 {
-                    _inputFactor += 1f;
                     _arrowHitCount++;
-                   var color= _web.GetComponent<SpriteRenderer>().color;
+                    var color = _web.GetComponent<SpriteRenderer>().color;
                     color.a -= .33f;
                     _web.GetComponent<SpriteRenderer>().color = color;
-                    if (_arrowHitCount == 3)
-                    {                      
-                        StartCoroutine("PauseAcceleration");
+                    if (_arrowHitCount == 2)
+                    {
+                        _star.SetActive(true);
+                        _webArrows[0].SetActive(false);
+                        _webArrows[1].SetActive(false);
+                        _shouldPressButton = true;
                     }
                     else
                     {
@@ -177,7 +212,7 @@ public class PlayerControl : MonoBehaviour
                 }
             }
         }
-        else if (Input.acceleration.x > 0f && !_velBounce._playerCanMove)
+        else if (Input.acceleration.x > 0f && !_velBounce._playerCanMove && !_shouldPressButton)
         {
             if (_webArrows[2].activeInHierarchy)
             {
@@ -189,15 +224,17 @@ public class PlayerControl : MonoBehaviour
 
                 if (_webArrows[3].transform.localScale.x >= _webArrows[2].transform.localScale.x)
                 {
-                    _inputFactor += 1f;
                     _arrowHitCount++;
                     var color = _web.GetComponent<SpriteRenderer>().color;
                     color.a -= .33f;
                     _web.GetComponent<SpriteRenderer>().color = color;
 
-                    if (_arrowHitCount == 3)
+                    if (_arrowHitCount == 2)
                     {
-                        StartCoroutine("PauseAcceleration");
+                        _star.SetActive(true);
+                        _webArrows[2].SetActive(false);
+                        _webArrows[3].SetActive(false);
+                        _shouldPressButton = true;
                     }
                     else
                     {
@@ -334,13 +371,6 @@ public class PlayerControl : MonoBehaviour
         //transform.position = Vector3.Lerp(transform.position, new Vector3(0f, 10f, 0f), Time.deltaTime * _activeMoveSpeed);
     }
 
-    IEnumerator PauseAcceleration()
-    {
-        _velBounce._playerCanMove = true;
-        _velBounce.AfterWebExit();
-        Destroy(_web);
-        yield return new WaitForSeconds(1f);
-    }
     // Update is called once per frame
     void Update()
     {

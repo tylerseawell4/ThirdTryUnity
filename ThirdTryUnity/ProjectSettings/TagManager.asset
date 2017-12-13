@@ -29,6 +29,7 @@ TagManager:
   - BounceBack
   - IceSpike
   - SpiderWebSticky
+  - Star
   layers:
   - Default
   - TransparentFX
