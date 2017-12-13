@@ -197,8 +197,6 @@ public class VelocityBounce2 : MonoBehaviour
     {
         if (collision.tag == "SpiderWebSticky")
         {
-
-
             var webChildren = _web.GetComponentsInChildren<AreaEffector2D>();
 
             foreach (var child in webChildren)
@@ -209,5 +207,19 @@ public class VelocityBounce2 : MonoBehaviour
             _playerCanMove = false;
             _player.velocity = new Vector3(0, 0, 0f);
         }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "SpiderWebSticky")
+        {
+            AfterWebExit();
+        }
+    }
+
+    public void AfterWebExit()
+    {
+        _decrementGravity = true;
+        _vMultiplier = 3f;
     }
 }

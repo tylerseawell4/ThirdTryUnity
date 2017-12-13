@@ -32,9 +32,12 @@ public class PlayerControl : MonoBehaviour
     public GameObject[] _webArrows;
     private int _arrowHitCount;
     public GameObject _web;
+    private float _inputFactor;
+
     // Use this for initialization
     void Start()
     {
+        _inputFactor = 1.25f;
         if (GetComponent<SuperKetchup>().enabled)
             _superState = SuperEnums.Ketchup;
         else if (GetComponent<SuperMustard>().enabled)
@@ -145,20 +148,20 @@ public class PlayerControl : MonoBehaviour
             if (_webArrows[0].activeInHierarchy)
             {
                 var scale = _webArrows[1].transform.localScale;
-                var scaleFactor = Mathf.Abs(Input.acceleration.x * 1.1f);
+                var scaleFactor = Mathf.Abs(Input.acceleration.x * _inputFactor);
                 scale = new Vector3(scaleFactor, scaleFactor);
                 _webArrows[1].transform.localScale = scale;
               
                 if (_webArrows[1].transform.localScale.x >= _webArrows[0].transform.localScale.x)
                 {
+                    _inputFactor += 1f;
                     _arrowHitCount++;
                    var color= _web.GetComponent<SpriteRenderer>().color;
                     color.a -= .33f;
                     _web.GetComponent<SpriteRenderer>().color = color;
                     if (_arrowHitCount == 3)
-                    {
-                        _velBounce._playerCanMove = true;
-                        Destroy(_web);
+                    {                      
+                        StartCoroutine("PauseAcceleration");
                     }
                     else
                     {
@@ -179,13 +182,14 @@ public class PlayerControl : MonoBehaviour
             if (_webArrows[2].activeInHierarchy)
             {
                 var scale = _webArrows[3].transform.localScale;
-                var scaleFactor = Mathf.Abs(Input.acceleration.x * 1.1f);
+                var scaleFactor = Mathf.Abs(Input.acceleration.x * _inputFactor);
                 scale = new Vector3(scaleFactor, scaleFactor);
                 _webArrows[3].transform.localScale = scale;
 
 
                 if (_webArrows[3].transform.localScale.x >= _webArrows[2].transform.localScale.x)
                 {
+                    _inputFactor += 1f;
                     _arrowHitCount++;
                     var color = _web.GetComponent<SpriteRenderer>().color;
                     color.a -= .33f;
@@ -193,8 +197,7 @@ public class PlayerControl : MonoBehaviour
 
                     if (_arrowHitCount == 3)
                     {
-                        _velBounce._playerCanMove = true;
-                        Destroy(_web);
+                        StartCoroutine("PauseAcceleration");
                     }
                     else
                     {
@@ -330,6 +333,14 @@ public class PlayerControl : MonoBehaviour
 
         //transform.position = Vector3.Lerp(transform.position, new Vector3(0f, 10f, 0f), Time.deltaTime * _activeMoveSpeed);
     }
+
+    IEnumerator PauseAcceleration()
+    {
+        _velBounce._playerCanMove = true;
+        _velBounce.AfterWebExit();
+        Destroy(_web);
+        yield return new WaitForSeconds(1f);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -387,6 +398,19 @@ public class PlayerControl : MonoBehaviour
             _webArrows[0].SetActive(true);
             _webArrows[1].SetActive(true);
             _arrowHitCount = 0;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "SpiderWebSticky")
+        {
+            _webArrows[0].SetActive(false);
+            _webArrows[1].SetActive(false);
+            _webArrows[2].SetActive(false);
+            _webArrows[3].SetActive(false);
+            _arrowHitCount = 0;
+            _velBounce._playerCanMove = true;
         }
     }
 
