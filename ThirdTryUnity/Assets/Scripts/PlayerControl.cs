@@ -29,6 +29,9 @@ public class PlayerControl : MonoBehaviour
     private Color _originalColor;
     private Color _inWormColor;
     public SuperEnums _superState;
+    public GameObject[] _webArrows;
+    private int _arrowHitCount;
+    public GameObject _web;
     // Use this for initialization
     void Start()
     {
@@ -137,6 +140,77 @@ public class PlayerControl : MonoBehaviour
             _player.velocity = new Vector3(30f * Input.acceleration.x, _player.velocity.y, 0f);
         else if (_velBounce._playerCanMove)
             _player.velocity = new Vector3(0f, _player.velocity.y, 0f);
+        else if (Input.acceleration.x < 0f && !_velBounce._playerCanMove)
+        {
+            if (_webArrows[0].activeInHierarchy)
+            {
+                var scale = _webArrows[1].transform.localScale;
+                var scaleFactor = Mathf.Abs(Input.acceleration.x * 1.1f);
+                scale = new Vector3(scaleFactor, scaleFactor);
+                _webArrows[1].transform.localScale = scale;
+              
+                if (_webArrows[1].transform.localScale.x >= _webArrows[0].transform.localScale.x)
+                {
+                    _arrowHitCount++;
+                   var color= _web.GetComponent<SpriteRenderer>().color;
+                    color.a -= .33f;
+                    _web.GetComponent<SpriteRenderer>().color = color;
+                    if (_arrowHitCount == 3)
+                    {
+                        _velBounce._playerCanMove = true;
+                        Destroy(_web);
+                    }
+                    else
+                    {
+                        _webArrows[0].SetActive(false);
+                        _webArrows[1].SetActive(false);
+
+                        _webArrows[2].SetActive(true);
+
+                        var newscale = new Vector3(0, 0);
+                        _webArrows[3].transform.localScale = newscale;
+                        _webArrows[3].SetActive(true);
+                    }
+                }
+            }
+        }
+        else if (Input.acceleration.x > 0f && !_velBounce._playerCanMove)
+        {
+            if (_webArrows[2].activeInHierarchy)
+            {
+                var scale = _webArrows[3].transform.localScale;
+                var scaleFactor = Mathf.Abs(Input.acceleration.x * 1.1f);
+                scale = new Vector3(scaleFactor, scaleFactor);
+                _webArrows[3].transform.localScale = scale;
+
+
+                if (_webArrows[3].transform.localScale.x >= _webArrows[2].transform.localScale.x)
+                {
+                    _arrowHitCount++;
+                    var color = _web.GetComponent<SpriteRenderer>().color;
+                    color.a -= .33f;
+                    _web.GetComponent<SpriteRenderer>().color = color;
+
+                    if (_arrowHitCount == 3)
+                    {
+                        _velBounce._playerCanMove = true;
+                        Destroy(_web);
+                    }
+                    else
+                    {
+                        _webArrows[2].SetActive(false);
+                        _webArrows[3].SetActive(false);
+
+                        _webArrows[0].SetActive(true);
+
+                        var newscale = new Vector3(0, 0);
+                        _webArrows[1].transform.localScale = newscale;
+                        _webArrows[1].SetActive(true);
+                    }
+                }
+
+            }
+        }
         else
             _player.velocity = new Vector3(0f, 0, 0f);
 
@@ -196,8 +270,8 @@ public class PlayerControl : MonoBehaviour
                     if (_currentPlayerPosDiff >= _startingPlayerTopPtDiff)
                     {
                         _shouldSlowCameraWhenGoingUp = false;
-                       _topPlayerPoint.localPosition = new Vector3(transform.position.x, 8.5f, transform.position.z);
-                       
+                        _topPlayerPoint.localPosition = new Vector3(transform.position.x, 8.5f, transform.position.z);
+
                     }
                 }
             }
@@ -306,6 +380,13 @@ public class PlayerControl : MonoBehaviour
         if (collision.gameObject.tag == "WormTail" && _sprite.color != _originalColor)
         {
             _sprite.color = _originalColor;
+        }
+
+        if (collision.tag == "SpiderWebSticky")
+        {
+            _webArrows[0].SetActive(true);
+            _webArrows[1].SetActive(true);
+            _arrowHitCount = 0;
         }
     }
 
