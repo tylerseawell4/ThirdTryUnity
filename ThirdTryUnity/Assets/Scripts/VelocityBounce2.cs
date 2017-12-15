@@ -33,6 +33,7 @@ public class VelocityBounce2 : MonoBehaviour
     private float _bugBugHeight;
     public bool _playerCanMove;
     public GameObject _web;
+    private bool _exitingWeb;
     // Use this for initialization
     void Start()
     {
@@ -125,11 +126,15 @@ public class VelocityBounce2 : MonoBehaviour
                 if (_vMultiplier < _originalVMultiplier)
                 {
                     Debug.Log(_vMultiplier);
+                    if(_exitingWeb)
+                        _vMultiplier += .3f;
+                    else
                     _vMultiplier += .1f;
                 }
                 else
                 {
                     //Debug.Log(_vMultiplier);
+                    _exitingWeb = false;
                     _vMultiplier = _originalVMultiplier;
                 }
 
@@ -219,6 +224,7 @@ public class VelocityBounce2 : MonoBehaviour
 
     public void AfterWebExit()
     {
+        _exitingWeb = true;
         _decrementGravity = true;
         _vMultiplier = 3f;
     }
