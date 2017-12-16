@@ -18,9 +18,4 @@ public class Orientation : MonoBehaviour {
         }
 
     }
-
-    // Update is called once per frame
-    void Update () {
-     //   Screen.orientation = ScreenOrientation.LandscapeLeft;
-    }
 }
