@@ -62,6 +62,25 @@ public class EnemyDeath : MonoBehaviour
                 return;
         }
 
+        if (collision.gameObject.tag == "Bullet" || collision.gameObject.tag == "Player")
+        {
+            var damage = 1;
+            var collisionWithMoveAndDestroyScript = collision.gameObject.GetComponent<MoveAndDestroyWeapon>();
+            if (collisionWithMoveAndDestroyScript != null)
+                damage = collisionWithMoveAndDestroyScript._damage;
+
+            StartCoroutine("TurnRed");
+            _hp -= damage;
+
+            if (collision.gameObject.tag == "Player")
+                _hp = 0;
+
+            if (_hp <= 0)
+                Die();
+        }
+        else if (collision.gameObject.tag == "IceSpike")
+            Die();
+
         if (collision.gameObject.tag == "Super" && _superMoveManager._ketchupActivated)
         {
             if (!_superKetchup._enemiesThatCanBeShocked.Contains(gameObject))
