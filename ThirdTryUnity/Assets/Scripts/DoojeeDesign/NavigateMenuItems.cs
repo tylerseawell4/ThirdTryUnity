@@ -16,6 +16,7 @@ public class NavigateMenuItems : MonoBehaviour
     private Image _materialsImage;
     private GameObject _doojeeDesignClassPanel;
     private GameObject _doojeeDesignFlightSuitPanel;
+    private GameObject _customizeDoojeeMarkers;
     
     private string _buttonPressed;
 
@@ -33,6 +34,7 @@ public class NavigateMenuItems : MonoBehaviour
         //Panels and other menu components
         _doojeeDesignClassPanel = GameObject.Find("DoojeeDesignClassPanel");
         _doojeeDesignFlightSuitPanel = GameObject.Find("DoojeeDesignSuitPanel");
+        _customizeDoojeeMarkers = GameObject.Find("CustomizeDoojeeMarkers");
 
         FocusedMenuOnDoojeeDesgin(); //this needs to be called after initializing the _doojeeDesignImage
     }
@@ -107,30 +109,25 @@ public class NavigateMenuItems : MonoBehaviour
 
     private void EnableCustomizeCharacterMenu()
     {
-
+        _customizeDoojeeMarkers.SetActive(true);
     }
-
+    private void DisableCustomizeCharacterMenu()
+    {
+        _customizeDoojeeMarkers.SetActive(false);
+    }
     private void EnableMaterialsMenu()
     {
 
     }
+    private void DisableMaterialsMenu()
+    {
 
+    }
     private void EnableDoojeeDesign()
     {
         _doojeeDesignClassPanel.SetActive(true);
         _doojeeDesignFlightSuitPanel.SetActive(true);
     }
-
-    private void DisableCustomizeCharacterMenu()
-    {
-
-    }
-
-    private void DisableMaterialsMenu()
-    {
-
-    }
-
     private void DisableDoojeeDesignMenu()
     {
         _doojeeDesignClassPanel.SetActive(false);
