@@ -3,79 +3,62 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NavigateMenuItems : MonoBehaviour {
+public class NavigateMenuItems : MonoBehaviour
+{
+    public Color FocusedMenuButtonColor = new Color(1f, 0.95f, 0.5f, 1);
     
-    private Text _mainText;
-    private Color _defaultFocusedButtonColor = new Color(0.5f, 0.5f, 0.5f, 1);
+    private Color _defaultFocusedButtonColor;
     private Button _doojeeDesignButton;
     private Button _customizeCharacterButton;
     private Button _materialsButton;
+    private Image _doojeeDesignImage;
+    private Image _customizeCharacterImage;
+    private Image _materialsImage;
     private GameObject _doojeeDesignClassPanel;
     private GameObject _doojeeDesignFlightSuitPanel;
     
-
     private string _buttonPressed;
-    private bool _doojeeDesign;
-    private bool _customizeCharacter;
-    private bool _materials;
-
-    public bool _doojeeDesignSelected { get { return _doojeeDesign; }}
-    public bool _customizeCharacterSelected { get { return _customizeCharacter; } }
-    public bool _materialSelected { get { return _materials; } }
 
     private void Start()
     {
-        //Main text
-        _mainText = GameObject.Find("MainText").GetComponent<Text>();
-
         //Menu Buttons
         _doojeeDesignButton = GameObject.Find("DoojeeDesign").GetComponent<Button>();
         _customizeCharacterButton = GameObject.Find("CustomizeCharacter").GetComponent<Button>();
         _materialsButton = GameObject.Find("Materials").GetComponent<Button>();
+        _doojeeDesignImage = GameObject.Find("DoojeeDesign").GetComponent<Image>();
+        _customizeCharacterImage = GameObject.Find("CustomizeCharacter").GetComponent<Image>();
+        _materialsImage = GameObject.Find("Materials").GetComponent<Image>();
+        _defaultFocusedButtonColor = _materialsImage.color; //This should not be the doojee design button since during startup that changes the color in the method FocusedMenuOnDoojeeDesgin();
 
         //Panels and other menu components
         _doojeeDesignClassPanel = GameObject.Find("DoojeeDesignClassPanel");
         _doojeeDesignFlightSuitPanel = GameObject.Find("DoojeeDesignSuitPanel");
-    }
 
+        FocusedMenuOnDoojeeDesgin(); //this needs to be called after initializing the _doojeeDesignImage
+    }
+   
     public void MenuChanges()
     {
-       
-        _buttonPressed = gameObject.name;
+        ResetMenuButtonAppearance();
         ChangeFocusedMenuAppearance();
+
+        _buttonPressed = gameObject.name;
         if (_buttonPressed != null)
         {
-            if(_buttonPressed == "CustomizeCharacter")
+            if (_buttonPressed == "CustomizeCharacter")
             {
-                _customizeCharacter = true;
-                _doojeeDesign = false;
-                _materials = false;
-
-                _mainText.text = "Customize Doojee!";
-
                 EnableCustomizeCharacterMenu();
                 DisableDoojeeDesignMenu();
                 DisableMaterialsMenu();
             }
-            else if(_buttonPressed == "Materials")
+            else if (_buttonPressed == "Materials")
             {
-                _materials = true;
-                _customizeCharacter = false;
-                _doojeeDesign = false;
-
-                _mainText.text = "Materials";
-
                 EnableMaterialsMenu();
                 DisableCustomizeCharacterMenu();
                 DisableDoojeeDesignMenu();
             }
-            else if(_buttonPressed == "DoojeeDesign")
+            else if (_buttonPressed == "DoojeeDesign")
             {
-                _doojeeDesign = true;
-                _materials = false;
-                _customizeCharacter = false;
-
-                _mainText.text = "Doojee Design!";
                 EnableDoojeeDesign();
                 DisableMaterialsMenu();
                 DisableCustomizeCharacterMenu();
@@ -83,16 +66,42 @@ public class NavigateMenuItems : MonoBehaviour {
         }
     }
 
+    private void FocusedMenuOnDoojeeDesgin()
+    {
+        if (_doojeeDesignImage != null)
+        {
+            _doojeeDesignImage.fillCenter = true;
+            _doojeeDesignImage.color = FocusedMenuButtonColor;
+        }
+    }
+
     private void ChangeFocusedMenuAppearance()
     {
-        Button currentFocusedMenuButton = gameObject.GetComponent<Button>();
-        if (currentFocusedMenuButton != null)
+        Image buttonsImage = gameObject.GetComponent<Image>();
+
+        if (buttonsImage != null)
         {
-            ColorBlock doojeeDesignButtonColors = currentFocusedMenuButton.colors;
-            if (doojeeDesignButtonColors != null)
-            {
-                doojeeDesignButtonColors.normalColor = _defaultFocusedButtonColor;
-            }
+            buttonsImage.fillCenter = true;
+            buttonsImage.color = FocusedMenuButtonColor;
+        }
+    }
+
+    private void ResetMenuButtonAppearance()
+    {
+        if (_doojeeDesignImage != null)
+        {
+            _doojeeDesignImage.fillCenter = false;
+            _doojeeDesignImage.color = _defaultFocusedButtonColor;
+        }
+        if (_customizeCharacterImage != null)
+        {
+            _customizeCharacterImage.fillCenter = false;
+            _customizeCharacterImage.color = _defaultFocusedButtonColor;
+        }
+        if (_materialsImage != null)
+        {
+            _materialsImage.fillCenter = false;
+            _materialsImage.color = _defaultFocusedButtonColor;
         }
     }
 
