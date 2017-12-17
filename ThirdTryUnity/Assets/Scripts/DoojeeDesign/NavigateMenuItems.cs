@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class NavigateMenuItems : MonoBehaviour
 {
     public Color FocusedMenuButtonColor = new Color(1f, 0.95f, 0.5f, 1);
-    
+    public GameObject _customizeDoojeeMarkers;
+
     private Color _defaultFocusedButtonColor;
     private Button _doojeeDesignButton;
     private Button _customizeCharacterButton;
@@ -16,8 +17,9 @@ public class NavigateMenuItems : MonoBehaviour
     private Image _materialsImage;
     private GameObject _doojeeDesignClassPanel;
     private GameObject _doojeeDesignFlightSuitPanel;
-    private GameObject _customizeDoojeeMarkers;
-    
+  
+
+
     private string _buttonPressed;
 
     private void Start()
@@ -34,17 +36,16 @@ public class NavigateMenuItems : MonoBehaviour
         //Panels and other menu components
         _doojeeDesignClassPanel = GameObject.Find("DoojeeDesignClassPanel");
         _doojeeDesignFlightSuitPanel = GameObject.Find("DoojeeDesignSuitPanel");
-        _customizeDoojeeMarkers = GameObject.Find("CustomizeDoojeeMarkers");
 
         FocusedMenuOnDoojeeDesgin(); //this needs to be called after initializing the _doojeeDesignImage
     }
    
     public void MenuChanges()
-    {
+    {_buttonPressed = gameObject.name;
         ResetMenuButtonAppearance();
         ChangeFocusedMenuAppearance();
 
-        _buttonPressed = gameObject.name;
+
         if (_buttonPressed != null)
         {
             if (_buttonPressed == "CustomizeCharacter")
@@ -109,11 +110,18 @@ public class NavigateMenuItems : MonoBehaviour
 
     private void EnableCustomizeCharacterMenu()
     {
-        _customizeDoojeeMarkers.SetActive(true);
+        if (_customizeDoojeeMarkers != null)
+        {
+            _customizeDoojeeMarkers.SetActive(true);
+        }
+
     }
     private void DisableCustomizeCharacterMenu()
     {
-        _customizeDoojeeMarkers.SetActive(false);
+        if (_customizeDoojeeMarkers != null)
+        {
+            _customizeDoojeeMarkers.SetActive(false);
+        }
     }
     private void EnableMaterialsMenu()
     {
