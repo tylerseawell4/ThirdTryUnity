@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/BossScene.unity
+    guid: cb90d7d556da51b45ba1650e2273e6f1
+  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 39c6f919aa187ea4783d866bce1cf697
   - enabled: 1
@@ -15,5 +18,5 @@ EditorBuildSettings:
     path: Assets/Scenes/WorldScene.unity
     guid: d17ba8127b5ac334aafe3889658f1fa6
   - enabled: 1
-    path: Assets/Scenes/Inventory.unity
+    path: Assets/Scenes/DoojeeDesign.unity
     guid: 9f4858c4e1404cf4e8700eee1fb35498

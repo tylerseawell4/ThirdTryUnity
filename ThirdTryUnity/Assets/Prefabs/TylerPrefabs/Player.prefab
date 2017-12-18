@@ -157,8 +157,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1906433794777306}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -9.42, z: -0.06000042}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
+  m_LocalPosition: {x: -0.07413006, y: -3.9240053, z: -0.06000042}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_Children:
   - {fileID: 4464475596755230}
   - {fileID: 4460255181429032}
@@ -254,6 +254,10 @@ MonoBehaviour:
   _startingPlayerBottomPtDiff2: 0
   _forwardDashActivated: 0
   _time: 0
+  _superState: 0
+  _webArrows: []
+  _web: {fileID: 0}
+  _star: {fileID: 0}
 --- !u!114 &114322562022188558
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -269,11 +273,14 @@ MonoBehaviour:
   _startingHeight: 40
   _hitHeight: 0
   _hitBottom: 0
+  _decrementGravity: 0
   _moveCharacterDown: 0
   _increaseHeightBy: 30
   _maxSpeed: 15
   _playersExactHeight: 0
   _stopTrans: 0
+  _playerCanMove: 0
+  _web: {fileID: 0}
 --- !u!114 &114422689222517092
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -286,6 +293,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _superBar: {fileID: 0}
+  _mustardActivated: 0
+  _ketchupActivated: 0
+  _iceActivated: 0
 --- !u!114 &114519010354396640
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -299,14 +309,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bullet: {fileID: 1511857544029116, guid: d12b00a0e2c387c419105a392fe606ba, type: 2}
   _fireRate: 0.25
-  _fireRateCountdown: 0
-  _firePointTransform: {fileID: 0}
-  _playerControl: {fileID: 0}
   _firePtUpPos: {fileID: 4198686272472326}
   _firePtDownPos: {fileID: 4422023619939602}
-  _isInitialFire: 0
-  _tapManager: {fileID: 0}
-  _myRigidBody: {fileID: 0}
 --- !u!114 &114674479395896520
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -325,6 +329,7 @@ MonoBehaviour:
     type: 2}
   _lightningPrefab: {fileID: 1197721238647936, guid: c48f81c1cf6aa024bb9b3924e6cf6e68,
     type: 2}
+  _enemiesThatCanBeShocked: []
 --- !u!114 &114743358334860706
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -344,6 +349,7 @@ MonoBehaviour:
   _gameOverRecordHighScore: {fileID: 0}
   _gameOverEnemiesKilled: {fileID: 0}
   _enemyDeathCounter: 0
+  _selfRezPanel: {fileID: 0}
 --- !u!114 &114774197381346578
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -355,13 +361,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7769435b088f3024db237ab2f3a4ad09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _firePointTransform: {fileID: 0}
-  _playerControl: {fileID: 0}
   _firePtUpPos: {fileID: 4198686272472326}
   _firePtDownPos: {fileID: 4422023619939602}
-  _tapManager: {fileID: 0}
-  _myRigidBody: {fileID: 0}
-  _shotgunBlast: {fileID: 0}
   _shotgunBlastUp: {fileID: 1300261294390614, guid: 790114fe0e4b87a408a3609392429cf3,
     type: 2}
   _shotgunBlastDown: {fileID: 1684628282899454, guid: adb4f8a28b97d4d4c9e8d94bd37e2cdf,
