@@ -97,7 +97,7 @@ public class PlayerControl : MonoBehaviour
         if (_shouldPressButton)
         {
             var scale = _star.transform.localScale;
-            if(scale.x < .6 && !_makeSmaller)
+            if (scale.x < .6 && !_makeSmaller)
             {
                 scale = new Vector3(scale.x += .01f, scale.y += .01f);
             }
@@ -106,7 +106,7 @@ public class PlayerControl : MonoBehaviour
                 _makeSmaller = true;
             }
 
-            if(scale.x >.3f && _makeSmaller)
+            if (scale.x > .3f && _makeSmaller)
             {
                 scale = new Vector3(scale.x -= .01f, scale.y -= .01f);
             }
@@ -176,7 +176,7 @@ public class PlayerControl : MonoBehaviour
             _player.velocity = new Vector3(30f * Input.acceleration.x, _player.velocity.y, 0f);
         else if (_velBounce._playerCanMove)
             _player.velocity = new Vector3(0f, _player.velocity.y, 0f);
-        else if (Input.acceleration.x < 0f && !_velBounce._playerCanMove && !_shouldPressButton)
+        else if (Input.acceleration.x < 0f && !_velBounce._playerCanMove && !_shouldPressButton || Input.GetKey(KeyCode.LeftArrow))
         {
             if (_webArrows[0].activeInHierarchy)
             {
@@ -185,7 +185,7 @@ public class PlayerControl : MonoBehaviour
                 scale = new Vector3(scaleFactor, scaleFactor);
                 _webArrows[1].transform.localScale = scale;
 
-                if (_webArrows[1].transform.localScale.x >= _webArrows[0].transform.localScale.x)
+                if (_webArrows[1].transform.localScale.x >= _webArrows[0].transform.localScale.x || Input.GetKey(KeyCode.LeftArrow))
                 {
                     _arrowHitCount++;
                     var color = _web.GetComponent<SpriteRenderer>().color;
@@ -212,7 +212,7 @@ public class PlayerControl : MonoBehaviour
                 }
             }
         }
-        else if (Input.acceleration.x > 0f && !_velBounce._playerCanMove && !_shouldPressButton)
+        else if (Input.acceleration.x > 0f && !_velBounce._playerCanMove && !_shouldPressButton || Input.GetKey(KeyCode.RightArrow))
         {
             if (_webArrows[2].activeInHierarchy)
             {
@@ -222,7 +222,7 @@ public class PlayerControl : MonoBehaviour
                 _webArrows[3].transform.localScale = scale;
 
 
-                if (_webArrows[3].transform.localScale.x >= _webArrows[2].transform.localScale.x)
+                if (_webArrows[3].transform.localScale.x >= _webArrows[2].transform.localScale.x || Input.GetKey(KeyCode.RightArrow))
                 {
                     _arrowHitCount++;
                     var color = _web.GetComponent<SpriteRenderer>().color;

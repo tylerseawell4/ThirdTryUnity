@@ -34,6 +34,7 @@ public class VelocityBounce2 : MonoBehaviour
     public bool _playerCanMove;
     public GameObject _web;
     private bool _exitingWeb;
+    private float _webHeight;
     // Use this for initialization
     void Start()
     {
@@ -51,7 +52,7 @@ public class VelocityBounce2 : MonoBehaviour
         _score = FindObjectOfType<Score>();
         _heightOffset = 5f;
         _runCount = 1;
-        _velocityDecreaseAmt = .025f;
+        _velocityDecreaseAmt = .0305f;
         _offset = 0;
         //_originalColor = GetComponent<SpriteRenderer>().color;
     }
@@ -67,19 +68,19 @@ public class VelocityBounce2 : MonoBehaviour
         }
 
         ///if (_player.transform.position.y >= (_maxHeightValue - 25f) && !_hitrequestedHeight)
-            //GetComponent<SpriteRenderer>().color = Color.red;
-            //add code to start making the player air streams or whatever UI to start fading to indicate slowing down
+        //GetComponent<SpriteRenderer>().color = Color.red;
+        //add code to start making the player air streams or whatever UI to start fading to indicate slowing down
 
 
-            //Debug.Log(_player.velocity.y);
-            if (_player.transform.position.y >= (_maxHeightValue - 15f) && !_hitrequestedHeight)
-            {
-                // _score.ChangeCalculatingPoint(transform.position.y);
-                _decrementGravity = true;
-                _hitrequestedHeight = true;
-                // Debug.Log(_player.transform.position.y);
+        //Debug.Log(_player.velocity.y);
+        if (_player.transform.position.y >= (_maxHeightValue - 15f) && !_hitrequestedHeight)
+        {
+            // _score.ChangeCalculatingPoint(transform.position.y);
+            _decrementGravity = true;
+            _hitrequestedHeight = true;
+            // Debug.Log(_player.transform.position.y);
 
-            }
+        }
 
         //triggers falling code
         if (_decrementGravity)
@@ -113,7 +114,7 @@ public class VelocityBounce2 : MonoBehaviour
                 _playerControl._startingPlayerBottomPtDiff2 = _playerControl._bottomPlayerPoint.position.y - transform.position.y;
 
                 // GetComponent<SpriteRenderer>().color = _originalColor;
-                //  Debug.Log(_playersExactHeight);
+                Debug.Log(_playersExactHeight);
             }
         }
         if (_playerCanMove)
@@ -125,11 +126,11 @@ public class VelocityBounce2 : MonoBehaviour
                 // Debug.Log(_player.velocity.magnitude);
                 if (_vMultiplier < _originalVMultiplier)
                 {
-                    Debug.Log(_vMultiplier);
-                    if(_exitingWeb)
+                    //Debug.Log(_vMultiplier);
+                    if (_exitingWeb)
                         _vMultiplier += .3f;
                     else
-                    _vMultiplier += .1f;
+                        _vMultiplier += .1f;
                 }
                 else
                 {
@@ -194,20 +195,26 @@ public class VelocityBounce2 : MonoBehaviour
             _originalVMultiplier = _vMultiplier;
             _player.velocity = Vector3.up * _vMultiplier;
             _moveCharacterDown = false;
-            _startingHeight += _increaseHeightBy + _bugBugHeight;
+            Debug.Log(_startingHeight);
+            _startingHeight += _increaseHeightBy + _bugBugHeight - (_startingHeight - _webHeight);
+            Debug.Log(_startingHeight);
             _maxHeightValue = _startingHeight;
+            _webHeight = 0f;
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "SpiderWebSticky")
         {
+            if (!_hitHeight)
+                _webHeight = collision.transform.position.y - _playersOGPos;
+            else
+                _webHeight = 0f;
+
             var webChildren = _web.GetComponentsInChildren<AreaEffector2D>();
 
             foreach (var child in webChildren)
-            {
                 child.forceMagnitude = 0f;
-            }
 
             _playerCanMove = false;
             _player.velocity = new Vector3(0, 0, 0f);
