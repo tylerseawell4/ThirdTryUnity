@@ -196,7 +196,10 @@ public class VelocityBounce2 : MonoBehaviour
             _player.velocity = Vector3.up * _vMultiplier;
             _moveCharacterDown = false;
             Debug.Log(_startingHeight);
-            _startingHeight += _increaseHeightBy + _bugBugHeight - (_startingHeight - _webHeight);
+            if (_webHeight != 0)
+                _startingHeight += _increaseHeightBy + _bugBugHeight - (_startingHeight - _webHeight);
+            else
+                _startingHeight += _increaseHeightBy + _bugBugHeight;
             Debug.Log(_startingHeight);
             _maxHeightValue = _startingHeight;
             _webHeight = 0f;

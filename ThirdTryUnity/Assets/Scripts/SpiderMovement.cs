@@ -19,7 +19,8 @@ public class SpiderMovement : MonoBehaviour
         _angle += _rotateSpeed * Time.deltaTime;
 
         var offset = new Vector2(Mathf.Sin(_angle), Mathf.Cos(_angle)) * _radius;
-        transform.position = _centre + offset;
+        var centerOffsetVec = _centre + offset;
+        transform.position = new Vector3(centerOffsetVec.x, centerOffsetVec.y, transform.position.z);
 
     }
 }

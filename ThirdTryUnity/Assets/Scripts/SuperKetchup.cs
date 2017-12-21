@@ -188,6 +188,5 @@ public class SuperKetchup : MonoBehaviour
         _superLightningAttack = Instantiate(_lightningPrefab, transform.position, Quaternion.identity);
         _superLightningAttack.transform.parent = transform;
         _superLightningAttack.GetComponent<LightningAttackTime>().SpawnLightning(enemy);
-
     }
 }
