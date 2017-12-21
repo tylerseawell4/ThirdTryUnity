@@ -14,7 +14,7 @@ public class EnemyDropHandler : MonoBehaviour
         var player = GameObject.Find("Player");
         if (player != null)
             _SuperKetchup = player.GetComponent<SuperKetchup>();
-        _superIce = player.GetComponent<SuperIce>();
+        //_superIce = player.GetComponent<SuperIce>();
         _superBar = GameObject.Find("SuperBar");
     }
     private void OnTriggerEnter2D(Collider2D collision)

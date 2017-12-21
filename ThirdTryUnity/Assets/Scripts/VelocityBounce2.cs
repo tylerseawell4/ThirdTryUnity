@@ -7,7 +7,7 @@ public class VelocityBounce2 : MonoBehaviour
     public Rigidbody2D _player;
     public float _startingHeight;
     private float _maxHeightValue;
-    private float _vMultiplier;
+    public float _vMultiplier;
     public bool _hitHeight;
     public bool _hitBottom;
     public bool _decrementGravity;
@@ -35,9 +35,12 @@ public class VelocityBounce2 : MonoBehaviour
     public GameObject _web;
     private bool _exitingWeb;
     private float _webHeight;
+    private SuperMoveManager _superMoveManager;
+
     // Use this for initialization
     void Start()
     {
+        _superMoveManager = FindObjectOfType<SuperMoveManager>();
         _playerCanMove = true;
         _playersOGPos = gameObject.transform.position.y;
         _bounceCount = 0;
@@ -207,7 +210,7 @@ public class VelocityBounce2 : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "SpiderWebSticky")
+        if (collision.tag == "SpiderWebSticky" && !_superMoveManager._isSuperActivated)
         {
             if (!_hitHeight)
                 _webHeight = collision.transform.position.y - _playersOGPos;
@@ -226,7 +229,7 @@ public class VelocityBounce2 : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == "SpiderWebSticky")
+        if (collision.tag == "SpiderWebSticky" && !_superMoveManager._isSuperActivated)
         {
             AfterWebExit();
         }

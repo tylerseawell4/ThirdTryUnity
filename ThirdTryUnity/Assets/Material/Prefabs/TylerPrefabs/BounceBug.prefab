@@ -24,7 +24,8 @@ GameObject:
   - component: {fileID: 114468903349311266}
   - component: {fileID: 61641348730805762}
   - component: {fileID: 61269332038127930}
-  m_Layer: 12
+  - component: {fileID: 114815801060339642}
+  m_Layer: 0
   m_Name: BounceBug
   m_TagString: BounceBack
   m_Icon: {fileID: 0}
@@ -125,6 +126,22 @@ MonoBehaviour:
   _moveSpeed: 0
   _shouldChangeYPos: 0
   _shouldDieFromBeingOffSceen: 0
+--- !u!114 &114815801060339642
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1244620299672102}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c01c81e36f7217245a7312d6a9f9e9b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _renderer: {fileID: 212186236857642452, guid: 178786801b87ff94ba611609e18cd69d,
+    type: 2}
+  _enemyDroplingToSpawn: {fileID: 1893678822368496, guid: 41c06d7e812d44d458b9d9119317b9bf,
+    type: 2}
+  flashTime: 0.25
 --- !u!212 &212186236857642452
 SpriteRenderer:
   m_ObjectHideFlags: 1

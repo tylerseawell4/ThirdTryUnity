@@ -11,11 +11,16 @@ public class SuperMoveManager : MonoBehaviour
     private Color _originalColor;
     private SuperIce _superIce;
     private SuperMustard _superMustard;
-    public bool _mustardActivated;
+    private bool _mustardActivated;
     public bool _ketchupActivated;
-    public bool _iceActivated;
+    private bool _iceActivated;
+    public bool _isSuperActivated;
+    public GameObject[] _webAreaEffectors;
+    private bool _disableEffectors;
+
     private void Start()
     {
+        _disableEffectors = true;
         _superKetchup = GameObject.Find("Player").GetComponent<SuperKetchup>();
         _superIce = GameObject.Find("Player").GetComponent<SuperIce>();
         _superMustard = GameObject.Find("Player").GetComponent<SuperMustard>();
@@ -27,6 +32,31 @@ public class SuperMoveManager : MonoBehaviour
         _mustardActivated = _superMustard._superActivated;
         _iceActivated = _superIce._superIceActivated;
         _ketchupActivated = _superKetchup._superActivated;
+
+        if (_mustardActivated || _iceActivated || _ketchupActivated)
+        {
+            _isSuperActivated = true;
+            if (_disableEffectors && _isSuperActivated)
+            {
+                _disableEffectors = false;
+                foreach (var effector in _webAreaEffectors)
+                {
+                    effector.SetActive(false);
+                }
+            }
+        }
+        else
+        {
+            _isSuperActivated = false;
+            if (!_disableEffectors && !_isSuperActivated)
+            {
+                _disableEffectors = transform;
+                foreach (var effector in _webAreaEffectors)
+                {
+                    effector.SetActive(true);
+                }
+            }
+        }
 
         if (_superKetchup._superActivated || _superIce._superIceActivated || _superMustard._superActivated)
             _superBar.fillAmount -= .002f;

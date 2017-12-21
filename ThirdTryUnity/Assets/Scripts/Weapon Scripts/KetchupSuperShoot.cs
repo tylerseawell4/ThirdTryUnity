@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KetchupShoot : MonoBehaviour
+public class KetchupSuperShoot : MonoBehaviour
 {
     [Tooltip("The 'bullet' that will shoot out of firepoint. The bullet Asset MUST have the MoveAndDestroyWeapon script attached to it.")]
     public GameObject _bullet;
@@ -29,7 +29,7 @@ public class KetchupShoot : MonoBehaviour
     {
         _fireRateCountdown += 1 * Time.deltaTime;
 
-        if (!_supermoveManager._isSuperActivated)
+        if (_supermoveManager._isSuperActivated)
         {
             if ((_tapManager._singleTap && _fireRateCountdown >= _fireRate) || (_tapManager._singleTap && _isInitialFire))
             {

@@ -36,10 +36,12 @@ public class PlayerControl : MonoBehaviour
     private bool _shouldPressButton;
     public GameObject _star;
     private bool _makeSmaller;
+    private SuperMoveManager _superMoveManager;
 
     // Use this for initialization
     void Start()
     {
+        _superMoveManager = FindObjectOfType<SuperMoveManager>();
         _inputFactor = 1.5f;
         if (GetComponent<SuperKetchup>().enabled)
             _superState = SuperEnums.Ketchup;
@@ -256,7 +258,7 @@ public class PlayerControl : MonoBehaviour
 
         if (!_forwardDashActivated)
         {
-            if ((_player.velocity.y > 0) && _dashManager._isUpDownClicked || (_player.velocity.y < 0 && _dashManager._isUpDownClicked))
+            if (_player.velocity.y > 0 && _dashManager._isUpDownClicked || (_player.velocity.y < 0 && _dashManager._isUpDownClicked))
             {
                 //flip back
                 _dashManager._isUpDownClicked = false;
@@ -290,6 +292,8 @@ public class PlayerControl : MonoBehaviour
                 if (_addforce)
                 {
                     _addforce = false;
+                   // _velBounce._vMultiplier = 7.5f;
+                    _player.velocity = new Vector3(_player.velocity.x, 7.5f, 0f);
                     _ogVel = _player.velocity;
                 }
                 _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y * 1.4f);
@@ -297,20 +301,20 @@ public class PlayerControl : MonoBehaviour
                 _time += 1f * Time.deltaTime;
 
                 _startingPlayerTopPtDiff2 -= Time.deltaTime * 8f;
-                _topPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerTopPtDiff2, transform.position.z);
+                _topPlayerPoint.position = new Vector3(0, transform.position.y + _startingPlayerTopPtDiff2, transform.position.z);
                 _currentPlayerPosDiff = _topPlayerPoint.position.y - transform.position.y;
 
                 if (_time > 1f)
                 {
                     _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y / 1.25f);
                     _startingPlayerTopPtDiff2 += .275f;
-                    _topPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerTopPtDiff2, transform.position.z);
+                    _topPlayerPoint.position = new Vector3(0, transform.position.y + _startingPlayerTopPtDiff2, transform.position.z);
                     _currentPlayerPosDiff = _topPlayerPoint.position.y - transform.position.y;
 
                     if (_currentPlayerPosDiff >= _startingPlayerTopPtDiff)
                     {
                         _shouldSlowCameraWhenGoingUp = false;
-                        _topPlayerPoint.localPosition = new Vector3(transform.position.x, 8.5f, transform.position.z);
+                        _topPlayerPoint.localPosition = new Vector3(0, 8.5f, transform.position.z);
 
                     }
                 }
@@ -329,6 +333,8 @@ public class PlayerControl : MonoBehaviour
                 if (_addforce)
                 {
                     _addforce = false;
+                    _velBounce._vMultiplier = 7.5f;
+                    _player.velocity = new Vector3(_player.velocity.x, -7.5f, 0f);
                     _ogVel = _player.velocity;
                 }
                 _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y * 1.4f);
@@ -336,20 +342,20 @@ public class PlayerControl : MonoBehaviour
                 _time += 1f * Time.deltaTime;
 
                 _startingPlayerBottomPtDiff2 += Time.deltaTime * 8f;
-                _bottomPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerBottomPtDiff2, transform.position.z);
+                _bottomPlayerPoint.position = new Vector3(0, transform.position.y + _startingPlayerBottomPtDiff2, transform.position.z);
                 _currentPlayerPosDiff = _bottomPlayerPoint.position.y - transform.position.y;
 
                 if (_time > 1f)
                 {
                     _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y / 1.25f);
                     _startingPlayerBottomPtDiff2 -= .275f;
-                    _bottomPlayerPoint.position = new Vector3(transform.position.x, transform.position.y + _startingPlayerBottomPtDiff2, transform.position.z);
+                    _bottomPlayerPoint.position = new Vector3(0, transform.position.y + _startingPlayerBottomPtDiff2, transform.position.z);
                     _currentPlayerPosDiff = _bottomPlayerPoint.position.y - transform.position.y;
 
                     if (_currentPlayerPosDiff <= _startingPlayerBottomPtDiff)
                     {
                         _shouldSlowCameraWhenGoingUp = true;
-                        _bottomPlayerPoint.localPosition = new Vector3(transform.position.x, -8.5f, transform.position.z);
+                        _bottomPlayerPoint.localPosition = new Vector3(0, -8.5f, transform.position.z);
                     }
                 }
             }
@@ -423,8 +429,9 @@ public class PlayerControl : MonoBehaviour
             _sprite.color = _originalColor;
         }
 
-        if (collision.tag == "SpiderWebSticky")
+        if (collision.tag == "SpiderWebSticky" && !_superMoveManager._isSuperActivated)
         {
+            _tapManager.gameObject.SetActive(false);
             _webArrows[0].SetActive(true);
             _webArrows[1].SetActive(true);
             _arrowHitCount = 0;
@@ -433,8 +440,9 @@ public class PlayerControl : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == "SpiderWebSticky")
+        if (collision.tag == "SpiderWebSticky" && !_superMoveManager._isSuperActivated)
         {
+            _tapManager.gameObject.SetActive(true);
             _webArrows[0].SetActive(false);
             _webArrows[1].SetActive(false);
             _webArrows[2].SetActive(false);

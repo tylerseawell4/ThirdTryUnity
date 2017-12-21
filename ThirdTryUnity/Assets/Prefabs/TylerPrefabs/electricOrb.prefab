@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114493716670882882}
   - component: {fileID: 50446392951272984}
   - component: {fileID: 58155794103724798}
+  - component: {fileID: 114326941245007620}
   m_Layer: 0
   m_Name: electricOrb
   m_TagString: Bullet
@@ -73,7 +74,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -96,6 +97,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114326941245007620
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1963639754125542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dec51b43980466644a3aeea660dceb3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lightningPrefab: {fileID: 1197721238647936, guid: d772ddc85b6bb814f9271d031f482bc3,
+    type: 2}
 --- !u!114 &114493716670882882
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -110,7 +124,7 @@ MonoBehaviour:
   _destroyWeaponTime: 1
   _keepConstantSpeed: 0
   _bullet: {fileID: 212417967339231776}
-  _addForceValue: 150
+  _addForceValue: 250
   _shouldOverPenatrate: 1
   _shouldFade: 0
   _damage: 1
