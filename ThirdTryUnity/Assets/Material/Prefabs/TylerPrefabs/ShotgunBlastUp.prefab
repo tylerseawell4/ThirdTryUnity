@@ -600,9 +600,10 @@ MonoBehaviour:
   _keepConstantSpeed: 0
   _bullet: {fileID: 212300775380515420}
   _addForceValue: 250
-  _shouldOverPenatrate: 0
+  _shouldOverPenatrate: 1
   _shouldFade: 1
   _damage: 1
+  _shouldFollow: 0
 --- !u!114 &114076659894287810
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -618,9 +619,10 @@ MonoBehaviour:
   _keepConstantSpeed: 0
   _bullet: {fileID: 212524278912912718}
   _addForceValue: 250
-  _shouldOverPenatrate: 0
+  _shouldOverPenatrate: 1
   _shouldFade: 1
   _damage: 1
+  _shouldFollow: 0
 --- !u!114 &114334391262616480
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -636,9 +638,10 @@ MonoBehaviour:
   _keepConstantSpeed: 0
   _bullet: {fileID: 212370224934333430}
   _addForceValue: 250
-  _shouldOverPenatrate: 0
+  _shouldOverPenatrate: 1
   _shouldFade: 1
   _damage: 1
+  _shouldFollow: 0
 --- !u!114 &114395146810647264
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -654,9 +657,10 @@ MonoBehaviour:
   _keepConstantSpeed: 0
   _bullet: {fileID: 212103428815973210}
   _addForceValue: 250
-  _shouldOverPenatrate: 0
+  _shouldOverPenatrate: 1
   _shouldFade: 1
   _damage: 1
+  _shouldFollow: 0
 --- !u!114 &114418143207181948
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -672,9 +676,10 @@ MonoBehaviour:
   _keepConstantSpeed: 0
   _bullet: {fileID: 212606149874808512}
   _addForceValue: 250
-  _shouldOverPenatrate: 0
+  _shouldOverPenatrate: 1
   _shouldFade: 1
   _damage: 1
+  _shouldFollow: 0
 --- !u!114 &114435883526228816
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -690,9 +695,10 @@ MonoBehaviour:
   _keepConstantSpeed: 0
   _bullet: {fileID: 212760257485941632}
   _addForceValue: 250
-  _shouldOverPenatrate: 0
+  _shouldOverPenatrate: 1
   _shouldFade: 1
   _damage: 1
+  _shouldFollow: 0
 --- !u!114 &114537320062336164
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -708,9 +714,10 @@ MonoBehaviour:
   _keepConstantSpeed: 0
   _bullet: {fileID: 212497510098954244}
   _addForceValue: 250
-  _shouldOverPenatrate: 0
+  _shouldOverPenatrate: 1
   _shouldFade: 1
   _damage: 1
+  _shouldFollow: 0
 --- !u!212 &212103428815973210
 SpriteRenderer:
   m_ObjectHideFlags: 1
