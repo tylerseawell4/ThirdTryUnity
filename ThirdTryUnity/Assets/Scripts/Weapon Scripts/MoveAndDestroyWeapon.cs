@@ -44,7 +44,7 @@ public class MoveAndDestroyWeapon : MonoBehaviour
         }
     }
     private void Start()
-    {    
+    {
         _shoot = FindObjectOfType<KetchupShoot>();
         _myRigidBody = GetComponent<Rigidbody2D>();
         _camera = FindObjectOfType<Camera>();
@@ -70,6 +70,10 @@ public class MoveAndDestroyWeapon : MonoBehaviour
             color1.a -= .02f;
             _bullet.GetComponent<SpriteRenderer>().material.color = color1;
         }
+
+        if (_bullet.GetComponent<SpriteRenderer>().material.color.a <= 0)
+            Destroy();
+
         if (_playerControl._player != null)
         {
             if (_playerControl._player.velocity.y >= 0)
@@ -134,8 +138,12 @@ public class MoveAndDestroyWeapon : MonoBehaviour
     }
     private void Destroy()
     {
-        name = "Bullet";
-        gameObject.SetActive(false);
+        if (transform.parent != null)
+            Destroy(transform.parent.gameObject);
+        else
+            Destroy(gameObject);
+        //name = "Bullet";
+        //gameObject.SetActive(false);
     }
     private void OnDisable()
     {
@@ -146,7 +154,7 @@ public class MoveAndDestroyWeapon : MonoBehaviour
     {
         if (collision is EdgeCollider2D)
             Destroy();
-        
+
         if (collision.gameObject.tag.Contains("Worm"))
         {
             _bullet.color = _inWormColor;
