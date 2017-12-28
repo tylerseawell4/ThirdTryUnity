@@ -19,6 +19,7 @@ public class EnemyDeath : MonoBehaviour
     private PlayerDeath _playerDeath;
     private SuperMoveManager _superMoveManager;
     private SuperKetchup _superKetchup;
+    public bool _triggerDeath;
 
     private void Awake()
     {
@@ -38,6 +39,11 @@ public class EnemyDeath : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       if(_triggerDeath)
+        {
+           _triggerDeath = false;
+            Die();
+        }
         _isColliding = false;
     }
 
@@ -97,7 +103,6 @@ public class EnemyDeath : MonoBehaviour
         _collider.enabled = false;
         StartCoroutine("TurnRed");
         _enemyMovement._moveSpeed = 1f;
-        gameObject.tag = "Nonlethal";
         StartCoroutine("DeathSequence");
     }
 
@@ -146,7 +151,8 @@ public class EnemyDeath : MonoBehaviour
     IEnumerator DeathSequence()
     {
         _anim.SetInteger("State", 1);
-        yield return new WaitForSeconds(.5f);
+
+        yield return new WaitForSeconds(.5f);        
 
         if (gameObject.transform.localScale.x > 2f)
             _enemyDroplingToSpawn.transform.localScale = new Vector2(2.5f, 2.5f);
@@ -154,13 +160,17 @@ public class EnemyDeath : MonoBehaviour
             _enemyDroplingToSpawn.transform.localScale = new Vector2(gameObject.transform.localScale.x, gameObject.transform.localScale.x);
         Instantiate(_enemyDroplingToSpawn, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, _enemyDroplingToSpawn.gameObject.transform.position.z), Quaternion.identity);
 
+        if (gameObject.tag == "BurstBug")
+            GetComponent<BurstBug>().SpawnBugs();
+
         _playerDeath._enemyDeathCounter += 1;
+
         Destroy(gameObject);
     }
 
     private void DetermineHp()
     {
-        if (transform.localScale.x >= 1.3f)
+        if (transform.localScale.x >= 1.3f && gameObject.tag != "BurstBug")
             _hp = 4;
     }
 }

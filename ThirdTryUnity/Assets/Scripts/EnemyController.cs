@@ -15,7 +15,6 @@ public class EnemyController : MonoBehaviour
     private PlayerControl _playerControl;
     private bool _shouldRotate;
     private float _rotationAmount;
-    private Vector2 _collisionPoint;
     private bool _moveWithBeam;
     private Rigidbody2D _rigidbody;
     private MayoShoot _mayoShoot;
@@ -74,7 +73,10 @@ public class EnemyController : MonoBehaviour
             else
                 _goUp = false;
 
+            if(gameObject.tag != "BurstBug")
             _moveSpeed = Random.Range(4, 9);
+            else
+                _moveSpeed = 2;
 
             _currYPos = transform.position.y;
         }

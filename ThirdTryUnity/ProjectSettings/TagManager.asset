@@ -32,6 +32,7 @@ TagManager:
   - Star
   - SpawnPoint
   - DeathPoint
+  - BurstBug
   layers:
   - Default
   - TransparentFX
