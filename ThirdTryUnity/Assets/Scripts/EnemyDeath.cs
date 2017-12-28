@@ -39,9 +39,9 @@ public class EnemyDeath : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if(_triggerDeath)
+        if (_triggerDeath)
         {
-           _triggerDeath = false;
+            _triggerDeath = false;
             Die();
         }
         _isColliding = false;
@@ -102,7 +102,8 @@ public class EnemyDeath : MonoBehaviour
     {
         _collider.enabled = false;
         StartCoroutine("TurnRed");
-        _enemyMovement._moveSpeed = 1f;
+        if (gameObject.tag != "Spider")
+            _enemyMovement._moveSpeed = 1f;
         StartCoroutine("DeathSequence");
     }
 
@@ -152,7 +153,7 @@ public class EnemyDeath : MonoBehaviour
     {
         _anim.SetInteger("State", 1);
 
-        yield return new WaitForSeconds(.5f);        
+        yield return new WaitForSeconds(.5f);
 
         if (gameObject.transform.localScale.x > 2f)
             _enemyDroplingToSpawn.transform.localScale = new Vector2(2.5f, 2.5f);
@@ -170,7 +171,7 @@ public class EnemyDeath : MonoBehaviour
 
     private void DetermineHp()
     {
-        if (transform.localScale.x >= 1.3f && gameObject.tag != "BurstBug")
+        if (transform.localScale.x >= 1.3f && gameObject.tag != "BurstBug" && gameObject.tag != "Spider")
             _hp = 4;
     }
 }

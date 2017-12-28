@@ -33,6 +33,7 @@ TagManager:
   - SpawnPoint
   - DeathPoint
   - BurstBug
+  - Spider
   layers:
   - Default
   - TransparentFX

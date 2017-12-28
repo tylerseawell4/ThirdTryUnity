@@ -124,6 +124,9 @@ public class PlayerControl : MonoBehaviour
                 _velBounce.AfterWebExit();
                 Destroy(_web);
                 _shouldPressButton = false;
+                var spider = FindObjectOfType<SpiderMovement>();
+                if (spider != null)
+                    spider._changeMovement = true;
             }
         }
         if (_velBounce._playerCanMove && (Input.GetKeyDown(KeyCode.A) || _dashManager._isLeftClicked))
@@ -292,7 +295,7 @@ public class PlayerControl : MonoBehaviour
                 if (_addforce)
                 {
                     _addforce = false;
-                   // _velBounce._vMultiplier = 7.5f;
+                    // _velBounce._vMultiplier = 7.5f;
                     _player.velocity = new Vector3(_player.velocity.x, 7.5f, 0f);
                     _ogVel = _player.velocity;
                 }
