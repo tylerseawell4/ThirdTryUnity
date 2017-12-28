@@ -35,7 +35,6 @@ public class CameraOption3 : MonoBehaviour
         _speed = _camerLerpSpeed;
         _transitionSpeed = .275f;
 
-
         //high base value, will need to increase if we use a higher starting velocity
         _diffTransStartPosEndPos = 4f;
     }

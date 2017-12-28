@@ -36,10 +36,12 @@ public class VelocityBounce2 : MonoBehaviour
     private bool _exitingWeb;
     private float _webHeight;
     private SuperMoveManager _superMoveManager;
+    private BounceHeightLimitIndicator _heightIncidatorScript;
 
     // Use this for initialization
     void Start()
     {
+        _heightIncidatorScript = FindObjectOfType<BounceHeightLimitIndicator>();
         _superMoveManager = FindObjectOfType<SuperMoveManager>();
         _playerCanMove = true;
         _playersOGPos = gameObject.transform.position.y;
@@ -198,13 +200,14 @@ public class VelocityBounce2 : MonoBehaviour
             _originalVMultiplier = _vMultiplier;
             _player.velocity = Vector3.up * _vMultiplier;
             _moveCharacterDown = false;
-            Debug.Log(_startingHeight);
+
             if (_webHeight != 0)
                 _startingHeight += _increaseHeightBy + _bugBugHeight - (_startingHeight - _webHeight);
             else
                 _startingHeight += _increaseHeightBy + _bugBugHeight;
-            Debug.Log(_startingHeight);
+
             _maxHeightValue = _startingHeight;
+            _heightIncidatorScript._instantiatedIndicator.transform.position = new Vector3(0, _startingHeight, .02f);
             _webHeight = 0f;
         }
     }
