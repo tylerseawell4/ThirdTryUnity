@@ -37,6 +37,7 @@ public class PlayerControl : MonoBehaviour
     public GameObject _star;
     private bool _makeSmaller;
     private SuperMoveManager _superMoveManager;
+    private float _dashAcumTime;
 
     // Use this for initialization
     void Start()
@@ -131,6 +132,7 @@ public class PlayerControl : MonoBehaviour
         }
         if (_velBounce._playerCanMove && (Input.GetKeyDown(KeyCode.A) || _dashManager._isLeftClicked))
         {
+            _dashAcumTime = 0;
             _dashManager._isLeftClicked = false;
             _leftDashActivated = true;
             _rightDashActivated = false;
@@ -139,6 +141,7 @@ public class PlayerControl : MonoBehaviour
 
         if (_velBounce._playerCanMove && (Input.GetKeyDown(KeyCode.D) || _dashManager._isRightClicked))
         {
+            _dashAcumTime = 0;
             _dashManager._isRightClicked = false;
             _rightDashActivated = true;
             _leftDashActivated = false;
@@ -147,32 +150,31 @@ public class PlayerControl : MonoBehaviour
 
         if (transform.position.x > Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x)
         {
-            _rightDashActivated = false;
-            _leftDashActivated = false;
             _player.position = new Vector3(Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x, _player.position.y, 0f);
         }
         else if (transform.position.x < Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x)
         {
-            _rightDashActivated = false;
-            _leftDashActivated = false;
             _player.position = new Vector3(Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x, _player.position.y, 0f);
         }
         else if (_rightDashActivated)
         {
-            _player.transform.position = Vector3.Lerp(_player.position, new Vector3(posX + 5f, _player.transform.position.y, _player.transform.position.z), .125f);
-            if (_player.transform.position.x >= posX + 4.5f)
-            {
+            _leftDashActivated = false;
+            var right = _player.transform.position.x + .325f;
+            _player.transform.position = new Vector3(right, _player.transform.position.y, _player.transform.position.z);
+
+            _dashAcumTime += 1 * Time.deltaTime;
+            if (_dashAcumTime > .275f)
                 _rightDashActivated = false;
-            }
         }
         else if (_leftDashActivated)
         {
             _rightDashActivated = false;
-            _player.transform.position = Vector3.Lerp(_player.position, new Vector3(posX - 5f, _player.transform.position.y, _player.transform.position.z), .125f);
-            if (_player.transform.position.x <= posX - 4.5f)
-            {
+            var left = _player.transform.position.x - .325f;
+            _player.transform.position = new Vector3(left, _player.transform.position.y, _player.transform.position.z);
+
+            _dashAcumTime += 1 * Time.deltaTime;
+            if (_dashAcumTime > .275f)
                 _leftDashActivated = false;
-            }
         }
 
         if (Input.acceleration.x > .035f && !_leftDashActivated && _velBounce._playerCanMove)
