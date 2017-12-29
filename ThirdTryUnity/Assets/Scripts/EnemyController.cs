@@ -99,8 +99,8 @@ public class EnemyController : MonoBehaviour
         var screenHeightBottom = Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).y;
         if (_shouldDieFromBeingOffSceen)
         {
-            var check1 = gameObject.transform.position.y + 35;
-            var check2 = gameObject.transform.position.y - 35;
+            var check1 = gameObject.transform.position.y + 40;
+            var check2 = gameObject.transform.position.y - 40;
             if (check1 < screenHeightTop || check2 > screenHeightBottom)
                 Destroy(gameObject);
         }

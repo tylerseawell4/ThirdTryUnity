@@ -12,36 +12,42 @@ public class KetchupShotgun : MonoBehaviour
     private GameObject _shotgunBlast;
     public GameObject _shotgunBlastUp;
     public GameObject _shotgunBlastDown;
+    private SuperMoveManager _supermoveManager;
+
     // Use this for initialization
     void Start()
     {
         _tapManager = FindObjectOfType<TapManager>();
         _myRigidBody = GetComponent<Rigidbody2D>();
+        _supermoveManager = FindObjectOfType<SuperMoveManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_tapManager._doubleTap)
+        if (!_supermoveManager._isSuperActivated)
         {
-            if (_myRigidBody.velocity.y <= 0)
+            if (_tapManager._doubleTap)
             {
-                _shotgunBlast = _shotgunBlastUp;
-                _firePointTransform = _firePtDownPos;
-            }
-            else if (_myRigidBody.velocity.y > 0)
-            {
-                _shotgunBlast = _shotgunBlastDown;
-                _firePointTransform = _firePtUpPos;
-            }
+                if (_myRigidBody.velocity.y <= 0)
+                {
+                    _shotgunBlast = _shotgunBlastUp;
+                    _firePointTransform = _firePtDownPos;
+                }
+                else if (_myRigidBody.velocity.y > 0)
+                {
+                    _shotgunBlast = _shotgunBlastDown;
+                    _firePointTransform = _firePtUpPos;
+                }
 
-            Fire();
+                Fire();
 
-            //flip back to false
-            _tapManager._doubleTap = false;
+                //flip back to false
+                _tapManager._doubleTap = false;
+            }
+            else
+                _tapManager._doubleTap = false;
         }
-        else
-            _tapManager._doubleTap = false;
     }
     private void Fire()
     {

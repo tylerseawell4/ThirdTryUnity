@@ -19,11 +19,12 @@ public class EnemyDropHandler : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player" && _superBar.GetComponent<Image>().fillAmount < 1f && !_SuperKetchup._superActivated && !_superIce._superIceActivated)
+        if (collision.gameObject.tag == "Player" && _superBar.GetComponent<Image>().fillAmount < 1f && !_SuperKetchup._superActivated) //&& !_superIce._superIceActivated)
         {
             var inWormColor = new Color(.25f, .25f, .25f, .6f);
-            if (!_SuperKetchup._superActivated && !_superIce._superIceActivated && (collision.gameObject.GetComponent<SpriteRenderer>().color != inWormColor))
-                Destroy(gameObject);
+            //if (!_SuperKetchup._superActivated && !_superIce._superIceActivated && (collision.gameObject.GetComponent<SpriteRenderer>().color != inWormColor))
+                if (!_SuperKetchup._superActivated && (collision.gameObject.GetComponent<SpriteRenderer>().color != inWormColor))
+                    Destroy(gameObject);
         }
     }
 }

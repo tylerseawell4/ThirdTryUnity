@@ -118,6 +118,8 @@ public class VelocityBounce2 : MonoBehaviour
                 _playerControl._startingPlayerBottomPtDiff = _playerControl._bottomPlayerPoint.position.y - transform.position.y;
                 _playerControl._startingPlayerBottomPtDiff2 = _playerControl._bottomPlayerPoint.position.y - transform.position.y;
 
+                var triggerpoint = FindObjectOfType<SpawnPointTrigger>();
+                triggerpoint.transform.position = new Vector3(triggerpoint.transform.position.x, transform.position.y - triggerpoint._distanceFromPlayerAtStart, triggerpoint.transform.position.z);
                 // GetComponent<SpriteRenderer>().color = _originalColor;
                 Debug.Log(_playersExactHeight);
             }
@@ -200,6 +202,8 @@ public class VelocityBounce2 : MonoBehaviour
             _originalVMultiplier = _vMultiplier;
             _player.velocity = Vector3.up * _vMultiplier;
             _moveCharacterDown = false;
+            var triggerpoint = FindObjectOfType<SpawnPointTrigger>();
+            triggerpoint.transform.position = new Vector3(triggerpoint.transform.position.x, transform.position.y + triggerpoint._distanceFromPlayerAtStart + triggerpoint._increaseSpawnTriggerHeight, triggerpoint.transform.position.z);
 
             if (_webHeight != 0)
                 _startingHeight += _increaseHeightBy + _bugBugHeight - (_startingHeight - _webHeight);
