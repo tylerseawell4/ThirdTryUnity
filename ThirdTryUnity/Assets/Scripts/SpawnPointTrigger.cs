@@ -18,7 +18,7 @@ public class SpawnPointTrigger : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            if (!_playerVelocityScript._hitHeight)
+            if (!_playerVelocityScript._hitHeight &&  (_playerVelocityScript._startingHeight > transform.position.y + _increaseSpawnTriggerHeight))
             {
                 var cameraTopYPoint = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height)).y;
                 Instantiate(_bugToSpawn, new Vector3(0, cameraTopYPoint + 2, _bugToSpawn.transform.position.z), _bugToSpawn.transform.rotation);
