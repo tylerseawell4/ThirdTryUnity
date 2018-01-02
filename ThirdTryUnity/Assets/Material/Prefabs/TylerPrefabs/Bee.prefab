@@ -113,6 +113,7 @@ MonoBehaviour:
   _enemyDroplingToSpawn: {fileID: 1893678822368496, guid: dc8101ff46a992447809cb8f8a06da96,
     type: 2}
   flashTime: 0.25
+  _triggerDeath: 0
 --- !u!114 &114333319859771882
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -8,6 +8,7 @@ public class EnemyDeath : MonoBehaviour
     public SpriteRenderer _renderer;
     public GameObject _enemyDroplingToSpawn;
 
+    private bool _floatingScoreInstantiated = true;
     private int _hp;
     public float flashTime;
     private Color _origionalColor;
@@ -101,10 +102,19 @@ public class EnemyDeath : MonoBehaviour
     public void Die()
     {
         _collider.enabled = false;
+        if (_floatingScoreInstantiated)
+        {
+            _floatingScoreInstantiated = true;
+            GameObject instance = Instantiate(Resources.Load("Floating Score Canvas"), gameObject.transform) as GameObject;
+            instance.transform.SetParent(gameObject.transform, false);
+        }
+        _floatingScoreInstantiated = false;
         StartCoroutine("TurnRed");
         if (gameObject.tag != "Spider")
             _enemyMovement._moveSpeed = 1f;
         StartCoroutine("DeathSequence");
+
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
