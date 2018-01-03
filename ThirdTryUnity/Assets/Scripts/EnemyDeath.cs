@@ -192,7 +192,7 @@ public class EnemyDeath : MonoBehaviour
 
     private void DetermineHp()
     {
-        if (transform.localScale.x >= 1.3f && gameObject.tag != "BurstBug" && gameObject.tag != "Spider")
+        if (transform.localScale.x >= 1.3f && gameObject.tag != "Spider")
             _hp = 4;
     }
 }
