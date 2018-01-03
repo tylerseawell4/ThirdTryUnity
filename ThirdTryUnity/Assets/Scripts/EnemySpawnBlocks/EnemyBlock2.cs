@@ -13,15 +13,15 @@ public class EnemyBlock2 : EnemyBlockParent
     {
         if (!hitHeight)
         {
-            _bugPositionDictionary.Add(new Vector3(0, cameraYPoint + 2, _bugs[0].transform.position.z), _bugs[0]);
-            _bugPositionDictionary.Add(new Vector3(0, cameraYPoint + 9, _bugs[0].transform.position.z), _bugs[0]);
-            _bugPositionDictionary.Add(new Vector3(-10f, cameraYPoint + 17, _bugs[0].transform.position.z), _bugs[1]);
+            _bugPositionDictionary.Add(new Vector3(Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x + 1.5f, cameraYPoint + 5, _bugs[1].transform.position.z), _bugs[1]);
+            _bugPositionDictionary.Add(new Vector3(0, cameraYPoint + 10, _bugs[0].transform.position.z), _bugs[0]);
+            _bugPositionDictionary.Add(new Vector3(Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x - 1.5f, cameraYPoint + 5, _bugs[1].transform.position.z), _bugs[1]);
         }
         else
         {
-            _bugPositionDictionary.Add(new Vector3(0, cameraYPoint - 2, _bugs[0].transform.position.z), _bugs[0]);
-            _bugPositionDictionary.Add(new Vector3(0, cameraYPoint - 9, _bugs[0].transform.position.z), _bugs[0]);
-            _bugPositionDictionary.Add(new Vector3(0, cameraYPoint - 17, _bugs[0].transform.position.z), _bugs[1]);
+            _bugPositionDictionary.Add(new Vector3(Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x + 1.5f, cameraYPoint - 5, _bugs[1].transform.position.z), _bugs[1]);
+            _bugPositionDictionary.Add(new Vector3(0, cameraYPoint - 10, _bugs[0].transform.position.z), _bugs[0]);
+            _bugPositionDictionary.Add(new Vector3(Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x - 1.5f, cameraYPoint - 5, _bugs[1].transform.position.z), _bugs[1]);
         }
 
         return _bugPositionDictionary;
