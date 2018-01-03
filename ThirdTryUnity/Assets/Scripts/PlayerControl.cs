@@ -177,10 +177,16 @@ public class PlayerControl : MonoBehaviour
                 _leftDashActivated = false;
         }
 
-        if (Input.acceleration.x > .035f && !_leftDashActivated && _velBounce._playerCanMove)
+        if (Input.acceleration.x > .035f  && _velBounce._playerCanMove)
+        {
             _player.velocity = new Vector3(30f * Input.acceleration.x, _player.velocity.y, 0f);
-        else if (Input.acceleration.x < -.035f && !_rightDashActivated && _velBounce._playerCanMove)
+            _leftDashActivated = false;
+        }
+        else if (Input.acceleration.x < -.035f && _velBounce._playerCanMove)
+        {
             _player.velocity = new Vector3(30f * Input.acceleration.x, _player.velocity.y, 0f);
+            _rightDashActivated = false;
+        }
         else if (_velBounce._playerCanMove)
             _player.velocity = new Vector3(0f, _player.velocity.y, 0f);
         else if (Input.acceleration.x < 0f && !_velBounce._playerCanMove && !_shouldPressButton || Input.GetKey(KeyCode.LeftArrow))
