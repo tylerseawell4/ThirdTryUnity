@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class EnemySpawnManager : MonoBehaviour
 {
-    public void Spawn(Dictionary<float, GameObject> bugPositionDictionary)
+    public void Spawn(Dictionary<Vector3, GameObject> bugPositionDictionary)
     {
         foreach (var bugPos in bugPositionDictionary)
-            Instantiate(bugPos.Value, new Vector3(0, bugPos.Key, bugPos.Value.transform.position.z), bugPos.Value.transform.rotation);
+            Instantiate(bugPos.Value, bugPos.Key, bugPos.Value.transform.rotation);
     }
 }
