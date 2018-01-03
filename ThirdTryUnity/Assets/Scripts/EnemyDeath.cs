@@ -21,7 +21,7 @@ public class EnemyDeath : MonoBehaviour
     private SuperMoveManager _superMoveManager;
     private SuperKetchup _superKetchup;
     public bool _triggerDeath;
-
+    private bool _deathBySuper;
     private void Awake()
     {
         _superKetchup = FindObjectOfType<SuperKetchup>();
@@ -44,6 +44,7 @@ public class EnemyDeath : MonoBehaviour
         {
             _triggerDeath = false;
             Die();
+            _deathBySuper = false;
         }
         _isColliding = false;
     }
@@ -69,8 +70,11 @@ public class EnemyDeath : MonoBehaviour
                 return;
         }
 
-        if (collision.gameObject.tag == "Bullet" || collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Bullet" || collision.gameObject.tag == "Player" || collision.gameObject.tag == "SuperElectricOrb")
         {
+            if (collision.gameObject.tag == "SuperElectricOrb")
+                _deathBySuper = true;
+
             var damage = 1;
             var collisionWithMoveAndDestroyScript = collision.gameObject.GetComponent<MoveAndDestroyWeapon>();
             if (collisionWithMoveAndDestroyScript != null)
@@ -92,9 +96,14 @@ public class EnemyDeath : MonoBehaviour
         {
             if (!_superKetchup._enemiesThatCanBeShocked.Contains(gameObject))
                 _superKetchup._enemiesThatCanBeShocked.Add(gameObject);
+
+            _deathBySuper = true;
         }
         else if (collision.gameObject.tag == "SuperActivation" || collision.gameObject.tag == "Super")
+        {
+            _deathBySuper = true;
             Die();
+        }
         else if (collision.gameObject.tag == "IceSpike")
             Die();
     }
@@ -113,8 +122,6 @@ public class EnemyDeath : MonoBehaviour
         if (gameObject.tag != "Spider")
             _enemyMovement._moveSpeed = 1f;
         StartCoroutine("DeathSequence");
-
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -171,8 +178,12 @@ public class EnemyDeath : MonoBehaviour
             _enemyDroplingToSpawn.transform.localScale = new Vector2(gameObject.transform.localScale.x, gameObject.transform.localScale.x);
         Instantiate(_enemyDroplingToSpawn, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, _enemyDroplingToSpawn.gameObject.transform.position.z), Quaternion.identity);
 
-        if (gameObject.tag == "BurstBug")
-            GetComponent<BurstBug>().SpawnBugs();
+        if (gameObject.tag == "BurstBug" && !_deathBySuper)
+        {
+            var burstBug = GetComponent<BurstBug>();
+            burstBug._shouldReplicate = true;
+            burstBug.SpawnBugs();
+        }
 
         _playerDeath._enemyDeathCounter += 1;
 

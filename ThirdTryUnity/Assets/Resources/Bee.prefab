@@ -113,6 +113,7 @@ MonoBehaviour:
   _enemyDroplingToSpawn: {fileID: 1893678822368496, guid: dc8101ff46a992447809cb8f8a06da96,
     type: 2}
   flashTime: 0.25
+  _triggerDeath: 0
 --- !u!114 &114333319859771882
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -126,7 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 0
   _shouldChangeYPos: 1
-  _shouldDieFromBeingOffSceen: 0
+  _shouldDieFromBeingOffSceen: 1
 --- !u!114 &114365324986491412
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -138,6 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c213986fb3eb94dad0f9ff0d0b1f63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _wasTouched: 0
 --- !u!212 &212193592990696024
 SpriteRenderer:
   m_ObjectHideFlags: 1

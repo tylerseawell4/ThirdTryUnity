@@ -35,6 +35,7 @@ TagManager:
   - BurstBug
   - Spider
   - SpawnTrigger
+  - SuperElectricOrb
   layers:
   - Default
   - TransparentFX
