@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyBlock1 : EnemyBlockParent
 {
-    public DifficultyEnums Difficulty = DifficultyEnums.Easy;
+    public DifficultyEnums Difficulty = DifficultyEnums.Medium;
     public EnemyBlock1() : base()
     {
         _bugs = new GameObject[] { Resources.Load("Bee") as GameObject, Resources.Load("fly") as GameObject };
