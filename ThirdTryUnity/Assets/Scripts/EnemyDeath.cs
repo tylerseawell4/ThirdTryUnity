@@ -120,19 +120,13 @@ public class EnemyDeath : MonoBehaviour
             GameObject instance = Instantiate(Resources.Load("Floating Score Canvas"), gameObject.transform) as GameObject;
             _floatingScore = FindObjectOfType<FloatingScore>();
             _floatingScore.SetText(gameObject.name);
-            if (gameObject.name.Contains("Wasp"))
-            {
-                var _fixedRotation = new GameObject().transform;
-                _fixedRotation.transform.position = gameObject.transform.position;
-                instance.transform.SetParent(_fixedRotation, false);
-            }
-            else
-            {
-                instance.transform.SetParent(gameObject.transform, false);
-            }
-               
+
+            //Only setting the floating scores transform.position rather than the rotation and scale by using the gameObjects.transform
+            var _transformPosition = new GameObject().transform;
+            _transformPosition.transform.position = gameObject.transform.position;
+            instance.transform.SetParent(_transformPosition, false);
         }
-       
+
         _floatingScoreInstantiated = false;
         StartCoroutine("TurnRed");
         if (gameObject.tag != "Spider")

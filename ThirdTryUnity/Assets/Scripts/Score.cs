@@ -7,6 +7,7 @@ public class Score : MonoBehaviour
 {
     public Text _bounceCountText;
     public Text _totalScoreText;
+    public int _floatingScoreText;
     public float _totalScoreNumber;
     public int _bounceCount;
 
@@ -32,10 +33,19 @@ public class Score : MonoBehaviour
         if (_player._player.velocity.y > 0)
         {
             _calculatedDistanceScore = Mathf.Round(Mathf.Abs(_calculatePlayerPosition - _player.transform.position.y));
-            var newScore = _calculatedDistanceScoreDown + _calculatedDistanceScore;
+             var newScore = _calculatedDistanceScoreDown + _calculatedDistanceScore;
+
+            if(_floatingScoreText != 0)
+            {
+                newScore = newScore += _floatingScoreText;
+            }
+            
             _calculatedDistanceScore = newScore;
             _totalScoreText.text = "Total Score: " + newScore;
             _totalScoreNumber = newScore;
+
+
+
         }
         else  if(_player._player.velocity.y < 0)
         {
