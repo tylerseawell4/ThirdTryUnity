@@ -24,6 +24,6 @@ public class SuitClick : MonoBehaviour {
             _doojeeSprite = _doojee.GetComponent<SpriteRenderer>();
             _gameObjectImage = gameObject.GetComponent<Image>();
             _doojeeSprite.sprite = _gameObjectImage.sprite;
-        }
+        }        
     }
 }

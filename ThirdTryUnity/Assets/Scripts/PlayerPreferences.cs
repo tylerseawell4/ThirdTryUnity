@@ -5,7 +5,12 @@ using UnityEngine;
 public class PlayerPreferences : MonoBehaviour {
     public int _playerDeathCountToDate;
     public int _playerHighScore;
+    public string _doojeeSuit;
 
+
+    private GameObject _doojee;
+    private SpriteRenderer _doojeeSprite;
+    private string _doojeeSuitName;
     // Use this for initialization
     void Start () {
         _playerDeathCountToDate = PlayerPrefs.GetInt("Deaths");
@@ -36,5 +41,17 @@ public class PlayerPreferences : MonoBehaviour {
     {
         PlayerPrefs.SetInt("HighScore", newHighScore);
         PlayerPrefs.Save();
+    }
+
+    public void SaveDoojeeSuit()
+    {
+        _doojee = GameObject.Find("Body");
+        if (_doojee != null)
+        {
+            _doojeeSprite = _doojee.GetComponent<SpriteRenderer>();
+            _doojeeSuitName = _doojeeSprite.sprite.name;
+        }
+        PlayerPrefs.SetString("DoojeeSuit", _doojeeSuitName);
+        _doojeeSuit = _doojeeSuitName;
     }
 }

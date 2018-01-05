@@ -38,7 +38,6 @@ public class PlayerControl : MonoBehaviour
     private bool _makeSmaller;
     private SuperMoveManager _superMoveManager;
     private float _dashAcumTime;
-
     // Use this for initialization
     void Start()
     {
