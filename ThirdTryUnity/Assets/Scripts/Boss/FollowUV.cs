@@ -18,6 +18,6 @@ public class FollowUV : MonoBehaviour
         var mat = GetComponent<MeshRenderer>().material;
         var offset = mat.mainTextureOffset;
         offset.x =  _player.transform.position.x / transform.localScale.x / _parralax;
-        mat.mainTextureOffset = Vector3.Lerp(mat.mainTextureOffset , offset, .125f);
+        mat.mainTextureOffset = offset;
     }
 }
