@@ -30,7 +30,6 @@ public class VelocityBounce2 : MonoBehaviour
     private Color _originalColor;
     private EnemySpawner _enemySpawner;
     private float _playersOGPos;
-    private float _bugBugHeight;
     public bool _playerCanMove;
     public GameObject _web;
     private bool _exitingWeb;
@@ -105,8 +104,6 @@ public class VelocityBounce2 : MonoBehaviour
                 _playerControl._startingPlayerTopPtDiff = _playerControl._topPlayerPoint.position.y - transform.position.y;
                 _playerControl._startingPlayerTopPtDiff2 = _playerControl._topPlayerPoint.position.y - transform.position.y;
 
-                _startingHeight -= _bugBugHeight;
-
                 _vMultiplier = 3;
                 _moveCharacterDown = true;
                 _decrementGravity = false;
@@ -118,8 +115,8 @@ public class VelocityBounce2 : MonoBehaviour
                 _playerControl._startingPlayerBottomPtDiff = _playerControl._bottomPlayerPoint.position.y - transform.position.y;
                 _playerControl._startingPlayerBottomPtDiff2 = _playerControl._bottomPlayerPoint.position.y - transform.position.y;
 
-                var triggerpoint = FindObjectOfType<SpawnPointTrigger>();
-                triggerpoint.transform.position = new Vector3(triggerpoint.transform.position.x, transform.position.y - triggerpoint._distanceFromPlayerAtStart, triggerpoint.transform.position.z);
+                //var triggerpoint = FindObjectOfType<SpawnPointTrigger>();
+               // triggerpoint.transform.position = new Vector3(triggerpoint.transform.position.x, transform.position.y - triggerpoint._distanceFromPlayerAtStart, triggerpoint.transform.position.z);
                 // GetComponent<SpriteRenderer>().color = _originalColor;
                 Debug.Log(_playersExactHeight);
             }
@@ -175,12 +172,7 @@ public class VelocityBounce2 : MonoBehaviour
         if (collision.gameObject.tag.Equals("Ground") || collision.gameObject.tag.Equals("BounceBack"))
         {
             if (collision.gameObject.tag.Equals("BounceBack"))
-            {
                 _camera._hitBounceBug = true;
-                _bugBugHeight = collision.transform.position.y - _playersOGPos;
-            }
-            else
-                _bugBugHeight = 0f;
 
             _playerControl._forwardDashActivated = false;
             _playerControl._time = 0f;
@@ -202,13 +194,13 @@ public class VelocityBounce2 : MonoBehaviour
             _originalVMultiplier = _vMultiplier;
             _player.velocity = Vector3.up * _vMultiplier;
             _moveCharacterDown = false;
-            var triggerpoint = FindObjectOfType<SpawnPointTrigger>();
-            triggerpoint.transform.position = new Vector3(triggerpoint.transform.position.x, transform.position.y + triggerpoint._distanceFromPlayerAtStart + triggerpoint._increaseSpawnTriggerHeight, triggerpoint.transform.position.z);
+            //var triggerpoint = FindObjectOfType<SpawnPointTrigger>();
+            //triggerpoint.transform.position = new Vector3(triggerpoint.transform.position.x, transform.position.y + triggerpoint._distanceFromPlayerAtStart + triggerpoint._increaseSpawnTriggerHeight, triggerpoint.transform.position.z);
 
             if (_webHeight != 0)
-                _startingHeight += _increaseHeightBy + _bugBugHeight - (_startingHeight - _webHeight);
+                _startingHeight += _increaseHeightBy - (_startingHeight - _webHeight);
             else
-                _startingHeight += _increaseHeightBy + _bugBugHeight;
+                _startingHeight += _increaseHeightBy;
 
             _maxHeightValue = _startingHeight;
             _heightIncidatorScript._instantiatedIndicator.transform.position = new Vector3(0, _startingHeight, .02f);
