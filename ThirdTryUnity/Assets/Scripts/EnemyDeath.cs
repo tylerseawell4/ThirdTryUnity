@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyDeath : MonoBehaviour
 {
@@ -20,10 +21,12 @@ public class EnemyDeath : MonoBehaviour
     private PlayerDeath _playerDeath;
     private SuperMoveManager _superMoveManager;
     private SuperKetchup _superKetchup;
+    private FloatingScore _floatingScore;
     public bool _triggerDeath;
     private bool _deathBySuper;
     private void Awake()
     {
+        
         _superKetchup = FindObjectOfType<SuperKetchup>();
         _superMoveManager = FindObjectOfType<SuperMoveManager>();
         _playerDeath = FindObjectOfType<PlayerDeath>();
@@ -115,8 +118,15 @@ public class EnemyDeath : MonoBehaviour
         {
             _floatingScoreInstantiated = true;
             GameObject instance = Instantiate(Resources.Load("Floating Score Canvas"), gameObject.transform) as GameObject;
-            instance.transform.SetParent(gameObject.transform, false);
+            _floatingScore = FindObjectOfType<FloatingScore>();
+            _floatingScore.SetText(gameObject.name);
+
+            //Only setting the floating scores transform.position rather than the rotation and scale by using the gameObjects.transform
+            var _transformPosition = new GameObject().transform;
+            _transformPosition.transform.position = gameObject.transform.position;
+            instance.transform.SetParent(_transformPosition, false);
         }
+
         _floatingScoreInstantiated = false;
         StartCoroutine("TurnRed");
         if (gameObject.tag != "Spider")

@@ -14,10 +14,11 @@ public class PlayerHealth : MonoBehaviour
     public GameObject _super;
     private Animator _anim;
     private TapManager _tapManager;
-
+    private GameObject _flightSuit;
     // Use this for initialization
     private void Awake()
     {
+        _flightSuit = GameObject.Find("FlightSuit");
         _tapManager = FindObjectOfType<TapManager>();
         _anim = GetComponent<Animator>();
         _healthCount = 1;
@@ -108,7 +109,7 @@ public class PlayerHealth : MonoBehaviour
     IEnumerator DeathSequence()
     {
         _anim.SetInteger("State", 1);
-
+        _flightSuit.transform.position = new Vector3(0,0,0);
         yield return new WaitForSeconds(.6f);
 
         Color color = gameObject.GetComponent<SpriteRenderer>().color;

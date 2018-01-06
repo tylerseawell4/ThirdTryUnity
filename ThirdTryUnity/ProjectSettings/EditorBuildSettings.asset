@@ -20,3 +20,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DoojeeDesign.unity
     guid: 9f4858c4e1404cf4e8700eee1fb35498
+  - enabled: 1
+    path: Assets/Scenes/SuitMenu.unity
+    guid: 78f40dbe5a8c7134bbbca5386efca163
