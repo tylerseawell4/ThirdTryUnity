@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class FollowUV : MonoBehaviour
 {
@@ -17,7 +15,7 @@ public class FollowUV : MonoBehaviour
     {
         var mat = GetComponent<MeshRenderer>().material;
         var offset = mat.mainTextureOffset;
-        offset.x =  _player.transform.position.x / transform.localScale.x / _parralax;
+        offset.x =  (_player.transform.position.x / transform.localScale.x / _parralax) * -1;
         mat.mainTextureOffset = offset;
     }
 }
