@@ -129,6 +129,13 @@ public class PlayerControl : MonoBehaviour
                     spider._changeMovement = true;
             }
         }
+
+        if (Input.acceleration.x > .1f && _velBounce._playerCanMove)
+            _leftDashActivated = false;
+
+        if (Input.acceleration.x < -.1f && _velBounce._playerCanMove)
+            _rightDashActivated = false;
+
         if (_velBounce._playerCanMove && (Input.GetKeyDown(KeyCode.A) || _dashManager._isLeftClicked))
         {
             _dashAcumTime = 0;
@@ -176,16 +183,11 @@ public class PlayerControl : MonoBehaviour
                 _leftDashActivated = false;
         }
 
+
         if (Input.acceleration.x > .035f  && _velBounce._playerCanMove)
-        {
             _player.velocity = new Vector3(30f * Input.acceleration.x, _player.velocity.y, 0f);
-            _leftDashActivated = false;
-        }
         else if (Input.acceleration.x < -.035f && _velBounce._playerCanMove)
-        {
             _player.velocity = new Vector3(30f * Input.acceleration.x, _player.velocity.y, 0f);
-            _rightDashActivated = false;
-        }
         else if (_velBounce._playerCanMove)
             _player.velocity = new Vector3(0f, _player.velocity.y, 0f);
         else if (Input.acceleration.x < 0f && !_velBounce._playerCanMove && !_shouldPressButton || Input.GetKey(KeyCode.LeftArrow))
