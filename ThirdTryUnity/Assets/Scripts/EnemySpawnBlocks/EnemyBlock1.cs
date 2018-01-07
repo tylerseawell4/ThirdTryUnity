@@ -6,7 +6,7 @@ public class EnemyBlock1 : EnemyBlockParent
     public DifficultyEnums Difficulty = DifficultyEnums.Medium;
     public EnemyBlock1() : base()
     {
-        _bugs = new GameObject[] { Resources.Load("Bee") as GameObject, Resources.Load("fly") as GameObject };
+        _bugs = new GameObject[] { Resources.Load("Bee") as GameObject, Resources.Load("fly") as GameObject, Resources.Load("ladybug") as GameObject };
     }
     public override Dictionary<Vector3, GameObject> SpawnEnemyBlock(float cameraYPoint, bool hitHeight)
     {

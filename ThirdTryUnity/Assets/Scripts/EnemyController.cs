@@ -73,8 +73,8 @@ public class EnemyController : MonoBehaviour
             else
                 _goUp = false;
 
-            if(gameObject.tag != "BurstBug")
-            _moveSpeed = Random.Range(4, 9);
+            if(gameObject.tag != "BurstBug" || gameObject.tag != "RussianBug")
+                _moveSpeed = Random.Range(4, 9);
             else
                 _moveSpeed = 2;
 

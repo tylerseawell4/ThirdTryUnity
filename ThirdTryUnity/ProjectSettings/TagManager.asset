@@ -36,6 +36,7 @@ TagManager:
   - Spider
   - SpawnTrigger
   - SuperElectricOrb
+  - RussianBug
   layers:
   - Default
   - TransparentFX

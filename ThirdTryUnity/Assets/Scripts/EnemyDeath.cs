@@ -195,6 +195,13 @@ public class EnemyDeath : MonoBehaviour
             burstBug.SpawnBugs();
         }
 
+        if (gameObject.tag == "RussianBug" && !_deathBySuper)
+        {
+            var russianBug = GetComponent<RussianBug>();
+            //russianBug._shouldReplicate = true;
+            russianBug.SpawnBugs();
+        }
+
         _playerDeath._enemyDeathCounter += 1;
 
         Destroy(gameObject);

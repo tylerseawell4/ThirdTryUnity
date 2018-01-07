@@ -109,7 +109,11 @@ public class PlayerHealth : MonoBehaviour
     IEnumerator DeathSequence()
     {
         _anim.SetInteger("State", 1);
-        _flightSuit.transform.position = new Vector3(0,0,0);
+        if (_flightSuit != null)
+        {
+            _flightSuit.transform.position = new Vector3(0, 0, 0);
+        }
+
         yield return new WaitForSeconds(.6f);
 
         Color color = gameObject.GetComponent<SpriteRenderer>().color;

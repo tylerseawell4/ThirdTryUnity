@@ -9,50 +9,50 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1817335857608812}
+  m_RootGameObject: {fileID: 1735276828829210}
   m_IsPrefabParent: 1
---- !u!1 &1817335857608812
+--- !u!1 &1735276828829210
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4599934522216364}
-  - component: {fileID: 212666162174613438}
-  - component: {fileID: 95252897314790104}
-  - component: {fileID: 114589946607454950}
-  - component: {fileID: 58994626489608338}
-  - component: {fileID: 114895446793069780}
-  - component: {fileID: 114029461666445538}
-  - component: {fileID: 50476091157921454}
+  - component: {fileID: 4723855358374870}
+  - component: {fileID: 212798167430602828}
+  - component: {fileID: 95215327505176944}
+  - component: {fileID: 114344250316124176}
+  - component: {fileID: 58967898682333484}
+  - component: {fileID: 114321783376278996}
+  - component: {fileID: 50899775443791332}
+  - component: {fileID: 114331848802666178}
   m_Layer: 12
-  m_Name: fly
-  m_TagString: BurstBug
+  m_Name: ladybug
+  m_TagString: RussianBug
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4599934522216364
+--- !u!4 &4723855358374870
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1817335857608812}
+  m_GameObject: {fileID: 1735276828829210}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.69, y: 0.9, z: -0.011}
-  m_LocalScale: {x: 1.6, y: 1.6, z: 1}
+  m_LocalPosition: {x: -9.05, y: 10.48, z: 0}
+  m_LocalScale: {x: 2.25, y: 2.25, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50476091157921454
+--- !u!50 &50899775443791332
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1817335857608812}
+  m_GameObject: {fileID: 1735276828829210}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -65,32 +65,32 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
---- !u!58 &58994626489608338
+  m_Constraints: 0
+--- !u!58 &58967898682333484
 CircleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1817335857608812}
+  m_GameObject: {fileID: 1735276828829210}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.16, y: -0.19}
+  m_Offset: {x: 0, y: 0.04040003}
   serializedVersion: 2
-  m_Radius: 0.6
---- !u!95 &95252897314790104
+  m_Radius: 0.67100215
+--- !u!95 &95215327505176944
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1817335857608812}
+  m_GameObject: {fileID: 1735276828829210}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 551c054fe593cf944b7dc8a16da571b6, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6591c625d41ee3a4eb9a3dd75c79b2d1, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -98,55 +98,54 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114029461666445538
+--- !u!114 &114321783376278996
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1817335857608812}
+  m_GameObject: {fileID: 1735276828829210}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c01c81e36f7217245a7312d6a9f9e9b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _renderer: {fileID: 212666162174613438}
+  _renderer: {fileID: 212798167430602828}
   _enemyDroplingToSpawn: {fileID: 1893678822368496, guid: 41c06d7e812d44d458b9d9119317b9bf,
     type: 2}
   flashTime: 0.25
   _triggerDeath: 0
---- !u!114 &114589946607454950
+--- !u!114 &114331848802666178
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1817335857608812}
+  m_GameObject: {fileID: 1735276828829210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c3506048ad56b245a94d12da32db626, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bugToSpawn: {fileID: 1735276828829210}
+--- !u!114 &114344250316124176
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1735276828829210}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 726b0df7806d8c240905f2e00165045c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 2
+  _moveSpeed: 1.5
   _shouldChangeYPos: 0
   _shouldDieFromBeingOffSceen: 1
---- !u!114 &114895446793069780
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1817335857608812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 293f5b2eb144dd64a8f2080f1ff3aff4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _bugToSpawn: {fileID: 1817335857608812}
-  _shouldReplicate: 0
---- !u!212 &212666162174613438
+--- !u!212 &212798167430602828
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1817335857608812}
+  m_GameObject: {fileID: 1735276828829210}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -175,12 +174,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: fdc74394bc304e44cafd5603713b5272, type: 3}
+  m_Sprite: {fileID: 21300000, guid: db636e541f4a0b948b51bffd9ad0e938, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.11, y: 2.11}
+  m_Size: {x: 2.15, y: 2.15}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
