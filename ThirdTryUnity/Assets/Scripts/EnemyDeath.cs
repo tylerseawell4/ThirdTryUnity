@@ -26,7 +26,7 @@ public class EnemyDeath : MonoBehaviour
     private bool _deathBySuper;
     private void Awake()
     {
-        
+
         _superKetchup = FindObjectOfType<SuperKetchup>();
         _superMoveManager = FindObjectOfType<SuperMoveManager>();
         _playerDeath = FindObjectOfType<PlayerDeath>();
@@ -113,7 +113,12 @@ public class EnemyDeath : MonoBehaviour
 
     public void Die()
     {
-        _collider.enabled = false;
+        if (gameObject.tag == "BounceBack")
+            foreach (var collider in GetComponents<Collider2D>())
+                collider.enabled = false;
+        else
+            _collider.enabled = false;
+
         if (_floatingScoreInstantiated)
         {
             _floatingScoreInstantiated = true;
@@ -136,6 +141,9 @@ public class EnemyDeath : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (gameObject.tag == "BounceBack" && collision.gameObject.tag == "Player")
+            return;
+
         if (_isColliding)
             return;
 
@@ -209,7 +217,9 @@ public class EnemyDeath : MonoBehaviour
 
     private void DetermineHp()
     {
-        if (transform.localScale.x >= 1.3f && gameObject.tag != "Spider")
+        if (gameObject.tag == "BounceBack")
+            _hp = 12;
+        else if (transform.localScale.x >= 1.3f && gameObject.tag != "Spider")
             _hp = 4;
     }
 }

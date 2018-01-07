@@ -20,7 +20,7 @@ public class RussianBug : MonoBehaviour {
     {
         if (_transformX > 0.75f)
         {
-            GameObject instance = Instantiate(_bugToSpawn, new Vector3(transform.position.x, transform.position.y + 3f, _bugToSpawn.transform.position.z), Quaternion.identity);
+            GameObject instance = Instantiate(_bugToSpawn, new Vector3(transform.position.x, transform.position.y, _bugToSpawn.transform.position.z), Quaternion.identity);
             instance.GetComponent<Collider2D>().enabled = true;
 
             _transformX = gameObject.transform.localScale.x - .75f;
