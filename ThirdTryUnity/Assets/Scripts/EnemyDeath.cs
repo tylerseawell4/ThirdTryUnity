@@ -124,7 +124,7 @@ public class EnemyDeath : MonoBehaviour
             _floatingScoreInstantiated = true;
             GameObject instance = Instantiate(Resources.Load("Floating Score Canvas"), gameObject.transform) as GameObject;
             _floatingScore = FindObjectOfType<FloatingScore>();
-            _floatingScore.SetText(gameObject.name);
+            _floatingScore.SetText(gameObject.name, gameObject.transform);
 
             //Only setting the floating scores transform.position rather than the rotation and scale by using the gameObjects.transform
             var _transformPosition = new GameObject().transform;
