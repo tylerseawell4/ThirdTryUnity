@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class DoojeeSuit : MonoBehaviour {
@@ -8,13 +9,33 @@ public class DoojeeSuit : MonoBehaviour {
     private SpriteRenderer _currentSprite;
 
     private string _playerSuit;
-	// Use this for initialization
-	void Start () {
+    private string _sceneName;
+
+
+	void Start()
+    {
         _playerSuit = PlayerPrefs.GetString("DoojeeSuit");
         _savedSprite = Resources.Load<Sprite>(_playerSuit);
+        _sceneName = SceneManager.GetActiveScene().name;
 
-        _currentSprite = gameObject.GetComponent<SpriteRenderer>();
-        _currentSprite.sprite = _savedSprite;
-        gameObject.GetComponent<SpriteRenderer>().sprite = _savedSprite;
+
+        if (_sceneName != null)
+        {
+            if(_sceneName == "TylerScene")
+            {
+                if(_playerSuit != "Default")
+                {
+                    _currentSprite = gameObject.GetComponent<SpriteRenderer>();
+                    _currentSprite.sprite = _savedSprite;
+                    gameObject.GetComponent<SpriteRenderer>().sprite = _savedSprite;
+                }
+            }
+            else
+            {
+                _currentSprite = gameObject.GetComponent<SpriteRenderer>();
+                _currentSprite.sprite = _savedSprite;
+                gameObject.GetComponent<SpriteRenderer>().sprite = _savedSprite;
+            }
+        }
     }
 }

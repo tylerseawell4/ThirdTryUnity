@@ -18,7 +18,7 @@ public class PlayerHealth : MonoBehaviour
     // Use this for initialization
     private void Awake()
     {
-        _flightSuit = GameObject.Find("FlightSuit");
+        _flightSuit = GameObject.Find("Suit");
         _tapManager = FindObjectOfType<TapManager>();
         _anim = GetComponent<Animator>();
         _healthCount = 1;
