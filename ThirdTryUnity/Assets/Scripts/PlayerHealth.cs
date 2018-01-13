@@ -81,6 +81,7 @@ public class PlayerHealth : MonoBehaviour
 
         if (_healthCount == 0)
         {
+            FindObjectOfType<TapManager>().enabled = false;
             StartCoroutine("DeathSequence");
             return;
         }

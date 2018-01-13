@@ -3,10 +3,9 @@ using UnityEngine.UI;
 using UnityEngine.Advertisements;
 using System.Collections;
 
-[RequireComponent(typeof(Button))]
 public class AdManager : MonoBehaviour
 {
-    Button m_Button;
+    public bool _shouldShowAd;
     public string placementId = "rewardedVideo";
 
 #if UNITY_IOS
@@ -19,14 +18,11 @@ public class AdManager : MonoBehaviour
 
     void Awake()
     {
-        m_Button = GetComponent<Button>();
-        if (m_Button) m_Button.onClick.AddListener(ShowAd);
-
         if (Advertisement.isSupported)
             Advertisement.Initialize(_gameID, true);
     }
 
-    public void ShowAd()
+    private void ShowAd()
     {
 #if UNITY_EDITOR
         StartCoroutine(WaitForAd());
@@ -40,8 +36,11 @@ public class AdManager : MonoBehaviour
 
     private void Update()
     {
-        if (m_Button)
-            m_Button.interactable = Advertisement.IsReady(placementId);
+        if (_shouldShowAd && Advertisement.IsReady(placementId))
+        {
+            ShowAd();
+            _shouldShowAd = false;
+        }
     }
 
     void AdCallbackhandler(ShowResult result)

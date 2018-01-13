@@ -35,14 +35,24 @@ public class PlayerDeath : MonoBehaviour
         _recordBounceCount = PlayerPrefs.GetInt("RecordBounceCount");
     }
 
+    IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(1f);
+        gameObject.SetActive(false);
+        FindObjectOfType<AdManager>()._shouldShowAd = true;
+    }
+
     public void Die()
     {
         _currentTotalScore = _score._totalScoreText.text.Split(' ')[2];
         PlayerPreferences();
         _gameOverEnemiesKilled.text += _enemyDeathCounter.ToString();
         transform.Find("IceSpikes").gameObject.SetActive(false);
-        gameObject.SetActive(false);
+        //Time.timeScale = 0;
+        
         _gameOverPanel.SetActive(true);
+
+        StartCoroutine("Wait");
 
         if (GetComponent<PlayerControl>()._superState == SuperEnums.Mustard)
         {
