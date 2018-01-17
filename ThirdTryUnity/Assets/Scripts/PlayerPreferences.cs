@@ -13,6 +13,7 @@ public class PlayerPreferences : MonoBehaviour {
     private string _doojeeSuitName;
     // Use this for initialization
     void Start () {
+       //PlayerPrefs.DeleteAll();
         _playerDeathCountToDate = PlayerPrefs.GetInt("Deaths");
         _playerHighScore = PlayerPrefs.GetInt("HighScore");
     }
@@ -50,6 +51,8 @@ public class PlayerPreferences : MonoBehaviour {
         {
             _doojeeSprite = _doojee.GetComponent<SpriteRenderer>();
             _doojeeSuitName = _doojeeSprite.sprite.name;
+
+            FindObjectOfType<Purchaser>().BuyNonConsumable(_doojeeSuitName);
         }
         PlayerPrefs.SetString("DoojeeSuit", _doojeeSuitName);
         _doojeeSuit = _doojeeSuitName;
