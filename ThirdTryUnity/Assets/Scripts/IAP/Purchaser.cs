@@ -49,7 +49,7 @@ public class Purchaser : MonoBehaviour, IStoreListener
         // with its store-specific identifiers.
        // builder.AddProduct(kProductIDConsumable, ProductType.Consumable);
         // Continue adding the non-consumable product.
-        builder.AddProduct("earth-like", ProductType.NonConsumable);
+        builder.AddProduct("earthlike", ProductType.NonConsumable);
         builder.AddProduct("Dark PLanet", ProductType.NonConsumable);
         //builder.AddProduct("Dark Suit", ProductType.NonConsumable);
         // And finish adding the subscription product. Notice this uses store-specific IDs, illustrating
