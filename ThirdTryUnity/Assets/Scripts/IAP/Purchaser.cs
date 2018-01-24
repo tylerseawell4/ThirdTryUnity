@@ -176,6 +176,14 @@ public class Purchaser : MonoBehaviour, IStoreListener
         m_StoreController = controller;
         // Store specific subsystem, for accessing device-specific store features.
         m_StoreExtensionProvider = extensions;
+
+        foreach (var product in m_StoreController.products.all)
+        {
+            if (product.hasReceipt)
+                PlayerPrefs.SetInt(product.definition.id, 1);
+            else
+                PlayerPrefs.SetInt(product.definition.id, 0);
+        }
     }
 
 
@@ -201,6 +209,8 @@ public class Purchaser : MonoBehaviour, IStoreListener
         {
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
             // TODO: The non-consumable item has been successfully purchased, grant this item to the player.
+
+            PlayerPrefs.SetInt(args.purchasedProduct.definition.id, 1);
         }
         //// Or ... a subscription product has been purchased by this user.
         //else if (String.Equals(args.purchasedProduct.definition.id, kProductIDSubscription, StringComparison.Ordinal))

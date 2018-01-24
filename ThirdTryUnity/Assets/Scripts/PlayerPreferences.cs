@@ -1,12 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerPreferences : MonoBehaviour {
     public int _playerDeathCountToDate;
     public int _playerHighScore;
     public string _doojeeSuit;
-
+    public Text _buttonText;
 
     private GameObject _doojee;
     private SpriteRenderer _doojeeSprite;
@@ -53,6 +55,11 @@ public class PlayerPreferences : MonoBehaviour {
             _doojeeSuitName = _doojeeSprite.sprite.name;
 
             FindObjectOfType<Purchaser>().BuyNonConsumable(_doojeeSuitName);
+
+            var hasSuit = PlayerPrefs.GetInt(_doojeeSuitName);
+            if (Convert.ToBoolean(hasSuit))
+                _buttonText.text = "Play";
+
         }
         PlayerPrefs.SetString("DoojeeSuit", _doojeeSuitName);
         _doojeeSuit = _doojeeSuitName;
