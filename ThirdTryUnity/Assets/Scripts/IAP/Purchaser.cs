@@ -178,12 +178,8 @@ public class Purchaser : MonoBehaviour, IStoreListener
         m_StoreExtensionProvider = extensions;
 
         foreach (var product in m_StoreController.products.all)
-        {
             if (product.hasReceipt)
                 PlayerPrefs.SetInt(product.definition.id, 1);
-            else
-                PlayerPrefs.SetInt(product.definition.id, 0);
-        }
     }
 
 
