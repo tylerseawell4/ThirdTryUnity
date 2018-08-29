@@ -13,16 +13,16 @@ public class PlayerControl : MonoBehaviour
     public float _startingPlayerBottomPtDiff;
     public float _startingPlayerBottomPtDiff2;
     private float _currentPlayerPosDiff;
-    private bool _shouldSlowCameraWhenGoingUp;
+    private bool _shouldUnanchorCamera;
     public bool _forwardDashActivated;
     private TapManager _tapManager;
     private bool _rightDashActivated;
     private bool _leftDashActivated;
     private float posX;
-    private bool _addforce;
     public float _time;
     private Vector2 _ogVel;
     private CameraOption3 _camera;
+    private Camera4 _camera4;
     private VelocityBounce2 _velBounce;
     private DashClickManager _dashManager;
     private SpriteRenderer _sprite;
@@ -38,9 +38,12 @@ public class PlayerControl : MonoBehaviour
     private bool _makeSmaller;
     private SuperMoveManager _superMoveManager;
     private float _dashAcumTime;
+    private float _dashSpeed;
+
     // Use this for initialization
     void Start()
     {
+        _dashSpeed = 7.5f;
         _superMoveManager = FindObjectOfType<SuperMoveManager>();
         _inputFactor = 1.5f;
         if (GetComponent<SuperKetchup>().enabled)
@@ -74,28 +77,29 @@ public class PlayerControl : MonoBehaviour
         //_swipeManager = FindObjectOfType<SwipeManager>();
         _velBounce = FindObjectOfType<VelocityBounce2>();
         _camera = FindObjectOfType<CameraOption3>();
+        _camera4 = FindObjectOfType<Camera4>();
         _score = FindObjectOfType<Score>();
-        _addforce = true;
     }
 
-    private IEnumerator LeftDashRoutine()
+    //private IEnumerator LeftDashRoutine()
+    //{
+    //    _player.transform.position = Vector3.Lerp(_player.position, new Vector3(posX - 5f, _player.transform.position.y, _player.transform.position.z), .125f);
+    //    yield return new WaitForSeconds(2f);
+
+    //    _leftDashActivated = false;
+    //}
+
+    //private IEnumerator RightDashRoutine()
+    //{
+    //    _player.transform.position = Vector3.Lerp(_player.position, new Vector3(posX + 5f, _player.transform.position.y, _player.transform.position.z), .125f);
+    //    yield return new WaitForSeconds(2f);
+
+    //    _rightDashActivated = false;
+    //}
+
+    private void Update()
     {
-        _player.transform.position = Vector3.Lerp(_player.position, new Vector3(posX - 5f, _player.transform.position.y, _player.transform.position.z), .125f);
-        yield return new WaitForSeconds(2f);
-
-        _leftDashActivated = false;
-    }
-
-    private IEnumerator RightDashRoutine()
-    {
-        _player.transform.position = Vector3.Lerp(_player.position, new Vector3(posX + 5f, _player.transform.position.y, _player.transform.position.z), .125f);
-        yield return new WaitForSeconds(2f);
-
-        _rightDashActivated = false;
-    }
-
-    private void FixedUpdate()
-    {
+        //all the spider web mini game stuff if you get stuck
         if (_shouldPressButton)
         {
             var scale = _star.transform.localScale;
@@ -130,12 +134,15 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
+        //checking to see if leftdash should be canceled (player can move only false when stuck in web), if tilted phone far enough to right
         if (Input.acceleration.x > .1f && _velBounce._playerCanMove)
             _leftDashActivated = false;
 
+        //checking to see if right dash should be canceled, if tilted phone far enough to left
         if (Input.acceleration.x < -.1f && _velBounce._playerCanMove)
             _rightDashActivated = false;
 
+        //a check to see if the dash manager has registered a tap on the left dash button, and sets the flags to perform the left dash.
         if (_velBounce._playerCanMove && (Input.GetKeyDown(KeyCode.A) || _dashManager._isLeftClicked))
         {
             _dashAcumTime = 0;
@@ -145,6 +152,7 @@ public class PlayerControl : MonoBehaviour
             posX = _player.transform.position.x;
         }
 
+        //a check to see if the dash manager has registered a tap on the right dash button, and sets the flags to perform the right dash.
         if (_velBounce._playerCanMove && (Input.GetKeyDown(KeyCode.D) || _dashManager._isRightClicked))
         {
             _dashAcumTime = 0;
@@ -154,14 +162,17 @@ public class PlayerControl : MonoBehaviour
             posX = _player.transform.position.x;
         }
 
+        //checking to see if player is beyond the right edge of the screen, and teleports the player to the left side of the screen
         if (transform.position.x > Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x)
         {
             _player.position = new Vector3(Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x, _player.position.y, 0f);
         }
+        //checking to see if player is beyond the left edge of the screen, and teleports the player to the right side of the screen
         else if (transform.position.x < Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x)
         {
             _player.position = new Vector3(Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x, _player.position.y, 0f);
         }
+        //the check and code to perform the right dash on the player
         else if (_rightDashActivated)
         {
             _leftDashActivated = false;
@@ -172,6 +183,7 @@ public class PlayerControl : MonoBehaviour
             if (_dashAcumTime > .275f)
                 _rightDashActivated = false;
         }
+        //the check and code to perform the left dash on the player
         else if (_leftDashActivated)
         {
             _rightDashActivated = false;
@@ -183,13 +195,17 @@ public class PlayerControl : MonoBehaviour
                 _leftDashActivated = false;
         }
 
-
-        if (Input.acceleration.x > .035f  && _velBounce._playerCanMove)
+        //DEADZONE between .035 and -.035 for player control
+        //moves the player right
+        if (Input.acceleration.x > .035f && _velBounce._playerCanMove)
             _player.velocity = new Vector3(30f * Input.acceleration.x, _player.velocity.y, 0f);
+        //moves the player left
         else if (Input.acceleration.x < -.035f && _velBounce._playerCanMove)
             _player.velocity = new Vector3(30f * Input.acceleration.x, _player.velocity.y, 0f);
+        //keeps the horizontal velocity the same if in the deadzone
         else if (_velBounce._playerCanMove)
             _player.velocity = new Vector3(0f, _player.velocity.y, 0f);
+        //mini game portion for the spider web
         else if (Input.acceleration.x < 0f && !_velBounce._playerCanMove && !_shouldPressButton || Input.GetKey(KeyCode.LeftArrow))
         {
             if (_webArrows[0].activeInHierarchy)
@@ -226,6 +242,7 @@ public class PlayerControl : MonoBehaviour
                 }
             }
         }
+        //mini game portion for the spider web
         else if (Input.acceleration.x > 0f && !_velBounce._playerCanMove && !_shouldPressButton || Input.GetKey(KeyCode.RightArrow))
         {
             if (_webArrows[2].activeInHierarchy)
@@ -268,25 +285,21 @@ public class PlayerControl : MonoBehaviour
         else
             _player.velocity = new Vector3(0f, 0, 0f);
 
+        //check and code to run if the forward dash is not active
         if (!_forwardDashActivated)
         {
+            //check to see if the dashclick manager has registered a tap on the up dash button
             if (_player.velocity.y > 0 && _dashManager._isUpDownClicked || (_player.velocity.y < 0 && _dashManager._isUpDownClicked))
             {
                 //flip back
                 _dashManager._isUpDownClicked = false;
-                //checking if velocity is higher than 0 to see if we are going up (dont need to worry about transition when doing updash), 
-                //and checking to see if the player position is less than the exact height of the player when he reaches the stop 
-                //minus a value X units down in order to create a deadzone where no dashing can occur so the camera can transition
-                if (_camera._canDash)
-                {
-                    _dashManager._isUpDownClicked = false;
-                    _forwardDashActivated = true;
-                    _shouldSlowCameraWhenGoingUp = true;
-                    _currentPlayerPosDiff = 0f;
-                    _addforce = true;
 
-                    if (_forwardDashActivated && _player.velocity.y < 0)
-                        _shouldSlowCameraWhenGoingUp = false;
+                if (_camera4._canDash)
+                {
+                    //_dashManager._isUpDownClicked = false;
+                    _forwardDashActivated = true;
+                    _shouldUnanchorCamera = true;
+                    _currentPlayerPosDiff = 0f;
                 }
                 else
                     _dashManager._isUpDownClicked = false;
@@ -297,85 +310,47 @@ public class PlayerControl : MonoBehaviour
         else
             _dashManager._isUpDownClicked = false;
 
-        if (_forwardDashActivated && _player.velocity.y > 0)
+        //check and code to run for forward dash
+        if (_forwardDashActivated)
         {
-            if (_shouldSlowCameraWhenGoingUp)
+            //setting the speed and camera movement when doing the dash
+            if (_shouldUnanchorCamera)
             {
-                if (_addforce)
+                if (_player.velocity.y > 0)
                 {
-                    _addforce = false;
-                    // _velBounce._vMultiplier = 7.5f;
-                    _player.velocity = new Vector3(_player.velocity.x, 7.5f, 0f);
-                    _ogVel = _player.velocity;
+                    ChangeSpeedDash(.1f, .01f);
+                    MoveCameraDash(-.2f, -.125f);
                 }
-                _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y * 1.4f);
+                else
+                {
+                    ChangeSpeedDash(-.1f, -.01f);
+                    MoveCameraDash(.2f, .125f);
+                }
 
                 _time += 1f * Time.deltaTime;
 
-                _startingPlayerTopPtDiff2 -= Time.deltaTime * 8f;
-                _topPlayerPoint.position = new Vector3(0, transform.position.y + _startingPlayerTopPtDiff2, transform.position.z);
-                _currentPlayerPosDiff = _topPlayerPoint.position.y - transform.position.y;
-
                 if (_time > 1f)
                 {
-                    _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y / 1.25f);
-                    _startingPlayerTopPtDiff2 += .275f;
-                    _topPlayerPoint.position = new Vector3(0, transform.position.y + _startingPlayerTopPtDiff2, transform.position.z);
-                    _currentPlayerPosDiff = _topPlayerPoint.position.y - transform.position.y;
-
-                    if (_currentPlayerPosDiff >= _startingPlayerTopPtDiff)
-                    {
-                        _shouldSlowCameraWhenGoingUp = false;
-                        _topPlayerPoint.localPosition = new Vector3(0, 8.5f, transform.position.z);
-
-                    }
+                    _shouldUnanchorCamera = false;
                 }
             }
+            //resets the camera back to the original position
             else
             {
                 _time = 0f;
-                _forwardDashActivated = false;
-                _player.velocity = new Vector2(_player.velocity.x, _ogVel.y);
-            }
-        }
-        else if (_forwardDashActivated && _player.velocity.y <= 0)
-        {
-            if (!_shouldSlowCameraWhenGoingUp)
-            {
-                if (_addforce)
+
+                if (_player.velocity.y > 0)
                 {
-                    _addforce = false;
-                    _velBounce._vMultiplier = 7.5f;
-                    _player.velocity = new Vector3(_player.velocity.x, -7.5f, 0f);
-                    _ogVel = _player.velocity;
+                    ResetCameraDashUp(.175f, .12f);
+                    CheckToDisableDash(8.5f);
+                    ResetPlayerSpeed(7.5f);
                 }
-                _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y * 1.4f);
-
-                _time += 1f * Time.deltaTime;
-
-                _startingPlayerBottomPtDiff2 += Time.deltaTime * 8f;
-                _bottomPlayerPoint.position = new Vector3(0, transform.position.y + _startingPlayerBottomPtDiff2, transform.position.z);
-                _currentPlayerPosDiff = _bottomPlayerPoint.position.y - transform.position.y;
-
-                if (_time > 1f)
+                else
                 {
-                    _player.velocity = new Vector2(_player.velocity.x, _player.velocity.y / 1.25f);
-                    _startingPlayerBottomPtDiff2 -= .275f;
-                    _bottomPlayerPoint.position = new Vector3(0, transform.position.y + _startingPlayerBottomPtDiff2, transform.position.z);
-                    _currentPlayerPosDiff = _bottomPlayerPoint.position.y - transform.position.y;
-
-                    if (_currentPlayerPosDiff <= _startingPlayerBottomPtDiff)
-                    {
-                        _shouldSlowCameraWhenGoingUp = true;
-                        _bottomPlayerPoint.localPosition = new Vector3(0, -8.5f, transform.position.z);
-                    }
+                    ResetCameraDashDown(-.175f, -.12f);
+                    CheckToDisableDash(-8.5f);
+                    ResetPlayerSpeed(-7.5f);
                 }
-            }
-            else
-            {
-                _time = 0f;
-                _forwardDashActivated = false;
-                _player.velocity = new Vector2(_player.velocity.x, _ogVel.y);
             }
         }
         else
@@ -389,9 +364,81 @@ public class PlayerControl : MonoBehaviour
         //transform.position = Vector3.Lerp(transform.position, new Vector3(0f, 10f, 0f), Time.deltaTime * _activeMoveSpeed);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ChangeSpeedDash(float speedToIncreaseBy, float speedToIncreaseByWhenSlowing)
     {
+        if (_velBounce._decrementGravity)
+        {
+            _player.transform.position = new Vector3(_player.transform.position.x, _player.transform.position.y + speedToIncreaseByWhenSlowing);
+        }
+        else
+        {
+            _player.transform.position = new Vector3(_player.transform.position.x, _player.transform.position.y + speedToIncreaseBy);
+        }
+    }
+
+    private void ResetPlayerSpeed(float speed)
+    {
+        if (_player.velocity.y != speed)
+            _player.velocity = new Vector2(_player.velocity.x, speed);
+    }
+
+    private void MoveCameraDash(float valToMove, float valToMoveWhenSlowing)
+    {
+        if (_velBounce._decrementGravity)
+        {
+            _camera4._camerasFocusPoint.transform.localPosition = new Vector3(0, _camera4._camerasFocusPoint.transform.localPosition.y + valToMoveWhenSlowing, _camera4._camerasFocusPoint.transform.localPosition.z);
+        }
+        else
+        {
+            _camera4._camerasFocusPoint.transform.localPosition = new Vector3(0, _camera4._camerasFocusPoint.transform.localPosition.y + valToMove, _camera4._camerasFocusPoint.transform.localPosition.z);
+        }
+    }
+
+    private void ResetCameraDashUp(float valToAdd, float valToAddWhenSlowing)
+    {
+        ResetCamera(valToAdd, valToAddWhenSlowing);
+
+        if (_camera4._camerasFocusPoint.localPosition.y > 8.5f)
+        {
+            _camera4._camerasFocusPoint.localPosition = new Vector3(0, 8.5f, transform.position.z);
+        }
+    }
+
+
+    private void CheckToDisableDash(float speedToCheck)
+    {
+        if (_camera4._camerasFocusPoint.localPosition.y == speedToCheck)
+        {
+            _forwardDashActivated = false;
+            _shouldUnanchorCamera = true;
+        }
+    }
+    private void ResetCameraDashDown(float valToAdd, float valToAddWhenSlowing)
+    {
+        ResetCamera(valToAdd, valToAddWhenSlowing);
+
+        if (_camera4._camerasFocusPoint.localPosition.y < -8.5f)
+        {
+            _camera4._camerasFocusPoint.localPosition = new Vector3(0, -8.5f, transform.position.z);
+        }
+    }
+
+    private void ResetCamera(float valToAdd, float valToAddWhenSlowing)
+    {
+        if (_velBounce._decrementGravity)
+        {
+            _camera4._camerasFocusPoint.transform.localPosition = new Vector3(0, _camera4._camerasFocusPoint.transform.localPosition.y + valToAddWhenSlowing, _camera4._camerasFocusPoint.transform.localPosition.z);
+        }
+        else
+        {
+            _camera4._camerasFocusPoint.transform.localPosition = new Vector3(0, _camera4._camerasFocusPoint.transform.localPosition.y + valToAdd, _camera4._camerasFocusPoint.transform.localPosition.z);
+        }
+    }
+    // Update is called once per frame
+    void LateUpdate()
+    {
+       // if (_dashManager._isUpDownClicked)
+         //   _dashManager._isUpDownClicked = false;
         //#if UNITY_EDITOR
         //        //MoveLeftRight();
         //#endif
