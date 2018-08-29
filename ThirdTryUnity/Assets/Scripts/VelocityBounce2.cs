@@ -15,6 +15,7 @@ public class VelocityBounce2 : MonoBehaviour
     private bool _hitrequestedHeight;
     private float _originalVMultiplier;
     private CameraOption3 _camera;
+    private Camera4 _camera4;
     private int _bounceCount;
     private float _heightOffset;
     public float _increaseHeightBy;
@@ -50,13 +51,14 @@ public class VelocityBounce2 : MonoBehaviour
         _originalVMultiplier = _vMultiplier;
         _maxHeightValue = _startingHeight;
         _camera = FindObjectOfType<CameraOption3>();
+        _camera4 = FindObjectOfType<Camera4>();
         _playerControl = FindObjectOfType<PlayerControl>();
         _pickupSpawner = FindObjectOfType<PickupSpawner>();
         _enemySpawner = FindObjectOfType<EnemySpawner>();
         _score = FindObjectOfType<Score>();
         _heightOffset = 5f;
         _runCount = 1;
-        _velocityDecreaseAmt = .0305f;
+        _velocityDecreaseAmt = .034f;
         _offset = 0;
         //_originalColor = GetComponent<SpriteRenderer>().color;
     }
@@ -65,6 +67,7 @@ public class VelocityBounce2 : MonoBehaviour
 
     void FixedUpdate()
     {
+        //_vMultiplier = _player.velocity.y;
         if (!_playerCanMove)
         {
             _player.velocity = new Vector3(0, 0, 0f);
@@ -89,6 +92,7 @@ public class VelocityBounce2 : MonoBehaviour
         //triggers falling code
         if (_decrementGravity)
         {
+            Debug.Log("DO IT NOWWW");
             //Debug.Log(_player.velocity);
             _vMultiplier -= _velocityDecreaseAmt;
             _player.velocity = new Vector3(_player.velocity.x, _vMultiplier, 0f);
@@ -100,7 +104,7 @@ public class VelocityBounce2 : MonoBehaviour
                 _playerControl._forwardDashActivated = false;
 
                 _playerControl._time = 0f;
-                _playerControl._topPlayerPoint.localPosition = new Vector3(_playerControl.transform.position.x, 8.5f, _playerControl.transform.position.z);
+                //_playerControl._topPlayerPoint.localPosition = new Vector3(_playerControl.transform.position.x, 8.5f, _playerControl.transform.position.z);
                 _playerControl._startingPlayerTopPtDiff = _playerControl._topPlayerPoint.position.y - transform.position.y;
                 _playerControl._startingPlayerTopPtDiff2 = _playerControl._topPlayerPoint.position.y - transform.position.y;
 
@@ -110,13 +114,13 @@ public class VelocityBounce2 : MonoBehaviour
                 _hitBottom = false;
                 _playersExactHeight = _player.transform.position.y;
 
-                _playerControl._bottomPlayerPoint.localPosition = new Vector3(transform.position.x, -8.5f, transform.position.z);
-                _camera._cameraMovingDownTarget.localPosition = new Vector3(transform.position.x, -8.5f, transform.position.z);
+                // _playerControl._bottomPlayerPoint.localPosition = new Vector3(transform.position.x, -8.5f, transform.position.z);
+                // _camera._cameraMovingDownTarget.localPosition = new Vector3(transform.position.x, -8.5f, transform.position.z);
                 _playerControl._startingPlayerBottomPtDiff = _playerControl._bottomPlayerPoint.position.y - transform.position.y;
                 _playerControl._startingPlayerBottomPtDiff2 = _playerControl._bottomPlayerPoint.position.y - transform.position.y;
 
                 //var triggerpoint = FindObjectOfType<SpawnPointTrigger>();
-               // triggerpoint.transform.position = new Vector3(triggerpoint.transform.position.x, transform.position.y - triggerpoint._distanceFromPlayerAtStart, triggerpoint.transform.position.z);
+                // triggerpoint.transform.position = new Vector3(triggerpoint.transform.position.x, transform.position.y - triggerpoint._distanceFromPlayerAtStart, triggerpoint.transform.position.z);
                 // GetComponent<SpriteRenderer>().color = _originalColor;
                 Debug.Log(_playersExactHeight);
             }
@@ -172,13 +176,17 @@ public class VelocityBounce2 : MonoBehaviour
         if (collision.gameObject.tag.Equals("Ground") || collision.gameObject.tag.Equals("BounceBack"))
         {
             if (collision.gameObject.tag.Equals("BounceBack"))
+            {
                 _camera._hitBounceBug = true;
+                _camera4._hitBounceBug = true;
+                _camera4._shouldTransition = true;
+            }
 
             _playerControl._forwardDashActivated = false;
             _playerControl._time = 0f;
 
-            _playerControl._topPlayerPoint.localPosition = new Vector3(_playerControl.transform.position.x, 8.5f, _playerControl.transform.position.z);
-            _camera._cameraMovingUpTarget.localPosition = new Vector3(transform.position.x, 8.5f, transform.position.z);
+            //_playerControl._topPlayerPoint.localPosition = new Vector3(_playerControl.transform.position.x, 8.5f, _playerControl.transform.position.z);
+            // _camera._cameraMovingUpTarget.localPosition = new Vector3(transform.position.x, 8.5f, transform.position.z);
 
             _playerControl._score.BounceCount(); // Calling this every time the player collides with the ground to increase bounce count score by 1
                                                  // _score.ChangeCalculatingPoint(transform.position.y);
